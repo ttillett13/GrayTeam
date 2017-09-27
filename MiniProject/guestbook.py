@@ -25,6 +25,7 @@ import jinja2
 import webapp2
 
 from Controller.Error import Error
+from Controller.CreateStream import CreateStream
 from Config import *
 
 
@@ -119,6 +120,7 @@ class Guestbook(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/sign', Guestbook),
-    ('/error', Error)
+    ('/error', Error),
+    ('/createStream', CreateStream)
 ], debug=True)
 # [END app]
