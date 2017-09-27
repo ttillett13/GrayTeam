@@ -50,9 +50,6 @@ queuelib==1.4.2
 requests==2.2.1
 service-identity==17.0.0
 six==1.5.2
-software-center-aptd-plugins==0.0.0
-ubuntu-drivers-common==0.0.0
-ufw===0.34-rc-0ubuntu2
 unattended-upgrades==0.1
 unity-scope-audacious==0.1
 unity-scope-calculator==0.1
