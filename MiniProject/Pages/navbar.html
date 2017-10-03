@@ -1,1 +1,102 @@
-<p>navbar</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+	<style>
+body {font-family: "Lato", sans-serif;}
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+</style>
+</head>
+<body>
+	<div class="MainPage">
+		<header>
+			<h1>Connex.us</h1>
+		</header>
+		<div class="tab">
+		  <button class="tablinks" onclick="openCity(event, 'Manage')" id="defaultOpen">Manage</button>
+		  <button class="tablinks" onclick="openCity(event, 'Create')">Create</button>
+		  <button class="tablinks" onclick="openCity(event, 'View')">View</button>
+		  <button class="tablinks" onclick="openCity(event, 'Search')">Search</button>
+		  <button class="tablinks" onclick="openCity(event, 'Trending')">Trending</button>
+		  <button class="tablinks" onclick="openCity(event, 'Social')">Social</button>
+		</div>
+		<div id="Manage" class="tabcontent">
+			<iframe src="ManageStream.html" width="50%" height="500" name="manageFrame"></iframe>
+		</div>
+
+		<div id="Create" class="tabcontent">
+			<iframe src="CreateStream.html" width="50%" height="500" name="createFrame"></iframe>	
+		</div>
+
+		<div id="View" class="tabcontent">
+			<iframe src="CreateStream.html" width=500 height=500 name="viewFrame"></iframe>	
+		</div>
+		
+		<div id="Search" class="tabcontent">
+			<iframe src="CreateStream.html" width=500 height=500 name="searchFrame"></iframe>	
+		</div>
+
+		<div id="Trending" class="tabcontent">
+			<iframe src="CreateStream.html" width=500 height=500 name="tredingFrame"></iframe>	
+		</div>
+
+		<div id="Social" class="tabcontent">
+			<iframe src="CreateStream.html" width=500 height=500 name="socialFrame"></iframe>	
+		</div>
+		<script>
+			document.getElementById("defaultOpen").click();
+			function openCity(evt, cityName) {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+				}
+				document.getElementById(cityName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+		</script>
+		
+	</div>
+</body>
+</html>
