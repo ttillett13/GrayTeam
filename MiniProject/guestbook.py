@@ -27,6 +27,7 @@ import webapp2
 from Controller.Error import Error
 from Controller.CreateStream import CreateStream
 from Config import *
+from Controller.Stream import Picture
 
 
 DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
@@ -57,6 +58,7 @@ class Greeting(ndb.Model):
     author = ndb.StructuredProperty(Author)
     content = ndb.StringProperty(indexed=False)
     date = ndb.DateTimeProperty(auto_now_add=True)
+    filename = ndb.StringProperty(indexed=False)
 # [END greeting]
 
 
@@ -112,9 +114,15 @@ class Guestbook(webapp2.RequestHandler):
         greeting.content = self.request.get('content')
         greeting.put()
 
+        test = Picture(name="test", filepath="test.txt")
+        # test.content = self.request.get('content')
+        test.put()
+
         query_params = {'guestbook_name': guestbook_name}
         self.redirect('/?' + urllib.urlencode(query_params))
 # [END guestbook]
+
+
 
 # [START app]
 app = webapp2.WSGIApplication([
