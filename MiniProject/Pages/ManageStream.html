@@ -10,18 +10,14 @@
     <th>Number of Pictures</th>
 	<th>Delete</th>
   </tr>
-  <tr>
-    <td><a href="www.google.com">Mudra's Stream</a></td>
-    <td>8/5/2017</td> 
-    <td>35</td>
-	<td><input type="checkbox" name="chkDeleteStream"></td>
-  </tr>
-  <tr>
-    <td><a href="www.google.com">Tiffany's Stream</a></td>
-    <td>8/5/2017</td>	<body>
-    <td>35</td>
-	<td><input type="checkbox" name="chkDeleteStream"></td>
-  </tr>
+  {% for stream in streams_owned %}
+      <tr>
+        <td><a href="www.google.com">{{ stream.name }}</a></td>
+        <td>8/5/2017</td>
+        <td>35</td>
+        <td><input type="checkbox" name="chkDeleteStream"></td>
+      </tr>
+  {% endfor %}
 </table>
 </br>
 <button type="button" name="deleteStream" id="deleteStream">Delete Checked Streams</button>

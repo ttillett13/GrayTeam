@@ -12,6 +12,7 @@ import json
 
 from Model.Stream import Stream
 from Controller.Common import authenticate
+from Model.Stream import User
 
 class CreateStream(webapp2.RequestHandler):
 
@@ -28,6 +29,7 @@ class CreateStream(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
 
     def post(self):
+        auth = authenticate(self)
         subscriber = str(self.request.get('subscriber'))
         subscriber_message = str(self.request.get('subscriberMessage'))
         stream_name = self.request.get('streamName')
@@ -44,6 +46,23 @@ class CreateStream(webapp2.RequestHandler):
                             tags=tag_stream_list)
         new_stream.put()
 
+
+        current_user = User.query(User.username==auth[0]._User__email).get()
+        current_user.streams_owned.append(new_stream._entity_key)
+        current_user.streams_subscribed.append(new_stream._entity_key)
+
+        # if not current_user.streams_owned:
+        #     current_user.streams_owned = [new_stream._entity_key]
+        # else:
+        #     current_user.streams_owned.append(new_stream._entity_key)
+        #
+        # if not current_user.streams_subscribed:
+        #     current_user.streams_subscribed = [new_stream._entity_key]
+        # else:
+        #     current_user.streams_subscribed.append(new_stream._entity_key)
+
+        current_user.put()
+        #print current_user.streams_owned
         #Send an invite to subscriber invites
 
 
