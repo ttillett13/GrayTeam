@@ -13,9 +13,10 @@ handlers:
 
 - url: /Pages
   static_dir: Pages
+  application_readable: true
 
 - url: /.*
-  script: guestbook.app
+  script: connexus.app
 # [END handlers]
 
 # [START libraries]
