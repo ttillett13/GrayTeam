@@ -11,12 +11,21 @@ from Config import *
 import json
 
 from Model.Stream import Stream
+from Controller.Common import authenticate
 
 class CreateStream(webapp2.RequestHandler):
 
     def get(self):
+        auth = authenticate(self)
+
+        template_values = {
+            'user': auth[0],
+            'url': auth[1],
+            'url_linktext': auth[2],
+        }
+
         template = JINJA_ENVIRONMENT.get_template('/Pages/CreateStream.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_values))
 
     def post(self):
         subscriber = str(self.request.get('subscriber'))

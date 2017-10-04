@@ -1,64 +1,24 @@
-#!/usr/bin/env python
-
-# Copyright 2016 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# [START imports]
-
 from Config import *
 from Controller.CreateStream import CreateStream
 from Controller.Error import Error
 from Controller.ManageStream import ManageStream
-from Model.Stream import Picture
+from Controller.Common import authenticate
 
-# DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
-
-
-# We set a parent key on the 'Greetings' to ensure that they are all
-# in the same entity group. Queries across the single entity group
-# will be consistent. However, the write rate should be limited to
-# ~1/second.
-
-# def guestbook_key(guestbook_name=DEFAULT_GUESTBOOK_NAME):
-#     """Constructs a Datastore key for a Guestbook entity.
-#
-#     We use guestbook_name as the key.
-#     """
-#     return ndb.Key('Guestbook', guestbook_name)
-
-
-# # [START greeting]
-# class Author(ndb.Model):
-#     """Sub model for representing an author."""
-#     identity = ndb.StringProperty(indexed=False)
-#     email = ndb.StringProperty(indexed=False)
-#
-#
-# class Greeting(ndb.Model):
-#     """A main model for representing an individual Guestbook entry."""
-#     author = ndb.StructuredProperty(Author)
-#     content = ndb.StringProperty(indexed=False)
-#     date = ndb.DateTimeProperty(auto_now_add=True)
-#     filename = ndb.StringProperty(indexed=False)
-# # [END greeting]
-
-
-# [START main_page]
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
-        # guestbook_name = self.request.get('guestbook_name',
+        auth = authenticate(self)
+
+        template_values = {
+            'user': auth[0],
+            'url': auth[1],
+            'url_linktext': auth[2],
+        }
+
+        template = JINJA_ENVIRONMENT.get_template('/Pages/ManageStream.html')
+        self.response.write(template.render(template_values))
+
+                # guestbook_name = self.request.get('guestbook_name',
         #                                   DEFAULT_GUESTBOOK_NAME)
         # greetings_query = Greeting.query(
         #     ancestor=guestbook_key(guestbook_name)).order(-Greeting.date)
@@ -80,8 +40,7 @@ class MainPage(webapp2.RequestHandler):
         #     'url_linktext': url_linktext,
         # }
 
-        template = JINJA_ENVIRONMENT.get_template('/Pages/ManageStream.html')
-        self.response.write(template.render())
+
 # [END main_page]
 
 
@@ -114,13 +73,16 @@ class MainPage(webapp2.RequestHandler):
 #         self.redirect('/?' + urllib.urlencode(query_params))
 # [END guestbook]
 
-
+class SignInHandler(webapp2.RequestHandler):
+    def get(self):
+        self.redirect(users.create_login_url(self.request.uri))
 
 # [START app]
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/error', Error),
     ('/CreateStream', CreateStream),
-    ('/ManageStream', ManageStream)
+    ('/ManageStream', ManageStream),
+    ('/signin', SignInHandler)
 ], debug=True)
 # [END app]
