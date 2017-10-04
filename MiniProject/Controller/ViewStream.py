@@ -9,10 +9,26 @@ import webapp2
 
 from Config import *
 
-# [START error]
-class CreateStream(webapp2.RequestHandler):
+# [START ViewStream]
+class ViewStream(webapp2.RequestHandler):
 
     def get(self):
-        template = JINJA_ENVIRONMENT.get_template('/Pages/CreateStream.html')
+        # get stream id from somewhere
+        # look up stream with that id from database
+        # stream.get()?
+        # create json output with the data
+        # dump the json into the template html
+        template = JINJA_ENVIRONMENT.get_template('/Pages/ViewStream.html')
         self.response.write(template.render())
-# [END error]
+
+    def post(self):
+        # get stream id from the form
+        stream_id = self.request.get('stream_id')
+        # get stream object from database...how?
+        # create json with stream data
+
+        # dump stream into json
+        stream = "stuff"
+
+
+# [END ViewStream]
