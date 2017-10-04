@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "/Pages/base.html" %}
+{% block title %}Connex.us - View All Streams {% endblock title %}
 
-	<style>
+{% block styles %}
 	* {
 		box-sizing: border-box;
 	}
@@ -38,9 +36,9 @@
 	.floating_label {
   position:absolute; z-index:200; top:50px; left:50px;
 }
-	</style>
-	</head>
-<body>
+{% endblock styles %}
+
+{% block content %}
 	<div class="header">
   <h1>View All Streams</h1>
 </div>
@@ -81,5 +79,4 @@
     <img src="/w3images/underwater.jpg" style="width:100%">
   </div>
 </div>
-</body>
-</html>
+{% endblock content %}
