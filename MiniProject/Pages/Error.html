@@ -1,11 +1,18 @@
-<html>
-<!--<script src="navbar.html"></script>-->
-    <head>
+{% extends "/Pages/base.html" %}
 
-    </head>
-    <body>
-        <h1>Error!</h1>
-        <embed type="text/html" src="navbar.html">
-        <p>Error: you tried to create a new stream whose name is the same as an existing stream; operation did not complete.</p>
-    </body>
-</html>
+{% block content %}
+    <html>
+    <!--<script src="navbar.html"></script>-->
+        <head>
+
+        </head>
+        <body>
+
+            <h1>Error!</h1>
+
+            <p>Error: you tried to create a new stream whose name is the same as an existing stream; operation did not complete.</p>
+        </body>
+    </html>
+{% endblock content %}
+
+

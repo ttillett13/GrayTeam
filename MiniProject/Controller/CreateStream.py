@@ -39,4 +39,4 @@ class CreateStream(webapp2.RequestHandler):
 
 
         #query_params = {'guestbook_name': guestbook_name}
-        self.redirect('/')
+        self.redirect('/ManageStream')
