@@ -19,6 +19,7 @@
 from Config import *
 from Controller.CreateStream import CreateStream
 from Controller.Error import Error
+from Controller.ManageStream import ManageStream
 from Model.Stream import Picture
 
 # DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
@@ -79,7 +80,7 @@ class MainPage(webapp2.RequestHandler):
         #     'url_linktext': url_linktext,
         # }
 
-        template = JINJA_ENVIRONMENT.get_template('/Pages/navbar.html')
+        template = JINJA_ENVIRONMENT.get_template('/Pages/ManageStream.html')
         self.response.write(template.render())
 # [END main_page]
 
@@ -119,6 +120,7 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/error', Error),
-    ('/createStream', CreateStream)
+    ('/CreateStream', CreateStream),
+    ('/ManageStream', ManageStream)
 ], debug=True)
 # [END app]
