@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+	body {
+	  font-family: Verdana, sans-serif;
+	  margin: 0;
+	}
+
+	* {
+	  box-sizing: border-box;
+	}
+	
+	.row{
+	position: relative;
+
+	}
+
+	.row > .column {
+	  padding: 0 8px;
+
+	}
+
+	.row:after {
+	  content: "";
+	  display: table;
+	  clear: both;
+	}
+
+	.column {
+	  float: left;
+	  width: 25%;
+	}
+	
+	.row > #lastColumn {
+	position: absolute;
+    bottom: 5px;
+	left: 90%;
+    margin-left: -25px;
+	}
+	.addImage {
+    border: 3px solid black;
+	width:450px;
+	margin-left:5px;
+	}
+	.fileupload{
+	margin-left: 16px;
+	margin-right:16px;
+	margin-top:16px;
+	}
+	#upload{
+	margin-left: 16px;
+	margin-bottom:16px;
+	}
+	#subscribe{
+	margin-left: 16px;
+	margin-bottom:16px;
+	}
+
+	</style>
+	<body>
+
+		<div class="row">
+		  <div class="column">
+			<img src="C:\Users\Public\Pictures\Sample Pictures\Chrysanthemum.jpg" style="width:100%" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
+		  </div>
+		  <div class="column">
+			<img src="C:\Users\Public\Pictures\Sample Pictures\Desert.jpg" style="width:100%" onclick="openModal();currentSlide(2)" class="hover-shadow cursor">
+		  </div>
+		  <div class="column">
+			<img src="C:\Users\Public\Pictures\Sample Pictures\Tulips.jpg" style="width:100%" onclick="openModal();currentSlide(3)" class="hover-shadow cursor">
+		  </div>
+		  <div class="column" id="lastColumn">
+			<button type="button" name="moreImages" id="moreImages">More Images</button>
+		  </div>
+		</div>
+		</br>
+		<div class="addImage">
+			<input type="text" class="fileupload" name="fileName" id="fileName" value="File Name"><input type="text" class="fileupload" name="comment" id="comment" value="Comment"> 
+			</br>
+			</br>
+			<button type="button" name="upload" id="upload">Upload File</button>
+		</div>
+		</br>
+		<div class="subscribe">
+			<button type="button" name="subscribe" id="subscribe">Subscribe</button>
+		</div>
+
+
+	</body>
+</html>
