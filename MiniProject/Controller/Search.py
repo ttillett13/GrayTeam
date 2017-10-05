@@ -21,7 +21,9 @@ class SearchStream(webapp2.RequestHandler):
 
     def post(self):
         index = search.Index(name="stream_search")
-        
+        key = str(self.request.get("search"))
+        index.search(key)
+
         subscriber = str(self.request.get('subscriber'))
         subscriber_message = str(self.request.get('subscriberMessage'))
         stream_name = self.request.get('streamName')

@@ -14,6 +14,7 @@ from Controller.Error import Error
 from Controller.CreateStream import CreateStream
 from Config import *
 
+
 # [START Picture]
 class Picture(ndb.Model):
     name = ndb.StringProperty(indexed=True)
@@ -31,5 +32,7 @@ class Stream(ndb.Model):
     """Sub model for representing an author."""
     name = ndb.StringProperty(indexed=False)
     pictures = ndb.ListProperty()
-    times_viewed = ndb.IntegerProperty(indexed=False)
+    picture_count = ndb.IntegerProperty() # number of pictures in the stream
+    times_viewed = ndb.IntegerProperty(indexed=False) # total times viewed for management page
+    view_times = ndb.ListProperty() # the actual times, it was viewed to help with trending
     cover_picture = ndb.KeyProperty(kind='Picture')

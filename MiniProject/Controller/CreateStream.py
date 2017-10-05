@@ -3,6 +3,7 @@ import urllib
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.api import search
 
 import jinja2
 import webapp2
@@ -39,4 +40,16 @@ class CreateStream(webapp2.RequestHandler):
 
 
         #query_params = {'guestbook_name': guestbook_name}
+
+        # need to also make a search api document
+        d = search.Document(
+            doc_id=stream_name,
+            fields=[search.TextField(name="stream_name", value=stream_name),
+                    search.TextField(name="cover_image", value=cover_image_url)],
+            language="en")
+        try:
+            search.Index(name=INDEX_NAME).put(d)
+        except search.Error:
+            self.redirect('/Error')
+
         self.redirect('/ManageStream')
