@@ -10,18 +10,16 @@
     <th>Number of Pictures</th>
 	<th>Delete</th>
   </tr>
-  <tr>
-    <td><a href="www.google.com">Mudra's Stream</a></td>
-    <td>8/5/2017</td> 
-    <td>35</td>
-	<td><input type="checkbox" name="chkDeleteStream"></td>
-  </tr>
-  <tr>
-    <td><a href="www.google.com">Tiffany's Stream</a></td>
-    <td>8/5/2017</td> 
-    <td>35</td>
-	<td><input type="checkbox" name="chkDeleteStream"></td>
-  </tr>
+     {% if streams_owned %}
+          {% for stream in streams_owned %}
+              <tr>
+                <td><a href="{{ stream.url }}">{{ stream.name }}</a></td>
+                <td>{{ stream.last_new_picture }}</td>
+                <td>{{ stream.picture_count }}</td>
+                <td><input type="checkbox" name="chkDeleteStream"></td>
+              </tr>
+          {% endfor %}
+     {% endif %}
 </table>
 </br>
 <button type="button" name="deleteStream" id="deleteStream">Delete Checked Streams</button>
@@ -36,20 +34,16 @@
 	<th>Views</th>
 	<th>Unsubscribe</th>
   </tr>
-  <tr>
-    <td><a href="www.google.com">Josh's Stream</a></td>
-    <td>8/5/2017</td> 
-    <td>35</td>
-    <td>1135</td>
-	<td><input type="checkbox" name="unsubscribeStream"></td>
-  </tr>
-  <tr>
-    <td><a href="www.google.com">Rocking World</a></td>
-    <td>8/9/2017</td> 
-    <td>8</td>
-    <td>1788</td>
-	<td><input type="checkbox" name="unsubscribeStream"></td>
-  </tr>
+     {% if streams_subscribed %}
+          {% for stream in streams_subscribed %}
+              <tr>
+                <td><a href="www.google.com">{{ stream.name }}</a></td>
+                <td>{{ stream.last_new_picture }}</td>
+                <td>{{ stream.picture_count }}</td>
+                <td><input type="checkbox" name="chkDeleteStream"></td>
+              </tr>
+          {% endfor %}
+     {% endif %}
 </table>
 </br>
 <button type="button" name="deleteSubcription" id="deleteSubcription">Unsubscribe Checked Streams</button>

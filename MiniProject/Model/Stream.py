@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from Config import *
-
+from google.appengine.ext import ndb
 # [START Picture]
 class Picture(ndb.Model):
     name = ndb.StringProperty(indexed=True)
@@ -8,10 +8,10 @@ class Picture(ndb.Model):
 
 # [START Model]
 class User(ndb.Model):
-    name = ndb.StringProperty(indexed=False)
-    streams_owned = ndb.KeyProperty(kind='Stream')
-    streams_subscribed = ndb.KeyProperty(kind='Stream')
-    email = ndb.StringProperty(indexed=False)
+    username = ndb.StringProperty(indexed=True)
+    streams_owned = ndb.KeyProperty(kind='Stream', repeated=True)
+    streams_subscribed = ndb.KeyProperty(kind='Stream', repeated=True)
+    email = ndb.StringProperty(indexed=True)
 
 # [START Model]
 class Stream(ndb.Model):
@@ -21,3 +21,8 @@ class Stream(ndb.Model):
     #cover_picture = ndb.StringProperty(kind='Picture')
     cover_image_url = ndb.StringProperty(indexed=False)
     tags = ndb.StringProperty(repeated=True)
+    last_new_picture = ndb.DateProperty(indexed=False)
+    pictures = ndb.KeyProperty(kind='Picture', repeated=True)
+    picture_count = ndb.IntegerProperty(indexed=False)
+    url = ndb.StringProperty(indexed=False)
+
