@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+		box-sizing: border-box;
+	}
+
+	body {
+		margin: 0;
+		font-family: Arial;
+	}
+
+	.header {
+		text-align: center;
+		padding: 22px;
+	}
+
+	/* Create two equal columns that floats next to each other */
+	.column {
+		float: left;
+		width: 33%;
+		padding: 10px;
+	}
+
+	.column img {
+		margin-top: 12px;
+	}
+
+input[type=text] {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+	padding: 10px 10px 10px 10px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+	
+
+</style>
+</head>
+<body>
+<div>
+<input type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
+<input type="submit" value="Search" align="left" hspace="10"/>
+<p style="padding: 10px 10px 10px 10px;">2 results found</br>Click on an image to view stream</p>
+</div>
+<div class="row"> 
+  <div class="column">
+    <img src="http://placehold.it/200x100" style="width:100%">
+    <img src="http://placehold.it/200x100" style="width:100%">
+  </div>
+  <div class="column">
+    <img src="http://placehold.it/200x100" style="width:100%">
+    <img src="http://placehold.it/200x100" style="width:100%">
+  </div>  
+  <div class="column">
+    <img src="http://placehold.it/200x100" style="width:100%">
+  </div>
+</div>
+</body>
+</html>
