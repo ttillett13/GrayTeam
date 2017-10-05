@@ -13,6 +13,8 @@ from Controller.Common import authenticate
 # [START error]
 class CreateStream(webapp2.RequestHandler):
 
+# Note: use last_new_picture=datetime.datetime.now() to update the date.
+
     def get(self):
         auth = authenticate(self)
 
