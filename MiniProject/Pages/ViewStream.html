@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<style>
+{% extends "/Pages/base.html" %}
+{% block title %}Connex.us - View Stream {% endblock title %}
+{% block styles %}
 	body {
 	  font-family: Verdana, sans-serif;
 	  margin: 0;
@@ -56,10 +55,9 @@
 	margin-left: 16px;
 	margin-bottom:16px;
 	}
+{% endblock styles %}
 
-	</style>
-	<body>
-
+{% block content %}
 		<div class="row">
 		  <div class="column">
 			<img src="C:\Users\Public\Pictures\Sample Pictures\Chrysanthemum.jpg" style="width:100%" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
@@ -85,7 +83,4 @@
 		<div class="subscribe">
 			<button type="button" name="subscribe" id="subscribe">Subscribe</button>
 		</div>
-
-
-	</body>
-</html>
+{% endblock content %}

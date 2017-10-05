@@ -6,19 +6,31 @@ from google.appengine.ext import ndb
 
 import jinja2
 import webapp2
-
+import datetime
+import time
 from Config import *
 import json
 
 from Model.Stream import Stream
+from Controller.Common import authenticate
+from Model.Stream import User
 
 class CreateStream(webapp2.RequestHandler):
 
     def get(self):
+        auth = authenticate(self)
+
+        template_values = {
+            'user': auth[0],
+            'url': auth[1],
+            'url_linktext': auth[2],
+        }
+
         template = JINJA_ENVIRONMENT.get_template('/Pages/CreateStream.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_values))
 
     def post(self):
+        auth = authenticate(self)
         subscriber = str(self.request.get('subscriber'))
         subscriber_message = str(self.request.get('subscriberMessage'))
         stream_name = self.request.get('streamName')
@@ -26,17 +38,24 @@ class CreateStream(webapp2.RequestHandler):
         cover_image_url = str(self.request.get('coverImageUrl'))
 
         #Split the tags into a list
-        #convert it to a json object
         tag_stream_list = tag_stream.split(',')
 
 
         #Make the Stream
         new_stream = Stream(name=stream_name, cover_image_url=cover_image_url,
-                            tags=tag_stream_list)
+                            tags=tag_stream_list, picture_count=0, url="/ViewSingleStream?stream_name=" + stream_name)
         new_stream.put()
 
+        current_user = User.query(User.username==auth[0]._User__email).get()
+        current_user.streams_owned.append(new_stream._entity_key)
+        #current_user.streams_subscribed.append(new_stream._entity_key)
+        current_user.put()
+        #We actually have to wait for the transaction to take place... smh
+        #Actual solution can be found https://stackoverflow.com/questions/15460926/google-app-engine-ndb-put-and-then-query-there-is-always-one-less-item
+        # TODO: lets fix this later
+        time.sleep(.1)
+
+        #print current_user.streams_owned
         #Send an invite to subscriber invites
 
-
-        #query_params = {'guestbook_name': guestbook_name}
         self.redirect('/ManageStream')
