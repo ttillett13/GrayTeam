@@ -10,9 +10,9 @@ import webapp2
 from Config import *
 
 # [START error]
-class CreateStream(webapp2.RequestHandler):
+class ViewStream(webapp2.RequestHandler):
 
     def get(self):
-        template = JINJA_ENVIRONMENT.get_template('/Pages/CreateStream.html')
+        template = JINJA_ENVIRONMENT.get_template('/Pages/ViewAllStream.html')
         self.response.write(template.render())
 # [END error]
