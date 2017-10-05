@@ -20,7 +20,6 @@ from Config import *
 from Controller.CreateStream import CreateStream
 from Controller.Error import Error
 from Controller.ManageStream import ManageStream
-from Controller.ViewStream import ViewStream
 from Model.Stream import Picture
 
 # DEFAULT_GUESTBOOK_NAME = 'default_guestbook'
@@ -122,7 +121,6 @@ app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/error', Error),
     ('/CreateStream', CreateStream),
-    ('/ManageStream', ManageStream),
-    ('/ViewStream', ViewStream)
+    ('/ManageStream', ManageStream)
 ], debug=True)
 # [END app]
