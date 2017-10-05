@@ -19,10 +19,17 @@ class ManageStream(webapp2.RequestHandler):
     def get(self):
         auth = authenticate(self)
 
-        current_user = User.query(User.username == auth[0]._User__email).get()
+        if auth[0]:
+            current_user = User.query(User.username == auth[0]._User__email).get()
+        else:
+            current_user = None
 
-        streams_owned = [key.get() for key in current_user.streams_owned]
-        streams_subscribed = [key.get() for key in current_user.streams_subscribed]
+        if current_user:
+            streams_owned = [key.get() for key in current_user.streams_owned]
+            streams_subscribed = [key.get() for key in current_user.streams_subscribed]
+        else:
+            streams_owned = []
+            streams_subscribed = []
 
         template_values = {
             'user': auth[0],
