@@ -59,25 +59,26 @@
 
 {% block content %}
 		<div class="row">
-		  <div class="column">
-			<img src="C:\Users\Public\Pictures\Sample Pictures\Chrysanthemum.jpg" style="width:100%" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
-		  </div>
-		  <div class="column">
-			<img src="C:\Users\Public\Pictures\Sample Pictures\Desert.jpg" style="width:100%" onclick="openModal();currentSlide(2)" class="hover-shadow cursor">
-		  </div>
-		  <div class="column">
-			<img src="C:\Users\Public\Pictures\Sample Pictures\Tulips.jpg" style="width:100%" onclick="openModal();currentSlide(3)" class="hover-shadow cursor">
-		  </div>
+			{% for picture in stream.pictures %}
+			  <div class="column">
+				<img src="{{ picture }}" style="width:100%" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
+			  </div>
+			{% endfor %}
 		  <div class="column" id="lastColumn">
 			<button type="button" name="moreImages" id="moreImages">More Images</button>
 		  </div>
 		</div>
 		</br>
 		<div class="addImage">
-			<input type="text" class="fileupload" name="fileName" id="fileName" value="File Name"><input type="text" class="fileupload" name="comment" id="comment" value="Comment"> 
-			</br>
-			</br>
-			<button type="button" name="upload" id="upload">Upload File</button>
+			<form action="ViewSingleStream" method="post"">
+				<input type="text" name="stream_name" value="{{ stream.name }}" hidden="True">
+				<input type="text" name="name" value="File Name">
+    			<input type="file" name="image">
+				</br>
+				</br>
+
+				<input type="submit" name="upload" id="upload">Upload File</input>
+			</form>
 		</div>
 		</br>
 		<div class="subscribe">
