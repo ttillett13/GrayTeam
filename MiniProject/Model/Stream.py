@@ -24,3 +24,5 @@ class Stream(ndb.Model):
     last_new_picture = ndb.DateProperty(indexed=False)
     pictures = ndb.KeyProperty(kind='Picture', repeated=True)
     picture_count = ndb.IntegerProperty(indexed=False)
+    url = ndb.StringProperty(indexed=False)
+
