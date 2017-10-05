@@ -17,7 +17,7 @@
                     <td><a href="{{ stream.url }}">{{ stream.name }}</a></td>
                     <td>{{ stream.last_new_picture }}</td>
                     <td>{{ stream.picture_count }}</td>
-                    <td><input type="checkbox" name="chkDeleteStream" value="{{stream.name}}"></td>
+                    <td><input type="checkbox" name="chkDeleteStream" value="{{ stream.key.urlsafe() }}"></td>
                 </tr>
             {% endfor %}
         {% endif %}
@@ -47,7 +47,7 @@
                     <td>{{ stream.last_new_picture }}</td>
                     <td>{{ stream.picture_count }}</td>
                     <td>{{ stream.times_viewed}}</td>
-                    <td><input type="checkbox" name="chkUnsubStream" value="{{stream.name}}"></td>
+                    <td><input type="checkbox" name="chkUnsubStream" value="{{ stream.key.urlsafe() }}"></td>
                 </tr>
             {% endfor %}
         {% endif %}

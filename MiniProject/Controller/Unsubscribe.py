@@ -29,16 +29,12 @@ class Unsubscribe(webapp2.RequestHandler):
             self.redirect('/Error')
 
         form_data = cgi.FieldStorage()
-        requests = form_data.getvalue("chkUnsubStream", "dummy")
-        if (len(requests) > 0):
-            for key in current_user.streams_subscribed:
-                if key.get().name in requests:
-                    current_user.streams_subscribed.remove(key)
-            current_user.put()
-            time.sleep(.1)
-
-        else:
-            self.redirect('/Error')
+        requests = form_data.getlist("chkUnsubStream")
+        for key_str in requests:
+            key = ndb.Key(urlsafe=key_str)
+            current_user.streams_subscribed.remove(key)
+        current_user.put()
+        time.sleep(.1)
 
         self.redirect('/ManageStream')
 

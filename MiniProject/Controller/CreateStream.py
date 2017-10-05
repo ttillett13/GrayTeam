@@ -59,8 +59,9 @@ class CreateStream(webapp2.RequestHandler):
         subscribers = subscribers.split(",")
         for subscriber in subscribers:
             user = User.query(User.username==subscriber).get()
-            user.streams_subscribed.append(new_stream._entity_key)
-            user.put()
+            if not user is None:
+                user.streams_subscribed.append(new_stream._entity_key)
+                user.put()
         #print current_user.streams_owned
         #Send an invite to subscriber invites
 
@@ -68,7 +69,8 @@ class CreateStream(webapp2.RequestHandler):
         d = search.Document(
             #doc_id=stream_name,
             fields=[search.TextField(name="stream_name", value=stream_name),
-                    search.TextField(name="cover_image", value=cover_image_url)],
+                    search.TextField(name="cover_image", value=cover_image_url),
+                    search.TextField(name="key", value=new_stream.key.urlsafe())],
             language="en")
         try:
             search.Index(name=INDEX_NAME).put(d)

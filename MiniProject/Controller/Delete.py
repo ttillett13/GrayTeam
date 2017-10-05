@@ -28,17 +28,16 @@ class Delete(webapp2.RequestHandler):
             self.redirect('/Error')
 
         form_data = cgi.FieldStorage()
-        requests = form_data.getvalue("chkDeleteStream", "dummy")
-        if (len(requests) > 0):
-            for key in current_user.streams_owned:
-                if key.get().name in requests:
-                    key.delete()
-                    current_user.streams_owned.remove(key)
-            current_user.put()
-            time.sleep(.1)
+        requests = form_data.getlist("chkDeleteStream")
+        for key_str in requests:
+            key = ndb.Key(urlsafe=key_str)
+            key.delete()
+            current_user.streams_owned.remove(key)
 
         else:
             self.redirect('/Error')
+        current_user.put()
+        time.sleep(.1)
 
         self.redirect('/ManageStream')
 
