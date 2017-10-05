@@ -4,7 +4,9 @@ import urllib
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
+import cgi
 import jinja2
+import time
 import webapp2
 
 from Config import *
@@ -25,11 +27,21 @@ class ManageStream(webapp2.RequestHandler):
             current_user = None
 
         if current_user:
+            for key in current_user.streams_subscribed:
+                item = key.get()
+                if item == None:
+                    current_user.streams_subscribed.remove(key)
+            current_user.put()
+            time.sleep(.1)
+
+
             streams_owned = [key.get() for key in current_user.streams_owned]
             streams_subscribed = [key.get() for key in current_user.streams_subscribed]
+
         else:
             streams_owned = []
             streams_subscribed = []
+
 
         template_values = {
             'user': auth[0],
