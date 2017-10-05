@@ -4,7 +4,9 @@ from Controller.Error import Error
 from Controller.ManageStream import ManageStream
 from Controller.SearchStream import SearchStream
 from Controller.Delete import Delete
+from Controller.TrendingStreams import TrendingStreams
 from Controller.Unsubscribe import Unsubscribe
+from Controller.ViewStream import ViewStream
 
 import webapp2
 from Controller.Common import authenticate
@@ -20,8 +22,10 @@ app = webapp2.WSGIApplication([
     ('/Delete', Delete),
     ('/error', Error),
     ('/ManageStream', ManageStream),
-    ('/Search', SearchStream),
+    ('/SearchStream', SearchStream),
     ('/signin', SignInHandler),
-    ('/Unsubscribe', Unsubscribe)
+    ('/Trending', TrendingStreams),
+    ('/Unsubscribe', Unsubscribe),
+    ('/ViewStream', ViewStream)
 ], debug=True)
 # [END app]
