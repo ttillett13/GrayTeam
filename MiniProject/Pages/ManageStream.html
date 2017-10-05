@@ -1,54 +1,63 @@
 {% extends "/Pages/base.html" %}
 {% block title %}Connex.us - Manage Streams {% endblock title %}
 {% block content %}
-<div style="float:top; width:50%" name="ownStream" >
-<h2>Streams I own</h2>
- <table style="width:100%">
-  <tr>
-    <th>Name</th>
-    <th>Last New Picture</th> 
-    <th>Number of Pictures</th>
-	<th>Delete</th>
-  </tr>
-     {% if streams_owned %}
-          {% for stream in streams_owned %}
-              <tr>
-                <td><a href="{{ stream.url }}">{{ stream.name }}</a></td>
-                <td>{{ stream.last_new_picture }}</td>
-                <td>{{ stream.picture_count }}</td>
-                <td><input type="checkbox" name="chkDeleteStream"></td>
-              </tr>
-          {% endfor %}
-     {% endif %}
-</table>
-</br>
-<button type="button" name="deleteStream" id="deleteStream">Delete Checked Streams</button>
-</div>
-<div style="float:bottom; width:50%" name="subscribeStream" >
-<h2>Streams I subscribe to</h2>
- <table style="width:100%">
-  <tr>
-    <th>Name</th>
-    <th>Last New Picture</th> 
-    <th>Number of Pictures</th>
-	<th>Views</th>
-	<th>Unsubscribe</th>
-  </tr>
-     {% if streams_subscribed %}
-          {% for stream in streams_subscribed %}
-              <tr>
-                <td><a href="www.google.com">{{ stream.name }}</a></td>
-                <td>{{ stream.last_new_picture }}</td>
-                <td>{{ stream.picture_count }}</td>
-                <td><input type="checkbox" name="chkDeleteStream"></td>
-              </tr>
-          {% endfor %}
-     {% endif %}
-</table>
-</br>
-<button type="button" name="deleteSubcription" id="deleteSubcription">Unsubscribe Checked Streams</button>
-</div>
-</body>
-</html>
+<form action="Delete" method="get">
+    <div style="float:top; width:50%" name="ownStream" >
+    <h2>Streams I own</h2>
+    <table style="width:100%">
+        <tr>
+            <th>Name</th>
+            <th>Last New Picture</th>
+            <th>Number of Pictures</th>
+	        <th>Delete</th>
+        </tr>
+        {% if streams_owned %}
+            {% for stream in streams_owned %}
+                <tr>
+                    <td><a href="{{ stream.url }}">{{ stream.name }}</a></td>
+                    <td>{{ stream.last_new_picture }}</td>
+                    <td>{{ stream.picture_count }}</td>
+                    <td><input type="checkbox" name="chkDeleteStream" value="{{stream.name}}"></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        <tr><th><input type="submit" value="Delete Checked Streams"></th></tr>
+    </table>
+    <br>
+
+  </div>
+
+</form>
+<!--<button type="button" name="deleteStream" id="deleteStream">Delete Checked Streams</button>-->
+<form action="Unsubscribe" method="get">
+    <div style="float:top; width:50%" name="subscribeStream" >
+    <h2>Streams I subscribe to</h2>
+    <table style="width:100%">
+        <tr>
+            <th>Name</th>
+            <th>Last New Picture</th>
+            <th>Number of Pictures</th>
+            <th>Views</th>
+	        <th>Unsubscribe</th>
+        </tr>
+        {% if streams_subscribed %}
+            {% for stream in streams_subscribed %}
+                <tr>
+                    <td><a href="{{ stream.url }}">{{ stream.name }}</a></td>
+                    <td>{{ stream.last_new_picture }}</td>
+                    <td>{{ stream.picture_count }}</td>
+                    <td>{{ stream.times_viewed}}</td>
+                    <td><input type="checkbox" name="chkUnsubStream" value="{{stream.name}}"></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        <tr><th><input type="submit" value="Unsubscribe Checked Streams"></th></tr>
+    </table>
+    <br>
+  </div>
+</form>
+
+<br>
+<!--<button type="button" name="deleteSubcription" id="deleteSubcription">Unsubscribe Checked Streams</button>-->
 {% endblock content %}
 

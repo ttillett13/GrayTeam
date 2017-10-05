@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<style>
-.top { vertical-align: top; }
-</style>
-<body>
+{% extends "/Pages/base.html" %}
+{% block title %} Connex.us - Search Streams {% endblock title %}
+
+{% block content %}
 <h2>Top 3 Trending Streams:</h2>
 
 <table style="height: 279px; width: 876px;">
@@ -38,5 +34,4 @@
 
 </tbody>
 </table>
-</body>
-</html>
+{% endblock content %}

@@ -2,6 +2,12 @@ from Config import *
 from Controller.CreateStream import CreateStream
 from Controller.Error import Error
 from Controller.ManageStream import ManageStream
+from Controller.SearchStream import SearchStream
+from Controller.Delete import Delete
+from Controller.TrendingStreams import TrendingStreams
+from Controller.Unsubscribe import Unsubscribe
+from Controller.ViewStream import ViewStream
+
 import webapp2
 from Controller.Common import authenticate
 
@@ -12,9 +18,14 @@ class SignInHandler(webapp2.RequestHandler):
 # [START app]
 app = webapp2.WSGIApplication([
     ('/', ManageStream),
-    ('/error', Error),
     ('/CreateStream', CreateStream),
+    ('/Delete', Delete),
+    ('/error', Error),
     ('/ManageStream', ManageStream),
-    ('/signin', SignInHandler)
+    ('/SearchStream', SearchStream),
+    ('/signin', SignInHandler),
+    ('/Trending', TrendingStreams),
+    ('/Unsubscribe', Unsubscribe),
+    ('/ViewStream', ViewStream)
 ], debug=True)
 # [END app]
