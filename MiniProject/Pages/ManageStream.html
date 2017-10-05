@@ -1,7 +1,7 @@
 {% extends "/Pages/base.html" %}
 {% block title %}Connex.us - Manage Streams {% endblock title %}
 {% block content %}
-<form action="Delete.py" method="get">
+<form action="Delete" method="get">
     <div style="float:top; width:50%" name="ownStream" >
     <h2>Streams I own</h2>
     <table style="width:100%">
@@ -29,7 +29,7 @@
 
 </form>
 <!--<button type="button" name="deleteStream" id="deleteStream">Delete Checked Streams</button>-->
-<form action="Unsubscribe.py" method="get">
+<form action="Unsubscribe" method="get">
     <div style="float:top; width:50%" name="subscribeStream" >
     <h2>Streams I subscribe to</h2>
     <table style="width:100%">

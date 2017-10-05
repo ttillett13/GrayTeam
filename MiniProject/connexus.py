@@ -17,11 +17,11 @@ class SignInHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', ManageStream),
     ('/CreateStream', CreateStream),
-    ('/Delete.py', Delete),
+    ('/Delete', Delete),
     ('/error', Error),
     ('/ManageStream', ManageStream),
     ('/Search', SearchStream),
     ('/signin', SignInHandler),
-    ('/Unsubscribe.py', Unsubscribe)
+    ('/Unsubscribe', Unsubscribe)
 ], debug=True)
 # [END app]
