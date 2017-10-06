@@ -30,6 +30,11 @@
 	  float: left;
 	  width: 25%;
 	}
+
+	.header {
+		text-align: center;
+		padding: 22px;
+	}
 	
 	.row > #lastColumn {
 	position: absolute;
@@ -58,27 +63,38 @@
 {% endblock styles %}
 
 {% block content %}
+	<div class="header">
+	  <h1>{{ stream_name }}</h1>
+	</div>
 		<div class="row">
-			{% for picture in stream.pictures %}
+			{% for picture in pics %}
 			  <div class="column">
-				<img src="{{ picture }}" style="width:100%" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
+				<img src="{{ picture[1] }}" height="256" width="256" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
 			  </div>
 			{% endfor %}
 		  <div class="column" id="lastColumn">
-			<button type="button" name="moreImages" id="moreImages">More Images</button>
+			  <form action="ViewSingleStream" method="post">
+				  <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True">
+				  <input type="text" name="decrementPage" value="{{ page }}" hidden="True">
+				  <button type="submit" name="moreImages" id="moreImages">More Images</button>
+			  </form>
 		  </div>
 		</div>
 		</br>
 		<div class="addImage">
-			<form action="ViewSingleStream" method="post"">
+			<form action="ViewSingleStream" method="post" enctype="multipart/form-data">
 				<input type="text" name="stream_name" value="{{ stream.name }}" hidden="True">
+				<input type="text" name="page" value="{{ page }}" hidden="True">
 				<input type="text" name="name" value="File Name">
-    			<input type="file" name="image">
+    			<input type="text" name="comments" value="Comments">
 				</br>
 				</br>
-
-				<input type="submit" name="upload" id="upload">Upload File</input>
+				<input type="file" name="image" >
+				<input type="submit" name="upload" id="upload"></input>
 			</form>
+			{% if status == "fail" %}
+				<p>Cannot save image with same file name!</p>
+			{% endif %}
 		</div>
 		</br>
 		<div class="subscribe">

@@ -7,6 +7,7 @@ from Controller.Delete import Delete
 from Controller.TrendingStreams import TrendingStreams
 from Controller.Unsubscribe import Unsubscribe
 from Controller.ViewStream import ViewStream
+from Controller.ViewAllStream import ViewAllStream
 
 import webapp2
 from Controller.Common import authenticate
@@ -26,6 +27,7 @@ app = webapp2.WSGIApplication([
     ('/signin', SignInHandler),
     ('/Trending', TrendingStreams),
     ('/Unsubscribe', Unsubscribe),
-    ('/ViewSingleStream', ViewStream)
+    ('/ViewSingleStream', ViewStream),
+    ('/ViewAllStream', ViewAllStream)
 ], debug=True)
 # [END app]

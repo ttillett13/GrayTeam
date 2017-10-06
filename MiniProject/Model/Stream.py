@@ -5,6 +5,7 @@ from google.appengine.ext import ndb
 class Picture(ndb.Model):
     name = ndb.StringProperty(indexed=True)
     image = ndb.BlobProperty(indexed=False)
+    comments = ndb.TextProperty(indexed=False)
 
 # [START Model]
 class User(ndb.Model):
@@ -18,11 +19,10 @@ class Stream(ndb.Model):
     """Sub model for representing an author."""
     name = ndb.StringProperty(indexed=True)
     times_viewed = ndb.IntegerProperty(indexed=False, default=0)
-    #cover_picture = ndb.StringProperty(kind='Picture')
-    cover_image_url = ndb.StringProperty(indexed=False)
     tags = ndb.StringProperty(repeated=True)
     last_new_picture = ndb.DateProperty(indexed=False)
     pictures = ndb.KeyProperty(kind='Picture', repeated=True)
     picture_count = ndb.IntegerProperty(indexed=False)
     url = ndb.StringProperty(indexed=False)
+    creation_time = ndb.DateTimeProperty(indexed=False)
 

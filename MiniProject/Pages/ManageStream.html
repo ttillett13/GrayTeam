@@ -14,7 +14,7 @@
         {% if streams_owned %}
             {% for stream in streams_owned %}
                 <tr>
-                    <td><a href="{{ stream.url }}">{{ stream.name }}</a></td>
+                    <td><a href="{{ stream.url + ";status=success" }}">{{ stream.name }}</a></td>
                     <td>{{ stream.last_new_picture }}</td>
                     <td>{{ stream.picture_count }}</td>
                     <td><input type="checkbox" name="chkDeleteStream" value="{{ stream.key.urlsafe() }}"></td>
