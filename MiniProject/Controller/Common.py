@@ -1,6 +1,7 @@
 from google.appengine.api import users
 from Model.Stream import User
 
+
 def authenticate(page):
     user = users.get_current_user()
     if user:

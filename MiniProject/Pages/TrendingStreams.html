@@ -1,15 +1,23 @@
 {% extends "/Pages/base.html" %}
-{% block title %} Connex.us - Search Streams {% endblock title %}
+{% block title %} Connex.us - Trending Streams {% endblock title %}
 
 {% block content %}
-<h2>Top 3 Trending Streams:</h2>
+<h2>{{ title }}</h2>
 
 <table style="height: 279px; width: 876px;">
 <tbody>
 <tr>
-<td rowspan="5" class="top"><img src="http://placehold.it/150x150" alt="" align="left" hspace="10" /></td>
-<td rowspan="5"  class="top"><img src="http://placehold.it/150x150" alt="" align="left" hspace="10" /></td>
-<td rowspan="5"  class="top"><img src="http://placehold.it/150x150" alt="" align="left" hspace="10" /></td>
+    {% for stream in streams %}
+        <td rowspan="5" class="top">
+            <a href="{{ stream.url }}">
+                {% if stream.cover_image_url  %}
+                    <img src=" {{ stream.cover_image_url }}" alt="" align="left" hspace="10" />
+                {% else %}
+                    <img src="http://placehold.it/150x150" alt="" align="left" hspace="10" />
+                {% endif %}
+            </a>
+        </td>
+    {% endfor %}
 <td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="NoReports" />No reports</td>
 </tr>
 <tr>
@@ -25,10 +33,9 @@
 <td style="width: 163px;">&nbsp;Email trending report</td>
 </tr>
 <tr>
-<td><p align="left" hspace="10"> 1232 views in last hour </p> </td>
-<td><p align="left" hspace="10"> 1232 views in last hour </p> </td>
-<td><p align="left" hspace="10"> 1232 views in last hour </p> </td>
-<td style="width: 163px;">&nbsp;<input type="submit" value="Update rate" /></td>
+    {% for count in counts %}
+    <td><p align="left" hspace="10"> {{count}} views in last hour </p> </td>
+    {% endfor %}
 
 </tr>
 

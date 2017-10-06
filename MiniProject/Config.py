@@ -7,4 +7,5 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 INDEX_NAME = "default_index"
+TREND_REPORT = "trending_report"
 # [END imports]

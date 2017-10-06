@@ -1,0 +1,5 @@
+cron:
+- description: generate trending report
+  url: /Trending/Report
+  schedule: every 5 minutes synchronized
+

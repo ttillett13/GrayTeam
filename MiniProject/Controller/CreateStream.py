@@ -53,8 +53,9 @@ class CreateStream(webapp2.RequestHandler):
             self.redirect('/Error')
             return
 
+
         #Make the Stream
-        new_stream = Stream(name=stream_name, cover_image_url=cover_image_url, times_viewed=0,
+        new_stream = Stream(name=stream_name, cover_image_url=cover_image_url, times_viewed=0, view_times=view_times,
                             tags=tag_stream_list, picture_count=0, url="/ViewSingleStream?stream_name=" + stream_name)
         new_stream.put()
 
