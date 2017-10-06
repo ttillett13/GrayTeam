@@ -31,18 +31,21 @@ class ViewAllStream(webapp2.RequestHandler):
         streams = []
         if raw_streams:
             for stream in raw_streams:
+                isSet = False
                 if stream.pictures:
                     cover_image = stream.pictures[0].get()
                     stream_to_append = [stream.name,
                                     images.get_serving_url(cover_image.image, secure_url=False),
                                     stream.url + ";status=success",
                                     stream.creation_time]
+                    isSet = True
                 if stream.cover_page_url:
                     stream_to_append = [stream.name,
                                         stream.cover_page_url,
                                         stream.url + ";status=success",
                                         stream.creation_time]
-                else:
+                    isSet = True
+                if not isSet:
                     stream_to_append = [stream.name,
                                         "",
                                         stream.url + ";status=success",
