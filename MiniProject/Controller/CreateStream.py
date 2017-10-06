@@ -55,8 +55,11 @@ class CreateStream(webapp2.RequestHandler):
 
 
         #Make the Stream
-        new_stream = Stream(name=stream_name, cover_image_url=cover_image_url, times_viewed=0, view_times=view_times,
-                            tags=tag_stream_list, picture_count=0, url="/ViewSingleStream?stream_name=" + stream_name)
+        new_stream = Stream(name=stream_name, times_viewed=0, view_times=[],
+                            tags=tag_stream_list, picture_count=0, url="/ViewSingleStream?stream_name=" + stream_name,
+                            creation_time=datetime.datetime.now())
+        if cover_image_url:
+            new_stream.cover_page_url = cover_image_url
         new_stream.put()
 
         current_user = User.query(User.username==auth[0]._User__email).get()

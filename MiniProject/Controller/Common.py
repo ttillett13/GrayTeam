@@ -19,7 +19,4 @@ def authenticate(page):
         url = users.create_login_url(page.request.uri)
         url_linktext = 'Login'
 
-
-
-
     return (user, url, url_linktext)

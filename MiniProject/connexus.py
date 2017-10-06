@@ -7,6 +7,7 @@ from Controller.Delete import Delete
 from Controller.TrendingStreams import TrendingStreams, TrendingReport
 from Controller.Unsubscribe import Unsubscribe
 from Controller.ViewStream import ViewStream
+from Controller.ViewAllStream import ViewAllStream
 
 import webapp2
 from Controller.Common import authenticate
@@ -27,6 +28,7 @@ app = webapp2.WSGIApplication([
     ('/Trending', TrendingStreams),
     ('/Trending/Report', TrendingReport),
     ('/Unsubscribe', Unsubscribe),
-    ('/ViewStream', ViewStream)
+    ('/ViewSingleStream', ViewStream),
+    ('/ViewAllStream', ViewAllStream)
 ], debug=True)
 # [END app]
