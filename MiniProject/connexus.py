@@ -20,7 +20,7 @@ app = webapp2.WSGIApplication([
     ('/', ManageStream),
     ('/CreateStream', CreateStream),
     ('/Delete', Delete),
-    ('/error', Error),
+    ('/Error', Error),
     ('/ManageStream', ManageStream),
     ('/SearchStream', SearchStream),
     ('/signin', SignInHandler),

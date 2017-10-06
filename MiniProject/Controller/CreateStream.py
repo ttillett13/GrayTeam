@@ -8,6 +8,7 @@ from google.appengine.api import search
 import jinja2
 import webapp2
 import datetime
+import re
 import time
 from Config import *
 import json
@@ -37,9 +38,11 @@ class CreateStream(webapp2.RequestHandler):
         tag_stream = str(self.request.get('tagStream'))
         cover_image_url = str(self.request.get('coverImageUrl'))
 
-        #Split the tags into a list
-        tag_stream_list = tag_stream.split(',')
-
+        tag_stream_list = re.split(',\s*', tag_stream)
+        for tag in tag_stream_list:
+            if not re.match("^#\w+$", tag) or " " in tag:
+                self.redirect('/Error')
+                return
 
         #Make the Stream
         new_stream = Stream(name=stream_name, cover_image_url=cover_image_url, times_viewed=0,
@@ -70,7 +73,8 @@ class CreateStream(webapp2.RequestHandler):
             #doc_id=stream_name,
             fields=[search.TextField(name="stream_name", value=stream_name),
                     search.TextField(name="cover_image", value=cover_image_url),
-                    search.TextField(name="key", value=new_stream.key.urlsafe())],
+                    search.TextField(name="url", value=new_stream.url),
+                    search.TextField(name="tag", value=tag_stream.replace(",", " ").replace("#", ""))],
             language="en")
         try:
             search.Index(name=INDEX_NAME).put(d)

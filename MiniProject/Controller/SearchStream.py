@@ -28,9 +28,9 @@ class SearchStream(webapp2.RequestHandler):
 
         index = search.Index(INDEX_NAME)
         form_data = cgi.FieldStorage()
-        query = form_data.getlist("search")
+        query_string = form_data.getlist("search")
 
-        if len(query) == 0:
+        if len(query_string) == 0:
             template_values = {
                 'user': auth[0],
                 'url': auth[1],
@@ -41,13 +41,16 @@ class SearchStream(webapp2.RequestHandler):
             }
 
         else:
-            streams_found = index.search(query[0])
+            query_options = search.QueryOptions(limit=5)
+            query = search.Query(query_string=query_string[0], options=query_options)
+            streams_found = index.search(query)
+            num_found = len(streams_found.results)
 
             template_values = {
                 'user': auth[0],
                 'url': auth[1],
                 'url_linktext': auth[2],
-                'num_found': len(streams_found.results),
+                'num_found': num_found,
                 'streams_found': enumerate(streams_found)
                 #'num_found' : len(query),
                 #enumerate = enumerate,
