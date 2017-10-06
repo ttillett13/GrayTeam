@@ -16,7 +16,7 @@ class User(ndb.Model):
 # [START Model]
 class Stream(ndb.Model):
     """Sub model for representing an author."""
-    name = ndb.StringProperty(indexed=False)
+    name = ndb.StringProperty(indexed=True)
     times_viewed = ndb.IntegerProperty(indexed=False, default=0)
     #cover_picture = ndb.StringProperty(kind='Picture')
     cover_image_url = ndb.StringProperty(indexed=False)

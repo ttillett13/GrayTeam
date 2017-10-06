@@ -59,8 +59,3 @@ class SearchStream(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('/Pages/SearchStream.html')
         self.response.write(template.render(template_values))
 
-        # { %
-        # for stream in streams_found %}
-        # < tr > {{stream.field("stream_name").value}} < / tr >
-        # < br >
-        # { % endfor %}

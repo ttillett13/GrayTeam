@@ -38,11 +38,20 @@ class CreateStream(webapp2.RequestHandler):
         tag_stream = str(self.request.get('tagStream'))
         cover_image_url = str(self.request.get('coverImageUrl'))
 
-        tag_stream_list = re.split(',\s*', tag_stream)
-        for tag in tag_stream_list:
-            if not re.match("^#\w+$", tag) or " " in tag:
-                self.redirect('/Error')
-                return
+        tag_stream_list = []
+        if tag_stream:
+            tag_stream_list = re.split(',\s*', tag_stream)
+            # check if tags are valid
+            for tag in tag_stream_list:
+                if not re.match("^#\w+$", tag) or " " in tag:
+                    self.redirect('/Error')
+                    return
+
+        # check if stream name is valid
+        old_stream = Stream.query(Stream.name == stream_name).get()
+        if old_stream:
+            self.redirect('/Error')
+            return
 
         #Make the Stream
         new_stream = Stream(name=stream_name, cover_image_url=cover_image_url, times_viewed=0,
@@ -51,7 +60,6 @@ class CreateStream(webapp2.RequestHandler):
 
         current_user = User.query(User.username==auth[0]._User__email).get()
         current_user.streams_owned.append(new_stream._entity_key)
-        #current_user.streams_subscribed.append(new_stream._entity_key)
         current_user.put()
         #We actually have to wait for the transaction to take place... smh
         #Actual solution can be found https://stackoverflow.com/questions/15460926/google-app-engine-ndb-put-and-then-query-there-is-always-one-less-item
@@ -70,7 +78,7 @@ class CreateStream(webapp2.RequestHandler):
 
         # need to also make a search api document
         d = search.Document(
-            #doc_id=stream_name,
+            doc_id=new_stream.key.urlsafe(),
             fields=[search.TextField(name="stream_name", value=stream_name),
                     search.TextField(name="cover_image", value=cover_image_url),
                     search.TextField(name="url", value=new_stream.url),

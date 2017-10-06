@@ -1,6 +1,7 @@
 import os
 import urllib
 
+from google.appengine.api import search
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
@@ -29,9 +30,12 @@ class Delete(webapp2.RequestHandler):
 
         form_data = cgi.FieldStorage()
         requests = form_data.getlist("chkDeleteStream")
+        index = search.Index(INDEX_NAME)
+
         for key_str in requests:
             key = ndb.Key(urlsafe=key_str)
             key.delete()
+            index.delete(key_str)
             current_user.streams_owned.remove(key)
 
         else:
