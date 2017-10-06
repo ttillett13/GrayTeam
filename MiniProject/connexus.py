@@ -5,6 +5,7 @@ from Controller.ManageStream import ManageStream
 from Controller.SearchStream import SearchStream
 from Controller.Delete import Delete
 from Controller.TrendingStreams import TrendingStreams, TrendingReport
+from Controller.Subscribe import Subscribe
 from Controller.Unsubscribe import Unsubscribe
 from Controller.ViewStream import ViewStream
 from Controller.ViewAllStream import ViewAllStream
@@ -25,6 +26,7 @@ app = webapp2.WSGIApplication([
     ('/ManageStream', ManageStream),
     ('/SearchStream', SearchStream),
     ('/signin', SignInHandler),
+    ('/Subscribe', Subscribe),
     ('/Trending', TrendingStreams),
     ('/Trending/Report', TrendingReport),
     ('/Unsubscribe', Unsubscribe),

@@ -10,8 +10,8 @@
     {% for stream in streams %}
         <td rowspan="5" class="top">
             <a href="{{ stream.url }}">
-                {% if stream.cover_image_url  %}
-                    <img src=" {{ stream.cover_image_url }}" alt="" align="left" hspace="10" />
+                {% if stream.cover_page_url  %}
+                    <img src=" {{ stream.cover_page_url }}" alt="" align="left" hspace="10" />
                 {% else %}
                     <img src="http://placehold.it/150x150" alt="" align="left" hspace="10" />
                 {% endif %}

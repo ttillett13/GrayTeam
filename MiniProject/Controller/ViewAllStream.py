@@ -42,6 +42,11 @@ class ViewAllStream(webapp2.RequestHandler):
                                         stream.cover_page_url,
                                         stream.url + ";status=success",
                                         stream.creation_time]
+                else:
+                    stream_to_append = [stream.name,
+                                        "",
+                                        stream.url + ";status=success",
+                                        stream.creation_time]
                 streams.append(stream_to_append)
 
 

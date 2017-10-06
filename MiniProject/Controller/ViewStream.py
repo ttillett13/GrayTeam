@@ -37,6 +37,11 @@ class ViewStream(webapp2.RequestHandler):
             if i.name == stream_name:
                 stream = i
 
+        time = datetime.datetime.time(datetime.datetime.now())
+        stream.view_times.append(time)
+        stream.times_viewed = stream.times_viewed + 1
+        stream.put()
+
         pics = []
         if stream.pictures:
             if not page:
@@ -75,6 +80,7 @@ class ViewStream(webapp2.RequestHandler):
         decrementPage = self.request.get('decrementPage')
         standardPage = self.request.get('page')
         status = "success"
+
 
         if decrementPage:
             page = int(decrementPage) - 1

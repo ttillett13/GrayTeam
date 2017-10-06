@@ -97,7 +97,9 @@
 			{% endif %}
 		</div>
 		</br>
-		<div class="subscribe">
-			<button type="button" name="subscribe" id="subscribe">Subscribe</button>
-		</div>
+		<form action="Subscribe" method="get">
+			<div class="subscribe">
+				<button type="submit" name="subscribe" value="{{ stream.key.urlsafe()}}" id="subscribe">Subscribe</button>
+			</div>
+		</form>
 {% endblock content %}
