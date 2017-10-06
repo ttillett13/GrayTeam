@@ -25,4 +25,5 @@ class Stream(ndb.Model):
     picture_count = ndb.IntegerProperty(indexed=False)
     url = ndb.StringProperty(indexed=False)
     creation_time = ndb.DateTimeProperty(indexed=False)
+    cover_page_url = ndb.StringProperty(indexed=False)
 

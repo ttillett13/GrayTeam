@@ -45,9 +45,14 @@ class ViewStream(webapp2.RequestHandler):
             if page == 0:
                 page = len(stream.pictures)
 
+            iter = 0
             for i in reversed(range(page - 3, page)):
-                pic_temp = stream.pictures[i].get()
-                pics.append((pic_temp.name, images.get_serving_url(pic_temp.image, secure_url=False)))
+                if iter < len(stream.pictures):
+                    pic_temp = stream.pictures[i].get()
+                    pics.append((pic_temp.name, images.get_serving_url(pic_temp.image, secure_url=False)))
+                iter += 1
+        else:
+            page = 0
 
         template_values = {
             'user': auth[0],

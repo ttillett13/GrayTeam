@@ -33,10 +33,17 @@ class ViewAllStream(webapp2.RequestHandler):
             for stream in raw_streams:
                 if stream.pictures:
                     cover_image = stream.pictures[0].get()
-                    streams.append((stream.name,
+                    stream_to_append = [stream.name,
                                     images.get_serving_url(cover_image.image, secure_url=False),
                                     stream.url + ";status=success",
-                                    stream.creation_time))
+                                    stream.creation_time]
+                if stream.cover_page_url:
+                    stream_to_append = [stream.name,
+                                        stream.cover_page_url,
+                                        stream.url + ";status=success",
+                                        stream.creation_time]
+                streams.append(stream_to_append)
+
 
         streams = sorted(streams, key=lambda x: str(x[3]))
         template_values = {
