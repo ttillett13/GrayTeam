@@ -16,6 +16,8 @@ import json
 from Model.Stream import Stream
 from Controller.Common import authenticate
 from Model.Stream import User
+import sendgrid
+from sendgrid.helpers.mail import *
 
 class CreateStream(webapp2.RequestHandler):
 
@@ -73,11 +75,25 @@ class CreateStream(webapp2.RequestHandler):
             subscriber_message = str(self.request.get('subscriberMessage'))
             subscribers = str(self.request.get('subscriber'))
             subscribers = subscribers.split(",")
+
+            sg = sendgrid.SendGridAPIClient(
+                apikey="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")
+            from_email = Email("jomish2323@gmail.com")
+
             for subscriber in subscribers:
                 user = User.query(User.username==subscriber).get()
                 if not user is None:
                     user.streams_subscribed.append(new_stream._entity_key)
                     user.put()
+
+                    # Send an email
+                    to_email = Email(user.email)
+                    subject = "You've been subscribed!"
+                    content = Content("text/plain", str(self.request.get('subscriberMessage')))
+                    mail = Mail(from_email, subject, to_email, content)
+                    response = sg.client.mail.send.post(request_body=mail.get())
+
+
             #print current_user.streams_owned
             #Send an invite to subscriber invites
 
