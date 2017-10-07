@@ -25,9 +25,6 @@
 		padding: 10px;
 	}
 
-	.column img {
-		margin-top: 12px;
-	}
 
 input[type=text] {
     width: 130px;
@@ -59,11 +56,20 @@ input[type=text] {
     <p style="padding: 10px 10px 10px 10px;">{{ num_found }} results found</br>Click on an image to view stream</p>
      {% for i, stream in streams_found %}
           <div class="row">
-            <div class="image">
-              <img src="http://placehold.it/200x100"/>
-              {{ stream.field("stream_name").value }}
+            <div class="image" style="padding: 10px 10px 10px 10px;">
+              <a href="{{ stream.field('url').value }}">
+                  {% if stream.field('cover_image').value  %}
+                    <img src="{{ stream.field('cover_image').value }}"/>
+                  {% else %}
+                    <img src="http://placehold.it/150x150"/>
+                  {% endif %}
+
+              </a>
+                <p style="padding: 10px 10px 10px 10px;">{{ stream.field("stream_name").value }}</p>
+
               <br>
             </div>
+
           </div>
     {% endfor %}
   </div>
