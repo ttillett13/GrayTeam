@@ -119,10 +119,6 @@ class TrendingReport(webapp2.RequestHandler):
         }
 
         template = JINJA_ENVIRONMENT.get_template('/Pages/TrendingStreams.html')
-        self.response.write(template.render(template_values))
-
-
- # [END error]
         render = template.render(template_values)
 
         report = TrendReport.query(TrendReport.name == TREND_REPORT).get()
@@ -141,16 +137,17 @@ class TrendingReport(webapp2.RequestHandler):
         users = User.query()
         for user in users:
             send = False
-            if user wants reports every 5 mins:
+            if user.report_sending == "Every5Minutes":
                 send = True
-            elif user wants reports every hour and minute==0:
+            elif user.report_sending == "Every1Hour" and minute==0:
                 send = True
-            elif user wants reports every day and hour==0 and minute==0:
+            elif user.report_sending == "EveryDay" and hour==0 and minute==0:
                 send = True
             if send:
                 to_email = Email(user.email)
+                #to_email = Email("ttillett13@gmail.com")
                 subject = "Trending Streams Report"
-                content = Content("html", report)
+                content = Content("html", render)
                 mail = Mail(from_email, subject, to_email, content)
                 response = sg.client.mail.send.post(request_body=mail.get())
 
