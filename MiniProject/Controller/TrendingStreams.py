@@ -53,7 +53,10 @@ class TrendingReport(webapp2.RequestHandler):
         hour = time.hour
         minute = time.minute
 
-        hour_limit = hour - 1
+        if (hour > 0):
+            hour_limit = hour - 1
+        else:
+            hour_limit = 23
         min_limit = minute
 
         #streams = Stream.all()
