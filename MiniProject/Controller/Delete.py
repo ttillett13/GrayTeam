@@ -24,24 +24,22 @@ class Delete(webapp2.RequestHandler):
 
         if auth[0]:
             current_user = User.query(User.username == auth[0]._User__email).get()
-        else:
-            current_user = None
-            self.redirect('/Error')
 
-        form_data = cgi.FieldStorage()
-        requests = form_data.getlist("chkDeleteStream")
-        index = search.Index(INDEX_NAME)
 
-        for key_str in requests:
-            key = ndb.Key(urlsafe=key_str)
-            key.delete()
-            index.delete(key_str)
-            current_user.streams_owned.remove(key)
+            form_data = cgi.FieldStorage()
+            requests = form_data.getlist("chkDeleteStream")
+            index = search.Index(INDEX_NAME)
 
-        else:
-            self.redirect('/Error')
-        current_user.put()
-        time.sleep(.1)
+            for key_str in requests:
+                key = ndb.Key(urlsafe=key_str)
+                key.delete()
+                index.delete(key_str)
+                current_user.streams_owned.remove(key)
 
-        self.redirect('/ManageStream')
+            else:
+                self.redirect('/Error')
+            current_user.put()
+            time.sleep(.1)
+
+            self.redirect('/ManageStream')
 
