@@ -59,7 +59,7 @@ class SearchStream(webapp2.RequestHandler):
                                                                      secure_url=False)
                                 d = search.Document(
                                     doc_id=stream.doc_id,
-                                    fields=[search.TextField(name="stream_name", value=stream_obj.stream_name),
+                                    fields=[search.TextField(name="stream_name", value=stream_obj.name),
                                         search.TextField(name="cover_image", value=cover_image),
                                         search.TextField(name="url", value=stream_obj.url),
                                         search.TextField(name="tag", value=stream.field('tag').value)],
