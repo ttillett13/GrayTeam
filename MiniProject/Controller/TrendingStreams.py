@@ -8,6 +8,7 @@ from google.appengine.ext import ndb
 import datetime
 import jinja2
 import webapp2
+import time
 
 from Config import *
 from Controller.Common import authenticate
@@ -28,16 +29,16 @@ class TrendingStreams(webapp2.RequestHandler):
 
             # index = search.Index(INDEX_NAME)
             # d = index.get(TREND_REPORT)
-            #html_text = d.field("html").value
+            # html_text = d.field("html").value
 
-            sg = sendgrid.SendGridAPIClient(
-                apikey="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")
-            from_email = Email("jomish2323@gmail.com")
-            to_email = Email("jomish2323@gmail.com")
-            subject = "Sending with SendGrid is Fun"
-            content = Content("text/plain", "and easy to do anywhere, even with Python")
-            mail = Mail(from_email, subject, to_email, content)
-            response = sg.client.mail.send.post(request_body=mail.get())
+            # sg = sendgrid.SendGridAPIClient(
+            #     apikey="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")
+            # from_email = Email("jomish2323@gmail.com")
+            # to_email = Email("jomish2323@gmail.com")
+            # subject = "Sending with SendGrid is Fun"
+            # content = Content("text/plain", "and easy to do anywhere, even with Python")
+            # mail = Mail(from_email, subject, to_email, content)
+            # response = sg.client.mail.send.post(request_body=mail.get())
 
             report = TrendReport.query(TrendReport.name == TREND_REPORT).get()
             if report is None:
@@ -47,6 +48,7 @@ class TrendingStreams(webapp2.RequestHandler):
                     'url': auth[1],
                     'url_linktext': auth[2],
                     'html_text': message,
+                    'report_sending': User.query(User.username == auth[0]._User__email).get().report_sending
                 }
 
                 template = JINJA_ENVIRONMENT.get_template('/Pages/TrendingStreams.html')
@@ -67,9 +69,11 @@ class TrendingStreams(webapp2.RequestHandler):
             self.redirect('/Error')
 
         email_sending = self.request.get('onetype')
+
         current_user.report_sending = email_sending
         current_user.put()
 
+        time.sleep(.6)
         self.redirect('/TrendingStreams')
 # [END TrendingStreams]
 
@@ -132,7 +136,7 @@ class TrendingReport(webapp2.RequestHandler):
         }
 
         template = JINJA_ENVIRONMENT.get_template('/Pages/TrendingStreams.html')
-        self.response.write(template.render(template_values))
+        # self.response.write(template.render(template_values))
 
 
  # [END error]
