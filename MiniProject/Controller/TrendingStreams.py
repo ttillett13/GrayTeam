@@ -23,19 +23,6 @@ class TrendingStreams(webapp2.RequestHandler):
         auth = authenticate(self)
         if auth[0]:
 
-            # index = search.Index(INDEX_NAME)
-            # d = index.get(TREND_REPORT)
-            #html_text = d.field("html").value
-
-            sg = sendgrid.SendGridAPIClient(
-                apikey="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")
-            from_email = Email("jomish2323@gmail.com")
-            to_email = Email("jomish2323@gmail.com")
-            subject = "Sending with SendGrid is Fun"
-            content = Content("text/plain", "and easy to do anywhere, even with Python")
-            mail = Mail(from_email, subject, to_email, content)
-            response = sg.client.mail.send.post(request_body=mail.get())
-
             report = TrendReport.query(TrendReport.name == TREND_REPORT).get()
             if report is None:
                 message = "No report currently generated"
@@ -123,11 +110,26 @@ class TrendingReport(webapp2.RequestHandler):
             report = TrendReport(name=TREND_REPORT, html=render)
         report.put()
 
+        sg = sendgrid.SendGridAPIClient(
+            apikey="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")
+        from_email = Email("jomish2323@gmail.com")
+
+
         # send emails
-        # users = User.query()
-        # for user in users:
-        #       if user wants reports every 5 mins send email
-        #       if user wants reports every hour and minute==0 send email
-        #       is user wants reports every day and hour==0 and minute==0 send email
-        #       else send no email
+        users = User.query()
+        for user in users:
+            send = False
+            if user wants reports every 5 mins:
+                send = True
+            elif user wants reports every hour and minute==0:
+                send = True
+            elif user wants reports every day and hour==0 and minute==0:
+                send = True
+            if send:
+                to_email = Email(user.email)
+                subject = "Trending Streams Report"
+                content = Content("html", report)
+                mail = Mail(from_email, subject, to_email, content)
+                response = sg.client.mail.send.post(request_body=mail.get())
+
 # [END TrendingReport]
