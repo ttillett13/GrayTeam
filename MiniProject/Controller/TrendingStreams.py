@@ -113,9 +113,10 @@ class TrendingReport(webapp2.RequestHandler):
         report.put()
 
         # send emails
-        #users = User.all()
+        # users = User.query()
+
         #for user in users:
-        #       if user wants reports every 5 mins and minute==5 send email
+        #       if user wants reports every 5 mins send email
         #       if user wants reports every hour and minute=0= send email
         #       is user wants reports every day and hour==0 and minute==0 send email
         #       else send no email
