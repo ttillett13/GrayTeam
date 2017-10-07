@@ -8,6 +8,7 @@ from google.appengine.ext import ndb
 import datetime
 import jinja2
 import webapp2
+import time
 
 from Config import *
 from Controller.Common import authenticate
@@ -34,6 +35,7 @@ class TrendingStreams(webapp2.RequestHandler):
                     'url': auth[1],
                     'url_linktext': auth[2],
                     'html_text': message,
+                    'report_sending': User.query(User.username == auth[0]._User__email).get().report_sending
                 }
 
                 template = JINJA_ENVIRONMENT.get_template('/Pages/TrendingStreams.html')
@@ -54,9 +56,11 @@ class TrendingStreams(webapp2.RequestHandler):
             self.redirect('/Error')
 
         email_sending = self.request.get('onetype')
+
         current_user.report_sending = email_sending
         current_user.put()
 
+        time.sleep(.6)
         self.redirect('/TrendingStreams')
 # [END TrendingStreams]
 
