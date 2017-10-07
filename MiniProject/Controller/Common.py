@@ -12,7 +12,7 @@ def authenticate(page):
         site_users = User.query(User.username == username)
         site_users = site_users.get()
         if not site_users:
-            new_user = User(username=username, email=username)
+            new_user = User(username=username, email=username, streams_owned=[], streams_subscribed=[], report_sending="5min")
             new_user.put()
     else:
         url = users.create_login_url(page.request.uri)

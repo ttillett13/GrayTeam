@@ -24,7 +24,7 @@ app = webapp2.WSGIApplication([
     ('/ManageStream', ManageStream),
     ('/SearchStream', SearchStream),
     ('/signin', SignInHandler),
-    ('/Trending', TrendingStreams),
+    ('/TrendingStreams', TrendingStreams),
     ('/Unsubscribe', Unsubscribe),
     ('/ViewStream', ViewStream)
 ], debug=True)
