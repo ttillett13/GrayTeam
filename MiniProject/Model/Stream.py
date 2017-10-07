@@ -15,6 +15,7 @@ class User(ndb.Model):
     streams_owned = ndb.KeyProperty(kind='Stream', repeated=True)
     streams_subscribed = ndb.KeyProperty(kind='Stream', repeated=True)
     email = ndb.StringProperty(indexed=True)
+    report_sending=ndb.StringProperty(indexed=True)
 
 # [START Model]
 class Stream(ndb.Model):

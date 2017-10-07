@@ -13,6 +13,9 @@ from Config import *
 from Controller.Common import authenticate
 from Model.Stream import Stream,User,TrendReport
 
+
+from Model.Stream import User
+# [START error]
 import sendgrid
 from sendgrid.helpers.mail import *
 
@@ -40,6 +43,21 @@ class TrendingStreams(webapp2.RequestHandler):
 
             self.response.write(html_text)
 
+    def post(self):
+
+        auth = authenticate(self)
+
+        if auth[0]:
+            current_user = User.query(User.username == auth[0]._User__email).get()
+        else:
+            current_user = None
+            self.redirect('/Error')
+
+        email_sending = self.request.get('onetype')
+        current_user.report_sending = email_sending
+        current_user.put()
+
+        self.redirect('/TrendingStreams')
 # [END TrendingStreams]
 
 
@@ -101,6 +119,10 @@ class TrendingReport(webapp2.RequestHandler):
         }
 
         template = JINJA_ENVIRONMENT.get_template('/Pages/TrendingStreams.html')
+        self.response.write(template.render(template_values))
+
+
+ # [END error]
         render = template.render(template_values)
 
         report = TrendReport.query(TrendReport.name == TREND_REPORT).get()
@@ -133,3 +155,4 @@ class TrendingReport(webapp2.RequestHandler):
                 response = sg.client.mail.send.post(request_body=mail.get())
 
 # [END TrendingReport]
+

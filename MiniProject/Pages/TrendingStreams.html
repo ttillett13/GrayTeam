@@ -2,11 +2,18 @@
 {% block title %} Connex.us - Trending Streams {% endblock title %}
 
 {% block content %}
+<form action="TrendingStreams" method="post">
+<h2>Top 3 Trending Streams:</h2>
 <h2>{{ title }}</h2>
 
 <table style="height: 279px; width: 876px;">
 <tbody>
 <tr>
+<td rowspan="5" class="top"><img src="http://placehold.it/150x150" alt="" align="left" hspace="10" /></td>
+<td rowspan="5"  class="top"><img src="http://placehold.it/150x150" alt="" align="left" hspace="10" /></td>
+<td rowspan="5"  class="top"><img src="http://placehold.it/150x150" alt="" align="left" hspace="10" /></td>
+<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="NoReports" {% if report_sending=="NoReports" %} checked="checked" {% endif %}/>No reports</td>
+
     {% for stream in streams %}
         <td rowspan="5" class="top">
             <a href="{{ stream.url }}">
@@ -21,13 +28,13 @@
 <td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="NoReports" />No reports</td>
 </tr>
 <tr>
-<td style="width: 163px;">&nbsp;<input checked="checked" name="onetype" type="checkbox" value="Every5Minutes" />Every 5 minutes</td>
+<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="Every5Minutes" {% if report_sending=="Every5Minutes" %} checked="checked" {% endif %}/>Every 5 minutes</td>
 </tr>
 <tr>
-<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="Every1Hour" />Every 1 hour</td>
+<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="Every1Hour" {% if report_sending=='Every1Hour' %} checked="checked" {% endif %}/>Every 1 hour</td>
 </tr>
 <tr>
-<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="EveryDay" />Every day</td>
+<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="EveryDay" {% if report_sending=="EveryDay" %} checked="checked" {% endif %}/>Every day</td>
 </tr>
 <tr>
 <td style="width: 163px;">&nbsp;Email trending report</td>
@@ -41,4 +48,5 @@
 
 </tbody>
 </table>
+</form>
 {% endblock content %}
