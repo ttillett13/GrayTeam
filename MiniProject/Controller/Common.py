@@ -1,6 +1,6 @@
 from google.appengine.api import users
 from Model.Stream import User
-
+from Config import *
 
 def authenticate(page):
     user = users.get_current_user()
@@ -18,5 +18,12 @@ def authenticate(page):
     else:
         url = users.create_login_url(page.request.uri)
         url_linktext = 'Login'
+        template_values = {
+            'url': url,
+            'url_linktext': url_linktext,
+        }
+        template = JINJA_ENVIRONMENT.get_template('/Pages/autherror.html')
+        page.response.write(template.render(template_values))
+        return (None, url, url_linktext)
 
     return (user, url, url_linktext)

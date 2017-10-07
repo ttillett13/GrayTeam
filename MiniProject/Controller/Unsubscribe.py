@@ -24,17 +24,14 @@ class Unsubscribe(webapp2.RequestHandler):
 
         if auth[0]:
             current_user = User.query(User.username == auth[0]._User__email).get()
-        else:
-            current_user = None
-            self.redirect('/Error')
 
-        form_data = cgi.FieldStorage()
-        requests = form_data.getlist("chkUnsubStream")
-        for key_str in requests:
-            key = ndb.Key(urlsafe=key_str)
-            current_user.streams_subscribed.remove(key)
-        current_user.put()
-        time.sleep(.1)
+            form_data = cgi.FieldStorage()
+            requests = form_data.getlist("chkUnsubStream")
+            for key_str in requests:
+                key = ndb.Key(urlsafe=key_str)
+                current_user.streams_subscribed.remove(key)
+            current_user.put()
+            time.sleep(.1)
 
-        self.redirect('/ManageStream')
+            self.redirect('/ManageStream')
 

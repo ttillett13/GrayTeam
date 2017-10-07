@@ -15,13 +15,14 @@ class Error(webapp2.RequestHandler):
 
     def get(self):
         auth = authenticate(self)
+        if auth[0]:
 
-        template_values = {
-            'user': auth[0],
-            'url': auth[1],
-            'url_linktext': auth[2],
-        }
+            template_values = {
+                'user': auth[0],
+                'url': auth[1],
+                'url_linktext': auth[2],
+            }
 
-        template = JINJA_ENVIRONMENT.get_template('/Pages/Error.html')
-        self.response.write(template.render(template_values))
+            template = JINJA_ENVIRONMENT.get_template('/Pages/Error.html')
+            self.response.write(template.render(template_values))
 # [END error]
