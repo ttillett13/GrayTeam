@@ -1,5 +1,6 @@
 import os
 import jinja2
+from google.appengine.api import mail
 from google.appengine.api import app_identity
 
 # BUCKET_NAME = os.environ.get('BUCKET_NAME',

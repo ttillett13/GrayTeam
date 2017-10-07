@@ -13,6 +13,9 @@ from Config import *
 from Controller.Common import authenticate
 from Model.Stream import Stream,User,TrendReport
 
+import sendgrid
+from sendgrid.helpers.mail import *
+
 # [START TrendingStreams]
 class TrendingStreams(webapp2.RequestHandler):
 
@@ -23,6 +26,15 @@ class TrendingStreams(webapp2.RequestHandler):
             # index = search.Index(INDEX_NAME)
             # d = index.get(TREND_REPORT)
             #html_text = d.field("html").value
+
+            sg = sendgrid.SendGridAPIClient(
+                apikey="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")
+            from_email = Email("jomish2323@gmail.com")
+            to_email = Email("jomish2323@gmail.com")
+            subject = "Sending with SendGrid is Fun"
+            content = Content("text/plain", "and easy to do anywhere, even with Python")
+            mail = Mail(from_email, subject, to_email, content)
+            response = sg.client.mail.send.post(request_body=mail.get())
 
             report = TrendReport.query(TrendReport.name == TREND_REPORT).get()
             if report is None:
