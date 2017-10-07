@@ -1,7 +1,9 @@
-{% extends "/Pages/base.html" %}
-{% block title %}Connex.us - View All Streams {% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-{% block styles %}
+	<style>
 	* {
 		box-sizing: border-box;
 	}
@@ -23,19 +25,6 @@
 		padding: 10px;
 	}
 
-	.container {
-    position: relative;
-    text-align: center;
-    color: white;
-	}
-
-	.centered {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-
 	.column img {
 		margin-top: 12px;
 	}
@@ -46,25 +35,81 @@
 		display: table;
 		clear: both;
 	}
+
+    .imgHolder {
+        position: relative;
+    }
+    .imgHolder span {
+        position: absolute;
+        right: 100px;
+        top: 200px;
+		color:gray; 
+		font-size: 12px;
+		background-color: #ffcaca;
+		background-image:url(/Content/x.png);
+		background-size: 20px 20px;
+		background-repeat:no-repeat;
+		background-position:2px;
+		padding: 10px 100px 10px 100px;
+		border-radius: 5px 5px 5px;
+		border: 1px solid;
+		display: block;
+    }
 	.floating_label {
   position:absolute; z-index:200; top:50px; left:50px;
 }
-{% endblock styles %}
-
-{% block content %}
+	</style>
+	</head>
+<body>
 	<div class="header">
   <h1>View All Streams</h1>
 </div>
-<div class="row">
-    {% for stream in streams %}
-        <div class="column">
-			<a href="{{ stream[2] }}">
-				<div class="container">
-					<img src="{{ stream[1] }}" height="256" width="256">
-					<div class="centered"><h2 style="color:black">{{ stream[0] }}</h2></div>
-				</div>
-			</a>
-        </div>
-    {% endfor %}
+<div>
+<input type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
+<input type="submit" value="Search" align="left" hspace="10"/>
+<p style="padding-left:12px">2 results found</br>Click on an image to view stream</p>
 </div>
-{% endblock content %}
+<div class="row">
+    <div class="column imgHolder">
+        <img src="C:\Users\Public\Pictures\Sample Pictures\Chrysanthemum.jpg" style="width:100%">
+        <span>Here is my assignment Test</span>
+    </div>
+    <div class="column imgHolder">
+        <img src="C:\Users\Public\Pictures\Sample Pictures\Desert.jpg" style="width:100%">
+        <span>Test my another assignment</span>
+    </div>
+	<div class="column imgHolder">
+		<img src="C:\Users\Public\Pictures\Sample Pictures\Tulips.jpg" style="width:100%">
+	    <span>Third one</span>
+    </div>
+	<div class="column imgHolder">
+		<img src="C:\Users\Public\Pictures\Sample Pictures\Tulips.jpg" style="width:100%">
+		<span>Forth one</span>
+    </div>
+	<div class="column imgHolder">
+		<img src="C:\Users\Public\Pictures\Sample Pictures\Chrysanthemum.jpg" style="width:100%">
+		<span>Fifth one</span>
+    </div>
+	<div class="column imgHolder">
+		<img src="C:\Users\Public\Pictures\Sample Pictures\Desert.jpg" style="width:100%">
+		<span>Sixth one</span>
+    </div>
+	<div class="column imgHolder">
+		<img src="C:\Users\Public\Pictures\Sample Pictures\Chrysanthemum.jpg" style="width:100%">
+		<span>Seventh one</span>
+    </div>
+	<div class="column imgHolder">
+		<img src="C:\Users\Public\Pictures\Sample Pictures\Desert.jpg" style="width:100%">
+		<span>Eighth one</span>
+    </div>
+	<div class="column imgHolder">
+		<img src="C:\Users\Public\Pictures\Sample Pictures\Chrysanthemum.jpg" style="width:100%">
+		<span>Fifth one</span>
+    </div>
+		<div class="column imgHolder">
+		<img src="C:\Users\Public\Pictures\Sample Pictures\Tulips.jpg" style="width:100%">
+		<span>Forth one</span>
+    </div>
+</div>
+</body>
+</html>
