@@ -70,7 +70,7 @@ class TrendingReport(webapp2.RequestHandler):
                         hour = 24
                     else:
                         hour = time.hour
-                    if hour < hour_limit or (time.minute <= min_limit and time.hour == hour_limit):
+                    if hour < hour_limit or (time.minute <= min_limit and hour == hour_limit):
                         view_times.remove(time)
                 stream.view_times = view_times
                 stream.put()
