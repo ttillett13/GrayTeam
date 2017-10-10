@@ -36,5 +36,9 @@ class TrendReport(ndb.Model):
     name = ndb.StringProperty(indexed=True)
     html = ndb.StringProperty(indexed=False)
 
+class AutocompleteIndex(ndb.Model):
+    name = ndb.StringProperty(indexed=True)
+    values = ndb.StringProperty(repeated=True)
+
 
 

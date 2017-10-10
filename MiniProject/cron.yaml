@@ -3,3 +3,6 @@ cron:
   url: /Trending/Report
   schedule: every 5 minutes synchronized
 
+- description: generate index for autocomplete
+  url: /AutoCompleteCreation
+  schedule: every 1 hour

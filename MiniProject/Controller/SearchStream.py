@@ -1,3 +1,4 @@
+import re
 import os
 import urllib
 
@@ -13,9 +14,8 @@ import webapp2
 
 from Config import *
 
-from Model.Stream import Stream
+from Model.Stream import AutocompleteIndex, Stream, User
 from Controller.Common import authenticate
-from Model.Stream import User
 
 class SearchStream(webapp2.RequestHandler):
 
@@ -23,7 +23,7 @@ class SearchStream(webapp2.RequestHandler):
         auth = authenticate(self)
 
         if auth[0]:
-            current_user = User.query(User.username == auth[0]._User__email).get()
+            #current_user = User.query(User.username == auth[0]._User__email).get()
 
             index = search.Index(INDEX_NAME)
             form_data = cgi.FieldStorage()
@@ -81,3 +81,46 @@ class SearchStream(webapp2.RequestHandler):
             template = JINJA_ENVIRONMENT.get_template('/Pages/SearchStream.html')
             self.response.write(template.render(template_values))
 
+class AutoComplete(webapp2.RequestHandler):
+
+    def get(self):
+        auth = authenticate(self)
+
+        if auth[0]:
+            #data = ['abc', 'def']
+            index = AutocompleteIndex.query(AutocompleteIndex.name == AUTOCOMPLETE_INDEX).get()
+            if index is None:
+                data = []
+            else:
+                data = index.values
+
+            data = json.dumps(data)
+            self.response.out.write(data)
+            self.response.headers['Content-Type'] = "application/json"
+
+
+class AutoCompleteCreation(webapp2.RequestHandler):
+
+    def get(self):
+        streams = Stream.query()
+
+        list = []
+        for stream in streams:
+            name_list = stream.name.split(" ")
+            for name in name_list:
+                name = name.lower()
+                if not name in list:
+                    list.append(name)
+            for tag in stream.tags:
+                new_tag = re.search('#(\w+)', tag).group(0)
+                new_tag = new_tag.lower()
+                if not new_tag in list:
+                    list.append(new_tag)
+
+
+        index = AutocompleteIndex.query(AutocompleteIndex.name == AUTOCOMPLETE_INDEX).get()
+        if index:
+            index.values = list
+        else:
+            index = AutocompleteIndex(name=AUTOCOMPLETE_INDEX, values=list)
+        index.put()

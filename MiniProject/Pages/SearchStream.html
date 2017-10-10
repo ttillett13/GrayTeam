@@ -43,14 +43,28 @@ input[type=text] {
 
 
 </style>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+        $.getJSON('/AutoComplete', function (data) {
+            $("#autocomplete").autocomplete({
+                source: data,
+                minLength: 1,
+                maxResults: 20
+            });
+        });
+</script>
 </head>
 <body>
+
+
+
 <form action="SearchStream" method="get">
   <div>
-    <input type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
+    <input id = "autocomplete" type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
     <input type="submit" value="Search" align="left" hspace="10"/>
-
-</div>
+  </div>
 
   <div>
     <p style="padding: 10px 10px 10px 10px;">{{ num_found }} results found</br>Click on an image to view stream</p>
@@ -76,7 +90,10 @@ input[type=text] {
 
 
 
+
+
 </form>
+
 
 
 </body>

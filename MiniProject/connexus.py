@@ -2,7 +2,7 @@ from Config import *
 from Controller.CreateStream import CreateStream
 from Controller.Error import Error
 from Controller.ManageStream import ManageStream
-from Controller.SearchStream import SearchStream
+from Controller.SearchStream import AutoComplete, AutoCompleteCreation, SearchStream
 from Controller.Delete import Delete
 from Controller.TrendingStreams import TrendingStreams, TrendingReport
 from Controller.Subscribe import Subscribe
@@ -20,6 +20,8 @@ class SignInHandler(webapp2.RequestHandler):
 # [START app]
 app = webapp2.WSGIApplication([
     ('/', ManageStream),
+    ('/AutoComplete', AutoComplete),
+    ('/AutoCompleteCreation', AutoCompleteCreation),
     ('/CreateStream', CreateStream),
     ('/Delete', Delete),
     ('/Error', Error),
