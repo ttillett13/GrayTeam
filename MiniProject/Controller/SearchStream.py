@@ -78,6 +78,6 @@ class SearchStream(webapp2.RequestHandler):
                     #enumerate = enumerate,
                 }
 
-            template = JINJA_ENVIRONMENT.get_template('/Pages/SearchStream.html')
+            template = JINJA_ENVIRONMENT.get_template('/Pages/Maps.html')
             self.response.write(template.render(template_values))
 

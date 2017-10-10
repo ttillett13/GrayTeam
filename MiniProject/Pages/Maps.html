@@ -1,91 +1,26 @@
-{% extends "/Pages/base.html" %}
-{% block title %} Connex.us - Search Streams {% endblock title %}
-
-{% block content %}
-<head>
-<style>
- {
-		box-sizing: border-box;
-	}
-
-	body {
-		margin: 0;
-		font-family: Arial;
-	}
-
-	.header {
-		text-align: center;
-		padding: 22px;
-	}
-
-	/* Create two equal columns that floats next to each other */
-	.column {
-		float: left;
-		width: 33%;
-		padding: 10px;
-	}
-
-
-input[type=text] {
-    width: 130px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('searchicon.png');
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
-	padding: 10px 10px 10px 10px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
-
-#map {
-    height: 100%;
-  }
-  /* Optional: Makes the sample page fill the window. */
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-
-</style>
-</head>
-<body>
-<form action="SearchStream" method="get">
-  <div>
-    <input type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
-    <input type="submit" value="Search" align="left" hspace="10"/>
-
-</div>
-
-  <div>
-    <p style="padding: 10px 10px 10px 10px;">{{ num_found }} results found</br>Click on an image to view stream</p>
-     {% for i, stream in streams_found %}
-          <div class="row">
-            <div class="image" style="padding: 10px 10px 10px 10px;">
-              <a href="{{ stream.field('url').value }}">
-                  {% if stream.field('cover_image').value  %}
-                    <img src="{{ stream.field('cover_image').value }}"/>
-                  {% else %}
-                    <img src="http://placehold.it/150x150"/>
-                  {% endif %}
-
-              </a>
-                <p style="padding: 10px 10px 10px 10px;">{{ stream.field("stream_name").value }}</p>
-
-              <br>
-            </div>
-
-          </div>
-    {% endfor %}
-  </div>
-
-    <!--MAPS-->
-  <div id="map"></div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Marker Clustering</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+          height: 640px;
+          width 860px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
     <script>
 
       function initMap() {
@@ -142,12 +77,7 @@ input[type=text] {
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YAIzaSyBJ-yAhc-3ng3a-YvDVkhrfeF1QAXi3QiY&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDosJXIOAqz2lNj9K0vnGKnbOg1ZcapiIY&callback=initMap">
     </script>
-    <!--END MAPS-->
-
-</form>
-
-
-</body>
-{% endblock content %}
+  </body>
+</html>
