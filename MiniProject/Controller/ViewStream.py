@@ -6,6 +6,7 @@ from google.appengine.ext import ndb
 
 import jinja2
 import webapp2
+import time
 
 from Config import *
 from Model.Stream import Stream
@@ -117,6 +118,7 @@ class ViewStream(webapp2.RequestHandler):
                 stream.picture_count += 1
                 stream.last_new_picture = datetime.datetime.now()
                 stream.put()
+                time.sleep(1)
             elif not decrementPage:
                 status = "fail"
 
