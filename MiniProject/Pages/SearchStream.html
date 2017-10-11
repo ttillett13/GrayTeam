@@ -60,6 +60,23 @@
         transition: width 0.4s ease-in-out;
     }
 
+    ul.ui-autocomplete {
+    list-style: none;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    width: 100px;
+    border-style: solid;
+    border-width: 3px;
+}
+
+ul.ui-autocomplete li{
+    background-color: white;
+    padding:5px 8px;
+    font-size:12px;
+    outline:2px;
+}
+
     #map {
         height: 100%;
       }
@@ -99,14 +116,31 @@
       });
       </script>
     <!--Date Picker-->
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+        $.getJSON('/AutoComplete', function (data) {
+            $("#autocomplete").autocomplete({
+                source: function(req, response) {
+                    var results = $.ui.autocomplete.filter(data, req.term).sort();
+                    response(results.slice(0,20));
+                },
+                minLength: 1
+            });
+        });
+</script>
 </head>
 <body>
+
+
+
 <form action="SearchStream" method="get">
   <div>
-    <input type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
+    <input id = "autocomplete" type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
     <input type="submit" value="Search" align="left" hspace="10"/>
 
-</div>
+  </div>
 
   <div>
     <p style="padding: 10px 10px 10px 10px;">{{ num_found }} results found</br>Click on an image to view stream</p>
@@ -209,27 +243,20 @@
                     }
                 }
 
-//                function reloadMarkers() {
-//
-//                    // Loop through markers and set map to null for each
-//                    for (var i=0; i<markers.length; i++) {
-//
-//                        markers[i].setMap(null);
-//                    }
-//
-//                    // Reset the markers array
-//                    markers = [];
-//
-//                    // Call set markers to re-add markers
-//                    setMarkers(beaches);
-//                }
-
 			</script>
 			<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 			</script>
 			<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDosJXIOAqz2lNj9K0vnGKnbOg1ZcapiIY&callback=initMap">
 			</script>
+
+<form action="AutoCompleteCreation" method="get">
+  <div>
+    <input type="submit" value="Rebuild Completion Index" align="center" hspace="10"/>
+
+  </div>
+
+</form>
 
 </body>
 {% endblock content %}

@@ -87,11 +87,10 @@ class TrendingReport(webapp2.RequestHandler):
         for stream in streams:
             view_times = stream.view_times
             for time in view_times:
+                myhour = time.hour
                 if time.hour == 0:
-                    hour = 24
-                else:
-                    hour = time.hour
-                if hour < hour_limit or (time.minute <= min_limit and hour == hour_limit):
+                    myhour = 24
+                if myhour < hour_limit or (time.minute <= min_limit and myhour == hour_limit):
                     view_times.remove(time)
             stream.view_times = view_times
             stream.put()

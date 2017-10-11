@@ -1,3 +1,4 @@
+import re
 import os
 import urllib
 
@@ -13,12 +14,13 @@ import webapp2
 
 from Config import *
 
-from Model.Stream import Stream
+from Model.Stream import AutocompleteIndex, Stream, User
 from Controller.Common import authenticate
 from Model.Stream import User
 from Model.Stream import Picture
 import datetime
 from Common import *
+
 
 class SearchStream(webapp2.RequestHandler):
 
@@ -35,6 +37,7 @@ class SearchStream(webapp2.RequestHandler):
                 new_pictures.append({'image': images.get_serving_url(picture.image, secure_url=False),
                                      'lat': picture.lat, 'lon': picture.lon,
                                      'date_uploaded': picture.date_uploaded.strftime('%Y.%m.%d')})
+
 
             index = search.Index(INDEX_NAME)
             form_data = cgi.FieldStorage()
@@ -98,3 +101,46 @@ class SearchStream(webapp2.RequestHandler):
             template = JINJA_ENVIRONMENT.get_template('/Pages/SearchStream.html')
             self.response.write(template.render(template_values))
 
+class AutoComplete(webapp2.RequestHandler):
+
+    def get(self):
+        auth = authenticate(self)
+
+        if auth[0]:
+            index = AutocompleteIndex.query(AutocompleteIndex.name == AUTOCOMPLETE_INDEX).get()
+            if index is None:
+                data = []
+            else:
+                data = index.values
+
+            data = json.dumps(data)
+            self.response.out.write(data)
+
+
+class AutoCompleteCreation(webapp2.RequestHandler):
+
+    def get(self):
+        streams = Stream.query()
+
+        list = []
+        for stream in streams:
+            name_list = stream.name.split(" ")
+            for name in name_list:
+                name = name.lower()
+                if not name in list:
+                    list.append(name)
+            for tag in stream.tags:
+                #new_tag = tag[1:] # maybe I should leave the hashtag there?
+                tag = tag.lower()
+                if not tag in list:
+                    list.append(tag)
+
+
+        index = AutocompleteIndex.query(AutocompleteIndex.name == AUTOCOMPLETE_INDEX).get()
+        if index:
+            index.values = list
+        else:
+            index = AutocompleteIndex(name=AUTOCOMPLETE_INDEX, values=list)
+        index.put()
+
+        self.redirect('/SearchStream')

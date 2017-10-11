@@ -2,6 +2,7 @@ import os
 import jinja2
 from google.appengine.api import mail
 from google.appengine.api import app_identity
+# [END imports]
 
 # BUCKET_NAME = os.environ.get('BUCKET_NAME',
 #                                app_identity.get_default_gcs_bucket_name())
@@ -13,4 +14,4 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True)
 INDEX_NAME = "default_index"
 TREND_REPORT = "trending_report"
-# [END imports]
+AUTOCOMPLETE_INDEX = "autocomplete_index"
