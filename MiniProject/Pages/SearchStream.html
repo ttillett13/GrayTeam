@@ -41,6 +41,23 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
 }
 
+ul.ui-autocomplete {
+    list-style: none;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    width: 100px;
+    border-style: solid;
+    border-width: 3px;
+}
+
+ul.ui-autocomplete li{
+    background-color: white;
+    padding:5px 8px;
+    font-size:12px;
+    outline:2px;
+}
+
 
 </style>
 
@@ -50,7 +67,7 @@ input[type=text] {
         $.getJSON('/AutoComplete', function (data) {
             $("#autocomplete").autocomplete({
                 source: function(req, response) {
-                    var results = $.ui.autocomplete.filter(data, req.term);
+                    var results = $.ui.autocomplete.filter(data, req.term).sort();
                     response(results.slice(0,20));
                 },
                 minLength: 1
