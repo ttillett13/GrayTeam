@@ -83,6 +83,7 @@ ul.ui-autocomplete li{
   <div>
     <input id = "autocomplete" type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
     <input type="submit" value="Search" align="left" hspace="10"/>
+
   </div>
 
   <div>
@@ -107,9 +108,13 @@ ul.ui-autocomplete li{
     {% endfor %}
   </div>
 
+</form>
 
+<form action="AutoCompleteCreation" method="get">
+  <div>
+    <input type="submit" value="Rebuild Completion Index" align="center" hspace="10"/>
 
-
+  </div>
 
 </form>
 

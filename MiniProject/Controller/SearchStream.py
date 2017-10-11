@@ -87,7 +87,6 @@ class AutoComplete(webapp2.RequestHandler):
         auth = authenticate(self)
 
         if auth[0]:
-            #data = ['abc', 'def']
             index = AutocompleteIndex.query(AutocompleteIndex.name == AUTOCOMPLETE_INDEX).get()
             if index is None:
                 data = []
@@ -96,7 +95,6 @@ class AutoComplete(webapp2.RequestHandler):
 
             data = json.dumps(data)
             self.response.out.write(data)
-            self.response.headers['Content-Type'] = "application/json"
 
 
 class AutoCompleteCreation(webapp2.RequestHandler):
@@ -112,11 +110,10 @@ class AutoCompleteCreation(webapp2.RequestHandler):
                 if not name in list:
                     list.append(name)
             for tag in stream.tags:
-                new_tag = tag[1:]
-                #new_tag = re.search('#(\w+)', tag).group(1)
-                new_tag = new_tag.lower()
-                if not new_tag in list:
-                    list.append(new_tag)
+                #new_tag = tag[1:] # maybe I should leave the hashtag there?
+                tag = tag.lower()
+                if not tag in list:
+                    list.append(tag)
 
 
         index = AutocompleteIndex.query(AutocompleteIndex.name == AUTOCOMPLETE_INDEX).get()
@@ -125,3 +122,5 @@ class AutoCompleteCreation(webapp2.RequestHandler):
         else:
             index = AutocompleteIndex(name=AUTOCOMPLETE_INDEX, values=list)
         index.put()
+
+        self.redirect('/SearchStream')
