@@ -8,6 +8,9 @@ class Picture(ndb.Model):
     name = ndb.StringProperty(indexed=True)
     image = ndb.BlobProperty(indexed=False)
     comments = ndb.TextProperty(indexed=False)
+    lat = ndb.FloatProperty(indexed=False)
+    lon = ndb.FloatProperty(indexed=False)
+    date_uploaded = ndb.DateProperty(indexed=False)
 
 # [START Model]
 class User(ndb.Model):

@@ -7,6 +7,7 @@ from google.appengine.ext import ndb
 import jinja2
 import webapp2
 import time
+import random
 
 from Config import *
 from Model.Stream import Stream
@@ -111,7 +112,9 @@ class ViewStream(webapp2.RequestHandler):
                 #serving_url = images.get_serving_url(blob_key, secure_url=False)
 
 
-                new_picture = Picture(name=str(picture_name), image=blob_key, comments=comments).put()
+                new_picture = Picture(name=str(picture_name), image=blob_key, comments=comments,
+                                      lat=random.uniform(-90, 90), lon=random.uniform(-180, 180),
+                                      date_uploaded=datetime.datetime.today()).put()
 
                 #Update Stream
                 stream.pictures.append(new_picture)

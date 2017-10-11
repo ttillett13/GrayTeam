@@ -1,6 +1,7 @@
 from google.appengine.api import users
 from Model.Stream import User
 from Config import *
+import datetime
 
 def authenticate(page):
     user = users.get_current_user()
@@ -28,3 +29,12 @@ def authenticate(page):
         return (None, url, url_linktext)
 
     return (user, url, url_linktext)
+
+
+# Got this from https://stackoverflow.com/questions/15741618/add-one-year-in-current-date-python
+def add_years(d, years):
+
+    try:
+        return d.replace(year=d.year + years)
+    except ValueError:
+        return d + (datetime.date(d.year + years, 1, 1) - datetime.date(d.year, 1, 1))
