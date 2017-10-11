@@ -95,7 +95,7 @@ class ViewStream(webapp2.RequestHandler):
                 page = int(standardPage) + 1
 
             # Check to see if image name already exists
-            if not Picture.query(Picture.name == picture_name).fetch():
+            if picture_name and not Picture.query(Picture.name == picture_name).fetch():
                 # for picture in pictures:
                 # if True:
                 for i in Stream.query().fetch():

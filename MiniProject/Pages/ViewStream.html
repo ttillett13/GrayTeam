@@ -147,7 +147,9 @@
       						var name = "name";
       						formData.append(name, file.name);
 	  					});
-
+	this.on('queuecomplete', function () {
+            location.reload();
+        });
     this.handleFiles = function(files) {
             var file, _i, _len, _results;
             _results = [];
