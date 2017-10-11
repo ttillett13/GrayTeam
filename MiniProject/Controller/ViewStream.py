@@ -80,40 +80,43 @@ class ViewStream(webapp2.RequestHandler):
 
             stream_name = self.request.get('stream_name')
             picture_name = self.request.get('name')
-            picture = self.request.get('image')
+            #picture_name = self.request.get('file')
+            #picture = self.request.get('image')
+            picture = self.request.get('file')
             comments = self.request.get('comments')
             decrementPage = self.request.get('decrementPage')
             standardPage = self.request.get('page')
             status = "success"
-
 
             if decrementPage:
                 page = int(decrementPage) - 1
             else:
                 page = int(standardPage) + 1
 
-            #Check to see if image name already exists
+            # Check to see if image name already exists
             if not Picture.query(Picture.name == picture_name).fetch():
-
+                # for picture in pictures:
+                # if True:
                 for i in Stream.query().fetch():
                     if i.name == stream_name:
                         stream = i
 
-                #Write to gcs
+                        # Write to gcs
+                        # picture_name = stream_name + str(stream.picture_count)
                 filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + picture_name
 
-                with cloudstorage.open(filename, 'w', content_type='image/jpeg' ) as filehandle:
+                with cloudstorage.open(filename, 'w', content_type='image/jpeg') as filehandle:
                     filehandle.write(str(picture))
 
                 blobstore_filename = '/gs{}'.format(filename)
                 blob_key = blobstore.create_gs_key(blobstore_filename)
 
-                #serving_url = images.get_serving_url(blob_key, secure_url=False)
+                # serving_url = images.get_serving_url(blob_key, secure_url=False)
 
 
                 new_picture = Picture(name=str(picture_name), image=blob_key, comments=comments).put()
 
-                #Update Stream
+                # Update Stream
                 stream.pictures.append(new_picture)
                 stream.picture_count += 1
                 stream.last_new_picture = datetime.datetime.now()
@@ -122,12 +125,5 @@ class ViewStream(webapp2.RequestHandler):
             elif not decrementPage:
                 status = "fail"
 
-            self.redirect('/ViewSingleStream?stream_name=' + stream_name + ";status=" + status + ";page=" + str(page))
-
-
-
-
-
-
-# [END ViewStream]
-
+            self.redirect('/ViewSingleStream?stream_name=' + stream_name + ";status=" + status + ";page=" + str(
+                page))  # [END ViewStream]

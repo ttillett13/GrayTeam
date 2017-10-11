@@ -45,6 +45,7 @@
 	.addImage {
     border: 3px solid black;
 	width:450px;
+	height:150px;
 	margin-left:5px;
 	}
 	.fileupload{
@@ -80,6 +81,7 @@
 		margin-bottom: 50px;
 	}
 
+
 {% endblock styles %}
 
 {% block content %}
@@ -101,21 +103,102 @@
 		  </div>
 		</div>
 		</br>
-		<div class="addImage">
-			<form action="ViewSingleStream" method="post" enctype="multipart/form-data">
+
+
+		<script type="text/javascript" src="/dropzone/dropzone.js"></script>
+		<link rel="stylesheet" href="/dropzone/dropzone.css">
+			<!--<form action="ViewSingleStream" method="post" class="dropzone" id="my-dropzone">
 				<input type="text" name="stream_name" value="{{ stream.name }}" hidden="True">
 				<input type="text" name="page" value="{{ page }}" hidden="True">
-				<input type="text" name="name" value="File Name">
-    			<input type="text" name="comments" value="Comments">
-				</br>
-				</br>
-				<input type="file" name="image" >
-				<input type="submit" name="upload" id="upload"></input>
-			</form>
-			{% if status == "fail" %}
-				<p>Cannot save image with same file name!</p>
-			{% endif %}
-		</div>
+
+			</form> -->
+
+<div> <form action="ViewSingleStream" method="post" id="my-awesome-dropzone" class="dropzone">
+  <div class="dropzone-previews"></div> <!-- this is were the previews should be shown. -->
+
+  <!-- Now setup your input fields -->
+  <input type="test" name="stream_name" value="{{ stream.name }}"  hidden="True"/>
+	<input type="text" name="page" value="{{ page }}" hidden="True">
+
+  <!--<button id="upload" type="submit">Submit data and files!</button> -->
+</form> </div>
+
+<script>
+	Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
+
+  // The configuration we've talked about above
+  autoProcessQueue: true,
+  uploadMultiple: false,
+  parallelUploads: 1,
+  maxFiles: 100,
+
+  // The setting up of the dropzone
+  init: function() {
+    var myDropzone = this;
+
+    // First change the button to actually tell Dropzone to process the queue.
+    //this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+      // Make sure that the form isn't actually being sent.
+      //e.preventDefault();
+      //e.stopPropagation();
+      //myDropzone.processQueue();
+    //});
+    this.on("sending", function(file, xhr, formData) {
+      						var name = "name";
+      						formData.append(name, file.name);
+	  					});
+
+    this.handleFiles = function(files) {
+            var file, _i, _len, _results;
+            _results = [];
+            for (_i = 0, _len = files.length; _i < _len; _i++) {
+                file = files[_i];
+                _results.push(this.addFile(file));
+                // Make sure we don't handle more files than requested
+                if (this.options.maxFiles != null && this.options.maxFiles > 0 && _i >= (this.options.maxFiles - 1)) {
+                    break;
+                }
+            }
+            return _results;
+        };
+        this._addFilesFromItems = function(items) {
+            var entry, item, _i, _len, _results;
+            _results = [];
+            for (_i = 0, _len = items.length; _i < _len; _i++) {
+                item = items[_i];
+                if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
+                    if (entry.isFile) {
+                        _results.push(this.addFile(item.getAsFile()));
+                    } else if (entry.isDirectory) {
+                        _results.push(this._addFilesFromDirectory(entry, entry.name));
+                    } else {
+                        _results.push(void 0);
+                    }
+                } else if (item.getAsFile != null) {
+                    if ((item.kind == null) || item.kind === "file") {
+                        _results.push(this.addFile(item.getAsFile()));
+                    } else {
+                        _results.push(void 0);
+                    }
+                } else {
+                    _results.push(void 0);
+                }
+                // Make sure we don't handle more files than requested
+                if (this.options.maxFiles != null && this.options.maxFiles > 0 && _i >= (this.options.maxFiles - 1)) {
+                    break;
+                }
+            }
+            return _results;
+        };
+  	}
+
+}
+
+
+</script>
+
+
+
 		</br>
 		<form action="Subscribe" method="get">
 			<div class="subscribe">

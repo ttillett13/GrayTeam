@@ -32,6 +32,10 @@ class Delete(webapp2.RequestHandler):
 
             for key_str in requests:
                 key = ndb.Key(urlsafe=key_str)
+                stream = key.get()
+                for picture in stream.pictures:
+                    # delete picture
+                    x=1
                 key.delete()
                 index.delete(key_str)
                 current_user.streams_owned.remove(key)

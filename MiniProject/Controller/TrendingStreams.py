@@ -1,6 +1,7 @@
 import os
 import urllib
 
+from google.appengine.api import images
 from google.appengine.api import search
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -111,6 +112,13 @@ class TrendingReport(webapp2.RequestHandler):
             title = "No Streams Trending Currently"
 
         counts = list(map(lambda x: len(list(x.view_times)), sorted_streams))
+        for i,stream in enumerate(sorted_streams):
+            if not stream.cover_page_url:
+                if stream.pictures:
+                    stream.cover_page_url = images.get_serving_url(stream.pictures[0].get().image,
+                                                         secure_url=False)
+                    stream.put()
+                    sorted_streams[i] = stream
 
         template_values = {
             'user': auth[0],

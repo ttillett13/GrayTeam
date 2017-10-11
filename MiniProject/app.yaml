@@ -15,6 +15,10 @@ handlers:
   static_dir: Pages
   application_readable: true
 
+- url: /dropzone
+  static_dir: dropzone
+  application_readable: true
+
 - url: /.*
   script: connexus.app
 # [END handlers]
