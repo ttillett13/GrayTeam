@@ -112,7 +112,8 @@ class AutoCompleteCreation(webapp2.RequestHandler):
                 if not name in list:
                     list.append(name)
             for tag in stream.tags:
-                new_tag = re.search('#(\w+)', tag).group(0)
+                new_tag = tag[1:]
+                #new_tag = re.search('#(\w+)', tag).group(1)
                 new_tag = new_tag.lower()
                 if not new_tag in list:
                     list.append(new_tag)

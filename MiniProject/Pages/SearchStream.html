@@ -49,9 +49,11 @@ input[type=text] {
 <script>
         $.getJSON('/AutoComplete', function (data) {
             $("#autocomplete").autocomplete({
-                source: data,
-                minLength: 1,
-                maxResults: 20
+                source: function(req, response) {
+                    var results = $.ui.autocomplete.filter(data, req.term);
+                    response(results.slice(0,20));
+                },
+                minLength: 1
             });
         });
 </script>
