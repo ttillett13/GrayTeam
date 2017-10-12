@@ -1,212 +1,232 @@
 {% extends "/Pages/base.html" %}
 {% block title %}Connex.us - View Stream {% endblock title %}
 {% block styles %}
-	body {
-	  font-family: Verdana, sans-serif;
-	  margin: 0;
-	}
+body {
+font-family: Verdana, sans-serif;
+margin: 0;
+}
 
-	* {
-	  box-sizing: border-box;
-	}
-	
-	.row{
-	position: relative;
+* {
+box-sizing: border-box;
+}
 
-	}
+.row{
+position: relative;
 
-	.row > .column {
-	  padding: 0 8px;
+}
 
-	}
+.row > .column {
+padding: 0 8px;
 
-	.row:after {
-	  content: "";
-	  display: table;
-	  clear: both;
-	}
+}
 
-	.column {
-	  float: left;
-	  width: 25%;
-	}
+.row:after {
+content: "";
+display: table;
+clear: both;
+}
 
-	.header {
-		text-align: center;
-		padding: 22px;
-	}
-	
-	.row > #lastColumn {
-	position: absolute;
-    bottom: 5px;
-	left: 90%;
-    margin-left: -25px;
-	}
-	.addImage {
-    border: 3px solid black;
-	width:450px;
-	height:150px;
-	margin-left:5px;
-	}
-	.fileupload{
-	margin-left: 16px;
-	margin-right:16px;
-	margin-top:16px;
-	}
-	#upload{
-	margin-left: 16px;
-	margin-bottom:16px;
-	}
-	#subscribe{
-	margin-left: 16px;
-	margin-bottom:16px;
-	}
+.column {
+float: left;
+width: 25%;
+}
+
+.header {
+text-align: center;
+padding: 22px;
+}
+
+.row > #lastColumn {
+position: absolute;
+bottom: 5px;
+left: 90%;
+margin-left: -25px;
+}
+.addImage {
+border: 3px solid black;
+width:450px;
+height:150px;
+margin-left:5px;
+}
+.fileupload{
+margin-left: 16px;
+margin-right:16px;
+margin-top:16px;
+}
+#upload{
+margin-left: 16px;
+margin-bottom:16px;
+}
+#subscribe{
+margin-left: 16px;
+margin-bottom:16px;
+}
+
+#GeoView{
+margin-left: 16px;
+margin-bottom:16px;
+}
 
 
-  #map {
-	  height: 100%;
-	  width: 100%;
-  }
+#map {
+height: 100%;
+width: 100%;
+}
 
-	#mapContainer {
-		height: 640px;
-		width: 960px;
+#mapContainer {
+height: 640px;
+width: 960px;
 
-		top:0;
-		bottom: 0;
-		left: 0;
-		right: 0;
+top:0;
+bottom: 0;
+left: 0;
+right: 0;
 
-		margin: auto;
-		margin-bottom: 50px;
-	}
+margin: auto;
+margin-bottom: 50px;
+}
 
 
 {% endblock styles %}
 
 {% block content %}
-	<div class="header">
-	  <h1>{{ stream_name }}</h1>
-	</div>
-		<div class="row">
-			{% for picture in pics %}
-			  <div class="column">
-				<img src="{{ picture[1] }}" height="256" width="256" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
-			  </div>
-			{% endfor %}
-		  <div class="column" id="lastColumn">
-			  <form action="ViewSingleStream" method="post">
-				  <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True">
-				  <input type="text" name="decrementPage" value="{{ page }}" hidden="True">
-				  <button type="submit" name="moreImages" id="moreImages">More Images</button>
-			  </form>
-		  </div>
-		</div>
-		</br>
+<div class="header">
+    <h1>{{ stream_name }}</h1>
+</div>
+<div class="row">
+    {% for picture in pics %}
+    <div class="column">
+        <img src="{{ picture[1] }}" height="256" width="256" onclick="openModal();currentSlide(1)"
+             class="hover-shadow cursor">
+    </div>
+    {% endfor %}
+    <div class="column" id="lastColumn">
+        <form action="ViewSingleStream" method="post">
+            <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True">
+            <input type="text" name="decrementPage" value="{{ page }}" hidden="True">
+            <button type="submit" name="moreImages" id="moreImages">More Images</button>
+        </form>
+    </div>
+</div>
+</br>
 
 
-		<script type="text/javascript" src="/dropzone/dropzone.js"></script>
-		<link rel="stylesheet" href="/dropzone/dropzone.css">
-			<!--<form action="ViewSingleStream" method="post" class="dropzone" id="my-dropzone">
-				<input type="text" name="stream_name" value="{{ stream.name }}" hidden="True">
-				<input type="text" name="page" value="{{ page }}" hidden="True">
+<script type="text/javascript" src="/dropzone/dropzone.js"></script>
+<link rel="stylesheet" href="/dropzone/dropzone.css">
 
-			</form> -->
+<div>
+    <form action="ViewSingleStream" method="post" id="my-awesome-dropzone" class="dropzone">
+        <div class="dropzone-previews"></div> <!-- this is were the previews should be shown. -->
 
-<div> <form action="ViewSingleStream" method="post" id="my-awesome-dropzone" class="dropzone">
-  <div class="dropzone-previews"></div> <!-- this is were the previews should be shown. -->
+        <!-- Now setup your input fields -->
+        <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True"/>
+        <input type="text" name="page" value="{{ page }}" hidden="True">
 
-  <!-- Now setup your input fields -->
-  <input type="test" name="stream_name" value="{{ stream.name }}"  hidden="True"/>
-	<input type="text" name="page" value="{{ page }}" hidden="True">
-
-  <!--<button id="upload" type="submit">Submit data and files!</button> -->
-</form> </div>
+    </form>
+    <button id="upload">Start Upload</button>
+    <button id="stop">Cancel Upload</button>
+</div>
 
 <script>
-	Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
+    Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
 
-  // The configuration we've talked about above
-  autoProcessQueue: true,
-  uploadMultiple: false,
-  parallelUploads: 1,
-  maxFiles: 100,
+        // The configuration we've talked about above
+        autoQueue: true,
+        autoProcessQueue: false,
+        uploadMultiple: false,
+        parallelUploads: 1,
+        maxFiles: 100,
 
-  // The setting up of the dropzone
-  init: function() {
-    var myDropzone = this;
+        // The setting up of the dropzone
+        init: function () {
+            var uploadButton = document.querySelector("#upload")
+            var stopButton = document.querySelector("#stop")
+            var myDropzone = this;
 
-    // First change the button to actually tell Dropzone to process the queue.
-    //this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-      // Make sure that the form isn't actually being sent.
-      //e.preventDefault();
-      //e.stopPropagation();
-      //myDropzone.processQueue();
-    //});
-    this.on("sending", function(file, xhr, formData) {
-      						var name = "name";
-      						formData.append(name, file.name);
-	  					});
-	this.on('queuecomplete', function () {
-            location.reload();
-        });
-    this.handleFiles = function(files) {
-            var file, _i, _len, _results;
-            _results = [];
-            for (_i = 0, _len = files.length; _i < _len; _i++) {
-                file = files[_i];
-                _results.push(this.addFile(file));
-                // Make sure we don't handle more files than requested
-                if (this.options.maxFiles != null && this.options.maxFiles > 0 && _i >= (this.options.maxFiles - 1)) {
-                    break;
+            // First change the button to actually tell Dropzone to process the queue.
+            uploadButton.addEventListener("click", function () {
+                myDropzone.processQueue();
+            });
+            stopButton.addEventListener("click", function () {
+                myDropzone.removeAllFiles(true);
+                location.reload();
+
+            });
+            this.on("sending", function (file, xhr, formData) {
+                var name = "name";
+                formData.append(name, file.name);
+            });
+            this.on('queuecomplete', function () {
+                location.reload();
+            });
+            myDropzone.on('success', myDropzone.processQueue.bind(myDropzone));
+
+            this.handleFiles = function (files) {
+                var file, _i, _len, _results;
+                _results = [];
+                for (_i = 0, _len = files.length; _i < _len; _i++) {
+                    file = files[_i];
+                    _results.push(this.addFile(file));
+                    // Make sure we don't handle more files than requested
+                    if (this.options.maxFiles != null && this.options.maxFiles > 0 && _i >= (this.options.maxFiles - 1)) {
+                        break;
+                    }
                 }
-            }
-            return _results;
-        };
-        this._addFilesFromItems = function(items) {
-            var entry, item, _i, _len, _results;
-            _results = [];
-            for (_i = 0, _len = items.length; _i < _len; _i++) {
-                item = items[_i];
-                if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
-                    if (entry.isFile) {
-                        _results.push(this.addFile(item.getAsFile()));
-                    } else if (entry.isDirectory) {
-                        _results.push(this._addFilesFromDirectory(entry, entry.name));
+                return _results;
+            };
+            this._addFilesFromItems = function (items) {
+                var entry, item, _i, _len, _results;
+                _results = [];
+                for (_i = 0, _len = items.length; _i < _len; _i++) {
+                    item = items[_i];
+                    if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
+                        if (entry.isFile) {
+                            _results.push(this.addFile(item.getAsFile()));
+                        } else if (entry.isDirectory) {
+                            _results.push(this._addFilesFromDirectory(entry, entry.name));
+                        } else {
+                            _results.push(void 0);
+                        }
+                    } else if (item.getAsFile != null) {
+                        if ((item.kind == null) || item.kind === "file") {
+                            _results.push(this.addFile(item.getAsFile()));
+                        } else {
+                            _results.push(void 0);
+                        }
                     } else {
                         _results.push(void 0);
                     }
-                } else if (item.getAsFile != null) {
-                    if ((item.kind == null) || item.kind === "file") {
-                        _results.push(this.addFile(item.getAsFile()));
-                    } else {
-                        _results.push(void 0);
+                    // Make sure we don't handle more files than requested
+                    if (this.options.maxFiles != null && this.options.maxFiles > 0 && _i >= (this.options.maxFiles - 1)) {
+                        break;
                     }
-                } else {
-                    _results.push(void 0);
                 }
-                // Make sure we don't handle more files than requested
-                if (this.options.maxFiles != null && this.options.maxFiles > 0 && _i >= (this.options.maxFiles - 1)) {
-                    break;
-                }
-            }
-            return _results;
-        };
-  	}
+                return _results;
+            };
+        }
 
-}
+    }
 
 
 </script>
 
 
+</br>
+<form action="Subscribe" method="get">
+    <div class="subscribe">
+        <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True"/>
+        <input type="text" name="status" value="success" hidden="True">
+        <button type="submit" name="subscribe" value="{{ stream.key.urlsafe()}}" id="subscribe">Subscribe</button>
+    </div>
+</form>
+</br>
 
-		</br>
-		<form action="Subscribe" method="get">
-			<div class="subscribe">
-				<button type="submit" name="subscribe" value="{{ stream.key.urlsafe()}}" id="subscribe">Subscribe</button>
-			</div>
-		</form>
-
+<form action="GeoView" method="get">
+    <div class="geoview">
+        <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True"/>
+        <input type="text" name="status" value="success" hidden="True">
+        <button type="submit" name="geoview" id="GeoView">Geo View</button>
+    </div>
+</form>
 
 {% endblock content %}
