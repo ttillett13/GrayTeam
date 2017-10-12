@@ -9,6 +9,7 @@ from Controller.Subscribe import Subscribe
 from Controller.Unsubscribe import Unsubscribe
 from Controller.ViewStream import ViewStream
 from Controller.ViewAllStream import ViewAllStream
+from Controller.GeoView import GeoView
 
 import webapp2
 from Controller.Common import authenticate
@@ -33,6 +34,7 @@ app = webapp2.WSGIApplication([
     ('/Trending/Report', TrendingReport),
     ('/Unsubscribe', Unsubscribe),
     ('/ViewSingleStream', ViewStream),
-    ('/ViewAllStream', ViewAllStream)
+    ('/ViewAllStream', ViewAllStream),
+    ('/GeoView', GeoView),
 ], debug=True)
 # [END app]
