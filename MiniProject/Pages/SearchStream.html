@@ -31,6 +31,10 @@
            <script type="text/javascript" src="/js/html5shiv.js"></script>
            <script type="text/javascript" src="/js/respond.min.js"></script>
         <![endif]-->
+
+
+
+
         <style>
             ul.ui-autocomplete {
                 list-style: none;
@@ -72,8 +76,9 @@
                     <div class="row">
 						 <div class="col-md-12">
 							<div id="custom-search-input">
+
 								<div class="input-group col-md-12">
-									<input type="text" class="  search-query form-control" placeholder="Search" id = "autocomplete" name="search" />
+									<input type="text" class="  search-query form-control" placeholder="Search" id="autocomplete" name="search" />
 									<span class="input-group-btn">
 										<button class="btn btn-danger" type="submit" value="Search">
 											<span class=" glyphicon glyphicon-search"></span>
@@ -137,6 +142,7 @@
             </div>
         </div>
 
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/twitter-bootstrap-hover-dropdown.min.js"></script>
@@ -149,6 +155,7 @@
         <script type="text/javascript" src="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/javascripts/bootstrap-wysihtml5/core-b3.js"></script>
         <script type="text/javascript" src="/vendors/twitter-bootstrap-wizard/jquery.bootstrap.wizard-for.bootstrap3.js"></script>
         <script type="text/javascript" src="/vendors/boostrap3-typeahead/bootstrap3-typeahead.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
         <script type="text/javascript">
             $(function() {
@@ -205,6 +212,17 @@
                 $('#rootwizard .finish').click(function() {
                     alert('Finished!, Starting over!');
                     $('#rootwizard').find('a[href*=\'tab1\']').trigger('click');
+                });
+            });
+        </script>
+         <script>
+            $.getJSON('/AutoComplete', function (data) {
+                $("#autocomplete").autocomplete({
+                    source: function (req, response) {
+                        var results = $.ui.autocomplete.filter(data, req.term).sort();
+                        response(results.slice(0, 20));
+                    },
+                    minLength: 1
                 });
             });
         </script>

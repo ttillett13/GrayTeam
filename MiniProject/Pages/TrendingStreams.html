@@ -98,7 +98,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="page-header">
-                                <h1>Trending Stream</h1>
+                                <h1>{{ title }}</h1>
                             </div>
                         </div>
                     </div>
@@ -110,50 +110,17 @@
                         <div class="carousel-inner">
                             <div class="item  active">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                                        <label>Image name</label>
-                                    </div>
+                                     {% for stream in streams %}
+                                        <div class="col-md-4">
+                                            <a class="thumbnail" href="{{ stream.url }}">
+                                            {% if stream.cover_page_url %}
+                                                <img alt="" src="{{ stream.cover_page_url }}"></a>
+                                            {% else %}
+                                                <img alt="" src="http://placehold.it/150x150"></a>
+                                            {% endif %}
+                                            <label>  {{stream.view_times|length }} views in the last hour </label>
+                                        </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
