@@ -1,82 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-	<title>{% block title %}{% endblock title %}</title>
-	<style>
-body {font-family: "Lato", sans-serif;}
+<html class="bootstrap-admin-vertical-centered">
+    <head>
+        <title>{% block title %}Login page |Connex.us{% endblock title %}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-/* Style the tab */
-div.tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+        <!-- Bootstrap -->
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+        <link rel="stylesheet" media="screen" href="css/bootstrap.min.css">
+        <link rel="stylesheet" media="screen" href="css/bootstrap-theme.min.css">
+        <!--<link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">-->
 
-}
+        <!-- Bootstrap Admin Theme -->
+        <!--<link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-admin-theme.css">-->
+        <link rel="stylesheet" media="screen" href="css/bootstrap-admin-theme.css">
 
-/* Style the buttons inside the tab */
-div.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-}
+        <!-- Custom styles -->
+        <style type="text/css">
+            .alert{
+                margin: 0 auto 20px;
+            }
+        </style>
 
-/* Change background color of buttons on hover */
-div.tab button:hover {
-    background-color: #ddd;
-}
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+           <script type="text/javascript" src="js/html5shiv.js"></script>
+           <script type="text/javascript" src="js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="bootstrap-admin-with-small-navbar">
+    <!-- small navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top bootstrap-admin-navbar-sm" role="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
 
-/* Create an active/current tablink class */
-div.tab button:active {
-    background-color: #ccc;
-}
+                    </div>
+                </div>
+            </div>
+        </nav>
 
-/* Style the tab content */
-.tabcontent {
-	display: none;
-	padding: 6px 12px;
-	border: 1px solid #ccc;
-	border-top: none;
-}
+        <!-- main / large navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top bootstrap-admin-navbar bootstrap-admin-navbar-under-small" role="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".main-navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="Pages/ManageStream.html">Connex.us</a>
+                        </div>
+                        <div class="collapse navbar-collapse main-navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a onclick="location.href='/ManageStream'" id="defaultOpen">Manage</a></li>
+                                <li><a onclick="location.href='/CreateStream'">Create</a></li>
+								<li><a onclick="location.href='/ViewAllStream'">View</a></li>
+								<li><a onclick="location.href='/SearchStream'">Search</a></li>
+								<li><a onclick="location.href='/TrendingStreams'">Trending</a></li>
+                                <li><a href="{{ url|safe }}">{{ url_linktext }}</a></li>
+                            </ul>
+							  <ul class="nav navbar-nav navbar-right">
 
-#footer {
-	position:absolute;
-   bottom:0;
-   width:100%;
-   height:60px;
-}
-{% block styles %}{% endblock styles %}
-</style>
-	<script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
-</head>
-<body>
 
-<div class="MainPage">
-		<header>
-			<h1>Connex.us</h1>
-		</header>
-		<div class="tab">
-		  <button class="tablinks" onclick="location.href='/ManageStream'" id="defaultOpen">Manage</button>
-		  <button class="tablinks" onclick="location.href='/CreateStream'">Create</button>
-		  <button class="tablinks" onclick="location.href='/ViewAllStream'">View</button>
-		  <button class="tablinks" onclick="location.href='/SearchStream'">Search</button>
-		  <button class="tablinks" onclick="location.href='/TrendingStreams'">Trending</button>
-		  <!--<button class="tablinks" onclick="location.href='/Social'">Social</button> --> <!-- extra credit -->
-		  <div class="nav-collapse collapse pull-right">
-            <a href="{{ url|safe }}" class="btn">{{ url_linktext }}</a>
-          </div>
-		</div>
-	</div>
+                                <li class="dropdown">
+                                    <a href="#" role="button" class="dropdown-toggle" data-hover="dropdown"> <i class="glyphicon glyphicon-user"></i> Username <i class="caret"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="index.html">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div>
+                </div>
+            </div><!-- /.container -->
+        </nav>
+    {% block content %}{% endblock content %}
+      <!--<body class="bootstrap-admin-without-padding">-->
+        <!--<div class="container">-->
+            <!--<div class="row">-->
+                <!--<div class="col-lg-12">-->
+                    <!--<div class="alert alert-info">-->
+                        <!--<a class="close" data-dismiss="alert" href="#">&times;</a>-->
+                        <!--Press enter key or click the Submit button-->
+                    <!--</div>-->
+                    <!--<form method="post" action="manage.html" class="bootstrap-admin-login-form">-->
+                        <!--<h1>Login</h1>-->
+                        <!--<div class="form-group">-->
+                            <!--<input class="form-control" type="text" name="email" placeholder="E-mail">-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<input class="form-control" type="password" name="password" placeholder="Password">-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<label>-->
+                                <!--<input type="checkbox" name="remember_me">-->
+                                <!--Remember me-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<button class="btn btn-lg btn-primary" type="submit">Submit</button>-->
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-{% block content %}{% endblock content %}
-<!--<div id="footer">-->
-	<!--<p>Gray Team</p>-->
-<!--</div>-->
+        <!--<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>-->
+        <!--<script type="text/javascript" src="js/bootstrap.min.js"></script>-->
+        <!--<script type="text/javascript">-->
+            <!--$(function() {-->
+                <!--// Setting focus-->
+                <!--$('input[name="email"]').focus();-->
 
-</body>
+                <!--// Setting width of the alert box-->
+                <!--var alert = $('.alert');-->
+                <!--var formWidth = $('.bootstrap-admin-login-form').innerWidth();-->
+                <!--var alertPadding = parseInt($('.alert').css('padding'));-->
+
+                <!--if (isNaN(alertPadding)) {-->
+                    <!--alertPadding = parseInt($(alert).css('padding-left'));-->
+                <!--}-->
+
+                <!--$('.alert').width(formWidth - 2 * alertPadding);-->
+            <!--});-->
+        <!--</script>-->
+            <!-- footer -->
+        <div class="navbar navbar-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <footer role="contentinfo">
+                            <p class="left">Connex.us</p>
+
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </body>
 </html>

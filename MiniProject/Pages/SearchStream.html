@@ -1,196 +1,173 @@
 {% extends "/Pages/base.html" %}
-{% block title %} Connex.us - Search Streams {% endblock title %}
+{% block title %}Connex.us - Search Streams {% endblock title %}
 
-{% block content %}
-<head>
-<style>
- {
-		box-sizing: border-box;
-	}
+ {% block content %}
+<html>
+    <head>
+        <title>Forms | Bootstrap 3.x Admin Theme</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	body {
-		margin: 0;
-		font-family: Arial;
-	}
+        <!-- Bootstrap -->
+        <link rel="stylesheet" media="screen" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-theme.min.css">
 
-	.header {
-		text-align: center;
-		padding: 22px;
-	}
+        <!-- Bootstrap Admin Theme -->
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-admin-theme.css">
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-admin-theme-change-size.css">
 
-	/* Create two equal columns that floats next to each other */
-	.column {
-		float: left;
-		width: 33%;
-		padding: 10px;
-	}
+        <!-- Vendors -->
+        <link rel="stylesheet" media="screen" href="/vendors/bootstrap-datepicker/css/datepicker.css">
+        <link rel="stylesheet" media="screen" href="/css/datepicker.fixes.css">
+        <link rel="stylesheet" media="screen" href="/vendors/uniform/themes/default/css/uniform.default.min.css">
+        <link rel="stylesheet" media="screen" href="/css/uniform.default.fixes.css">
+        <link rel="stylesheet" media="screen" href="/vendors/chosen.min.css">
+        <link rel="stylesheet" media="screen" href="/vendors/selectize/dist/css/selectize.bootstrap3.css">
+        <link rel="stylesheet" media="screen" href="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/stylesheets/bootstrap-wysihtml5/core-b3.css">
 
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+           <script type="text/javascript" src="/js/html5shiv.js"></script>
+           <script type="text/javascript" src="/js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="bootstrap-admin-with-small-navbar">
 
-input[type=text] {
-    width: 130px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('searchicon.png');
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
-	padding: 10px 10px 10px 10px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
+        <div class="container">
+            <!-- left, vertical navbar & content -->
+            <div class="row">
+                
 
-ul.ui-autocomplete {
-    list-style: none;
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-    width: 100px;
-    border-style: solid;
-    border-width: 3px;
-}
+                <!-- content -->
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-header">
+                                <h1>Search Stream</h1>
+                            </div>
+                        </div>
+                    </div>
 
-ul.ui-autocomplete li{
-    background-color: white;
-    padding:5px 8px;
-    font-size:12px;
-    outline:2px;
-}
-#map {
-    height: 100%;
-  }
-  /* Optional: Makes the sample page fill the window. */
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-
-</style>
-
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-        $.getJSON('/AutoComplete', function (data) {
-            $("#autocomplete").autocomplete({
-                source: function(req, response) {
-                    var results = $.ui.autocomplete.filter(data, req.term).sort();
-                    response(results.slice(0,20));
-                },
-                minLength: 1
-            });
-        });
-</script>
-</head>
-<body>
-
-
-
-<form action="SearchStream" method="get">
-  <div>
-    <input id = "autocomplete" type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>
-    <input type="submit" value="Search" align="left" hspace="10"/>
-
-  </div>
-
-  <div>
-    <p style="padding: 10px 10px 10px 10px;">{{ num_found }} results found</br>Click on an image to view stream</p>
-     {% for i, stream in streams_found %}
-          <div class="row">
-            <div class="image" style="padding: 10px 10px 10px 10px;">
-              <a href="{{ stream.field('url').value }}">
-                  {% if stream.field('cover_image').value  %}
-                    <img src="{{ stream.field('cover_image').value }}"/>
-                  {% else %}
-                    <img src="http://placehold.it/150x150"/>
-                  {% endif %}
-
-              </a>
-                <p style="padding: 10px 10px 10px 10px;">{{ stream.field("stream_name").value }}</p>
-
-              <br>
+                    <div class="row">
+						 <div class="col-md-12">
+							<div id="custom-search-input">
+								<div class="input-group col-md-12">
+									<input type="text" class="  search-query form-control" placeholder="Search" />
+									<span class="input-group-btn">
+										<button class="btn btn-danger" type="button">
+											<span class=" glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+                    </div>
+					<br>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<p class = "alert alert-warning">3 results for search item,click on image to view detail
+						</div>
+					</div>
+					<div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="bootstrap-admin-panel-content">
+									<table class="table table-striped table-bordered" id="streamIOwn">
+                                        
+                                        <tbody>
+                                            <tr class="odd gradeX">
+                                                <td>show image here with img tag</td>
+                                        
+                                            </tr>
+                                            <tr class="even gradeC">
+                                                <td>show image here with img tag</td>
+                                            </tr>
+                                            <tr class="odd gradeA">
+                                                <td>show image here with img tag</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+					
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
 
-          </div>
-    {% endfor %}
-  </div>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/twitter-bootstrap-hover-dropdown.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap-admin-theme-change-size.js"></script>
+        <script type="text/javascript" src="/vendors/uniform/jquery.uniform.min.js"></script>
+        <script type="text/javascript" src="/vendors/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="/vendors/selectize/dist/js/standalone/selectize.min.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/javascripts/bootstrap-wysihtml5/wysihtml5.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/javascripts/bootstrap-wysihtml5/core-b3.js"></script>
+        <script type="text/javascript" src="/vendors/twitter-bootstrap-wizard/jquery.bootstrap.wizard-for.bootstrap3.js"></script>
+        <script type="text/javascript" src="/vendors/boostrap3-typeahead/bootstrap3-typeahead.min.js"></script>
 
-        <!--MAPS-->
+        <script type="text/javascript">
+            $(function() {
+                $('.datepicker').datepicker();
+                $('.uniform_on').uniform();
+                $('.chzn-select').chosen();
+                $('.selectize-select').selectize();
+                $('.textarea-wysihtml5').wysihtml5({
+                    stylesheets: [
+                        '/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/stylesheets/bootstrap-wysihtml5/wysiwyg-color.css'
+                    ]
+                });
 
-    <div id="map"></div>
-    <script>
-
-      function initMap() {
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 3,
-          center: {lat: -28.024, lng: 140.887}
-        });
-
-        // Create an array of alphabetical characters used to label the markers.
-        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-        // Add some markers to the map.
-        // Note: The code uses the JavaScript Array.prototype.map() method to
-        // create an array of markers based on a given "locations" array.
-        // The map() method here has nothing to do with the Google Maps API.
-        var markers = locations.map(function(location, i) {
-          return new google.maps.Marker({
-            position: location,
-            label: labels[i % labels.length]
-          });
-        });
-
-        // Add a marker clusterer to manage the markers.
-        var markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-      }
-      var locations = [
-        {lat: -31.563910, lng: 147.154312},
-        {lat: -33.718234, lng: 150.363181},
-        {lat: -33.727111, lng: 150.371124},
-        {lat: -33.848588, lng: 151.209834},
-        {lat: -33.851702, lng: 151.216968},
-        {lat: -34.671264, lng: 150.863657},
-        {lat: -35.304724, lng: 148.662905},
-        {lat: -36.817685, lng: 175.699196},
-        {lat: -36.828611, lng: 175.790222},
-        {lat: -37.750000, lng: 145.116667},
-        {lat: -37.759859, lng: 145.128708},
-        {lat: -37.765015, lng: 145.133858},
-        {lat: -37.770104, lng: 145.143299},
-        {lat: -37.773700, lng: 145.145187},
-        {lat: -37.774785, lng: 145.137978},
-        {lat: -37.819616, lng: 144.968119},
-        {lat: -38.330766, lng: 144.695692},
-        {lat: -39.927193, lng: 175.053218},
-        {lat: -41.330162, lng: 174.865694},
-        {lat: -42.734358, lng: 147.439506},
-        {lat: -42.734358, lng: 147.501315},
-        {lat: -42.735258, lng: 147.438000},
-        {lat: -43.999792, lng: 170.463352}
-      ]
-    </script>
-    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YAIzaSyBJ-yAhc-3ng3a-YvDVkhrfeF1QAXi3QiY&callback=initMap">
-    </script>
-    <!--END MAPS-->
-
-</form>
-
-<form action="AutoCompleteCreation" method="get">
-  <div>
-    <input type="submit" value="Rebuild Completion Index" align="center" hspace="10"/>
-
-  </div>
-
-</form>
-
-
-
-</body>
+                $('#rootwizard').bootstrapWizard({
+                    'nextSelector': '.next',
+                    'previousSelector': '.previous',
+                    onNext: function(tab, navigation, index) {
+                        var $total = navigation.find('li').length;
+                        var $current = index + 1;
+                        var $percent = ($current / $total) * 100;
+                        $('#rootwizard').find('.progress-bar').css('width', $percent + '%');
+                        // If it's the last tab then hide the last button and show the finish instead
+                        if ($current >= $total) {
+                            $('#rootwizard').find('.pager .next').hide();
+                            $('#rootwizard').find('.pager .finish').show();
+                            $('#rootwizard').find('.pager .finish').removeClass('disabled');
+                        } else {
+                            $('#rootwizard').find('.pager .next').show();
+                            $('#rootwizard').find('.pager .finish').hide();
+                        }
+                    },
+                    onPrevious: function(tab, navigation, index) {
+                        var $total = navigation.find('li').length;
+                        var $current = index + 1;
+                        var $percent = ($current / $total) * 100;
+                        $('#rootwizard').find('.progress-bar').css('width', $percent + '%');
+                        // If it's the last tab then hide the last button and show the finish instead
+                        if ($current >= $total) {
+                            $('#rootwizard').find('.pager .next').hide();
+                            $('#rootwizard').find('.pager .finish').show();
+                            $('#rootwizard').find('.pager .finish').removeClass('disabled');
+                        } else {
+                            $('#rootwizard').find('.pager .next').show();
+                            $('#rootwizard').find('.pager .finish').hide();
+                        }
+                    },
+                    onTabShow: function(tab, navigation, index) {
+                        var $total = navigation.find('li').length;
+                        var $current = index + 1;
+                        var $percent = ($current / $total) * 100;
+                        $('#rootwizard').find('.bar').css({width: $percent + '%'});
+                    }
+                });
+                $('#rootwizard .finish').click(function() {
+                    alert('Finished!, Starting over!');
+                    $('#rootwizard').find('a[href*=\'tab1\']').trigger('click');
+                });
+            });
+        </script>
+    </body>
+</html>
 {% endblock content %}
