@@ -31,19 +31,11 @@ class SearchStream(webapp2.RequestHandler):
 
         if auth[0]:
             current_user = User.query(User.username == auth[0]._User__email).get()
-            pictures = Picture.query().fetch()
-            new_pictures = []
-            for picture in pictures:
-                new_pictures.append({'image': images.get_serving_url(picture.image, secure_url=False),
-                                     'lat': picture.lat, 'lon': picture.lon,
-                                     'date_uploaded': picture.date_uploaded.strftime('%Y.%m.%d')})
-
 
             index = search.Index(INDEX_NAME)
             form_data = cgi.FieldStorage()
             query_string = form_data.getlist("search")
 
-            today = datetime.date.today()
 
             if len(query_string) == 0:
                 template_values = {
@@ -53,9 +45,6 @@ class SearchStream(webapp2.RequestHandler):
                     # 'num_found': len(streams_found.results),
                     'num_found': 0,
                     'streams_found': [],
-                    'pictures': new_pictures,
-                    'cur_date': today.strftime('%Y.%m.%d'),
-                    'prev_date': add_years(today, -1).strftime('%Y.%m.%d')
                 }
 
             else:

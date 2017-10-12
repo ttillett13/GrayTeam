@@ -1,0 +1,166 @@
+{% extends "/Pages/base.html" %}
+{% block title %} Connex.us - Search Streams {% endblock title %}
+
+{% block content %}
+<head>
+    <style>
+      #map {
+          height: 100%;
+          width: 100%;
+      }
+
+        #mapContainer {
+            height: 640px;
+            width: 960px;
+
+
+            top:0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            margin: auto;
+            margin-bottom: 50px;
+            margin-top: 50px;
+
+        }
+
+
+
+
+
+</style>
+    <!--Date Picker-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!--Based this off from solution at https://codepen.io/2rod/pen/JtIki-->
+    <script>
+          $(function() {
+        $( "#slider-range" ).slider({
+          range: true,
+          min: new Date("{{ prev_date }}").getTime() / 1000,
+          max: new Date("{{ cur_date }}").getTime() / 1000,
+          step: 86400,
+          values: [ new Date("{{ prev_date }}").getTime() / 1000, new Date("{{ cur_date }}").getTime() / 1000 ],
+          slide: function( event, ui ) {
+            $( "#lower_bound" ).val( (new Date(ui.values[ 0 ] *1000).toDateString() ));
+          $( "#upper_bound" ).val( (new Date(ui.values[ 1 ] *1000)).toDateString() );
+          filterMarkers();
+          }
+
+        });
+        $( "#lower_bound" ).val( (new Date($( "#slider-range" ).slider( "values", 0 )*1000).toDateString()));
+        $( "#upper_bound" ).val( (new Date($( "#slider-range" ).slider( "values", 1 )*1000)).toDateString());
+      });
+      </script>
+    <!--Date Picker-->
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+        $.getJSON('/AutoComplete', function (data) {
+            $("#autocomplete").autocomplete({
+                source: function(req, response) {
+                    var results = $.ui.autocomplete.filter(data, req.term).sort();
+                    response(results.slice(0,20));
+                },
+                minLength: 1
+            });
+        });
+</script>
+</head>
+<body>
+
+
+		<div id="mapContainer">
+			<div id="map"></div>
+
+            <p>
+              <input type="text" id="lower_bound" readonly style="border:0; color:#f6931f; font-weight:bold; width: 50%;">
+                <input type="text" id="upper_bound" readonly style="border:0; color:#f6931f; font-weight:bold; float: right; width: 50%; text-align: right;" >
+            </p>
+
+            <div id="slider-range"></div>
+		</div>
+
+
+
+			<script>
+                var map;
+                var markers = [];
+                var markerCluster;
+			  function initMap() {
+
+				map = new google.maps.Map(document.getElementById('map'), {
+				  zoom: 2,
+				  center: {lat: 0, lng: 0}
+				});
+
+				var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+                    var infowindow =  new google.maps.InfoWindow({
+                        content: ''
+                    });
+
+                  var pictures = {{ pictures|safe }}
+
+                  for (var i = 0; i < pictures.length; i++)
+                  {
+                          markers.push(new google.maps.Marker({
+                              position: new google.maps.LatLng(pictures[i].lat, pictures[i].lon),
+                              map: map,
+                              label: labels[i % labels.length],
+                              date: pictures[i].date_uploaded
+                          }));
+                          bindInfoWindow(markers[markers.length - 1], map, infowindow, "<img src='" + pictures[i].image + "' height='100\' width='100'>");
+                  }
+
+                    markerCluster = new MarkerClusterer(map, markers,
+                        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+			  }
+
+
+			  function bindInfoWindow(marker, map, infowindow, html) {
+                    google.maps.event.addListener(marker, 'mouseover', function() {
+                        infowindow.setContent(html);
+                        infowindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function() {
+                        infowindow.close();
+                    });
+                }
+
+
+                function filterMarkers()
+                {
+                    var lower_date = new Date($("#lower_bound").val());
+                    var upper_date = new Date($("#upper_bound").val());
+
+                    for (var i = 0; i < markers.length; i++)
+                    {
+                        var picture_date = new Date(markers[i].date);
+                        if (picture_date >= lower_date && picture_date <= upper_date)
+                        {
+                            markers[i].setMap(map);
+                        }
+                        else
+                        {
+                            markers[i].setMap(null);
+                        }
+                    }
+                    markerCluster.clearMarkers();
+                }
+
+			</script>
+			<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+			</script>
+			<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDosJXIOAqz2lNj9K0vnGKnbOg1ZcapiIY&callback=initMap">
+			</script>
+
+</body>
+{% endblock content %}

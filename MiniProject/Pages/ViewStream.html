@@ -127,6 +127,7 @@ margin-bottom: 50px;
     <button id="stop">Cancel Upload</button>
 </div>
 
+
 <script>
     Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
 
@@ -143,7 +144,7 @@ margin-bottom: 50px;
             var stopButton = document.querySelector("#stop")
             var myDropzone = this;
 
-            // First change the button to actually tell Dropzone to process the queue.
+            // change the button to actually tell Dropzone to process the queue.
             uploadButton.addEventListener("click", function () {
                 myDropzone.processQueue();
             });
