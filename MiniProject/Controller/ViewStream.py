@@ -81,8 +81,6 @@ class ViewStream(webapp2.RequestHandler):
 
             stream_name = self.request.get('stream_name')
             picture_name = self.request.get('name')
-            #picture_name = self.request.get('file')
-            #picture = self.request.get('image')
             picture = self.request.get('file')
             comments = self.request.get('comments')
             decrementPage = self.request.get('decrementPage')
@@ -96,14 +94,10 @@ class ViewStream(webapp2.RequestHandler):
 
             # Check to see if image name already exists
             if picture_name and not Picture.query(Picture.name == picture_name).fetch():
-                # for picture in pictures:
-                # if True:
                 for i in Stream.query().fetch():
                     if i.name == stream_name:
                         stream = i
 
-                        # Write to gcs
-                        # picture_name = stream_name + str(stream.picture_count)
                 filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + picture_name
 
                 with cloudstorage.open(filename, 'w', content_type='image/jpeg') as filehandle:
@@ -111,9 +105,6 @@ class ViewStream(webapp2.RequestHandler):
 
                 blobstore_filename = '/gs{}'.format(filename)
                 blob_key = blobstore.create_gs_key(blobstore_filename)
-
-                # serving_url = images.get_serving_url(blob_key, secure_url=False)
-
 
                 new_picture = Picture(name=str(picture_name), image=blob_key, comments=comments,
                                       lat=random.uniform(-90, 90), lon=random.uniform(-180, 180),

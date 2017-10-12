@@ -72,7 +72,6 @@ class CreateStream(webapp2.RequestHandler):
             #Actual solution can be found https://stackoverflow.com/questions/15460926/google-app-engine-ndb-put-and-then-query-there-is-always-one-less-item
             # TODO: lets fix this later
             time.sleep(.1)
-            subscriber_message = str(self.request.get('subscriberMessage'))
             subscribers = str(self.request.get('subscriber'))
             subscribers = subscribers.split(",")
 
@@ -92,10 +91,6 @@ class CreateStream(webapp2.RequestHandler):
                     content = Content("text/plain", str(self.request.get('subscriberMessage')))
                     mail = Mail(from_email, subject, to_email, content)
                     response = sg.client.mail.send.post(request_body=mail.get())
-
-
-            #print current_user.streams_owned
-            #Send an invite to subscriber invites
 
             # need to also make a search api document
             d = search.Document(

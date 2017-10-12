@@ -30,7 +30,7 @@ class SearchStream(webapp2.RequestHandler):
         auth = authenticate(self)
 
         if auth[0]:
-            current_user = User.query(User.username == auth[0]._User__email).get()
+            #current_user = User.query(User.username == auth[0]._User__email).get()
 
             index = search.Index(INDEX_NAME)
             form_data = cgi.FieldStorage()
@@ -42,7 +42,6 @@ class SearchStream(webapp2.RequestHandler):
                     'user': auth[0],
                     'url': auth[1],
                     'url_linktext': auth[2],
-                    # 'num_found': len(streams_found.results),
                     'num_found': 0,
                     'streams_found': [],
                 }
@@ -79,8 +78,6 @@ class SearchStream(webapp2.RequestHandler):
                     'num_found': num_found,
                     'streams_found': enumerate(streams_found),
                     'pictures': pictures
-                    #'num_found' : len(query),
-                    #enumerate = enumerate,
                 }
 
             template = JINJA_ENVIRONMENT.get_template('/Pages/SearchStream.html')
@@ -115,7 +112,6 @@ class AutoCompleteCreation(webapp2.RequestHandler):
                 if not name in list:
                     list.append(name)
             for tag in stream.tags:
-                #new_tag = tag[1:] # maybe I should leave the hashtag there?
                 tag = tag.lower()
                 if not tag in list:
                     list.append(tag)
