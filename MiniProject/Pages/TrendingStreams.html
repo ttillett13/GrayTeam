@@ -1,48 +1,264 @@
 {% extends "/Pages/base.html" %}
-{% block title %} Connex.us - Trending Streams {% endblock title %}
+{% block title %}Connex.us - Trending Streams {% endblock title %}
 
-{% block content %}
-<form action="TrendingStreams" method="post">
-<h2>{{ title }}</h2>
+ {% block content %}
+<html>
 
-<table style="height: 279px; width: 876px;">
-<tbody>
-<tr>
-<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="NoReports" {% if report_sending=="NoReports" %} checked="checked" {% endif %}/>No reports</td>
+<head>
+    <title>Forms | Bootstrap 3.x Admin Theme</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {% for stream in streams %}
-        <td rowspan="5" class="top">
-            <a href="{{ stream.url }}">
-                {% if stream.cover_page_url  %}
-                    <img src=" {{ stream.cover_page_url }}" alt="" align="left" hspace="10" />
-                {% else %}
-                    <img src="http://placehold.it/150x150" alt="" align="left" hspace="10" />
-                {% endif %}
-            </a>
-        </td>
-    {% endfor %}
-</tr>
-<tr>
-<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="Every5Minutes" {% if report_sending=="Every5Minutes" %} checked="checked" {% endif %}/>Every 5 minutes</td>
-</tr>
-<tr>
-<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="Every1Hour" {% if report_sending=='Every1Hour' %} checked="checked" {% endif %}/>Every 1 hour</td>
-</tr>
-<tr>
-<td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="EveryDay" {% if report_sending=="EveryDay" %} checked="checked" {% endif %}/>Every day</td>
-</tr>
-<tr>
-<td style="width: 163px;">&nbsp;Email trending report</td>
-</tr>
-<tr>
-    {% for count in counts %}
-    <td><p align="left" hspace="10"> {{count}} views in last hour </p> </td>
-    {% endfor %}
-<td style="width: 163px;">&nbsp;<input type="submit" value="Update rate" /></td>
-</tr>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" media="screen" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="/css/bootstrap-theme.min.css">
 
-</tbody>
-</table>
-</form>
+    <!-- Bootstrap Admin Theme -->
+    <link rel="stylesheet" media="screen" href="/css/bootstrap-admin-theme.css">
+    <link rel="stylesheet" media="screen" href="/css/bootstrap-admin-theme-change-size.css">
 
+    <!-- Vendors -->
+    <link rel="stylesheet" media="screen" href="/vendors/bootstrap-datepicker/css/datepicker.css">
+    <link rel="stylesheet" media="screen" href="/css/datepicker.fixes.css">
+    <link rel="stylesheet" media="screen" href="/vendors/uniform/themes/default/css/uniform.default.min.css">
+    <link rel="stylesheet" media="screen" href="/css/uniform.default.fixes.css">
+    <link rel="stylesheet" media="screen" href="/vendors/chosen.min.css">
+    <link rel="stylesheet" media="screen" href="/vendors/selectize/dist/css/selectize.bootstrap3.css">
+    <link rel="stylesheet" media="screen" href="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/stylesheets/bootstrap-wysihtml5/core-b3.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+           <script type="text/javascript" src="/js/html5shiv.js"></script>
+           <script type="text/javascript" src="/js/respond.min.js"></script>
+        <![endif]-->
+    <style>
+        /* carousel */
+
+        .media-carousel {
+            margin-bottom: 0;
+            padding: 0 40px 30px 40px;
+            margin-top: 30px;
+        }
+        /* Previous button  */
+
+        .media-carousel .carousel-control.left {
+            left: -12px;
+            background-image: none;
+            background: none repeat scroll 0 0 #222222;
+            border: 4px solid #FFFFFF;
+            border-radius: 23px 23px 23px 23px;
+            height: 40px;
+            width: 40px;
+            margin-top: 30px
+        }
+        /* Next button  */
+
+        .media-carousel .carousel-control.right {
+            right: -12px !important;
+            background-image: none;
+            background: none repeat scroll 0 0 #222222;
+            border: 4px solid #FFFFFF;
+            border-radius: 23px 23px 23px 23px;
+            height: 40px;
+            width: 40px;
+            margin-top: 30px
+        }
+        /* Changes the position of the indicators */
+
+        .media-carousel .carousel-indicators {
+            right: 50%;
+            top: auto;
+            bottom: 0px;
+            margin-right: -19px;
+        }
+        /* Changes the colour of the indicators */
+
+        .media-carousel .carousel-indicators li {
+            background: #c0c0c0;
+        }
+
+        .media-carousel .carousel-indicators .active {
+            background: #333333;
+        }
+
+        .media-carousel img {
+            width: 250px;
+            height: 100px
+        }
+        /* End carousel */
+    </style>
+</head>
+
+<body class="bootstrap-admin-with-small-navbar">
+
+    <div class="container">
+        <!-- left, vertical navbar & content -->
+        <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-header">
+                                <h1>Trending Stream</h1>
+                            </div>
+                        </div>
+                    </div>
+
+            <!-- content -->
+            <div class="col-lg-12">
+                <div class='col-md-8'>
+                    <div class="carousel slide media-carousel" id="media">
+                        <div class="carousel-inner">
+                            <div class="item  active">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                                        <label>Image name</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class='col-md-4'>
+                     <div class="row">
+                         <input type="checkbox" id ="NoReports"/><label>No reports</label>
+                     </div>
+                     <div class="row">
+                         <input type="checkbox" id ="Every5Minutes"/><label>Every 5 minutes</label>
+                     </div>
+                     <div class="row">
+                         <input type="checkbox" id ="Every1Hour"/><label>Every 1 hour</label>
+                     </div>
+                     <div class="row">
+                         <input type="checkbox" id ="EveryDay"/><label>Every day</label>
+                     </div>
+                     <div class="row">
+                         <button class="btn btn-primary">Update Rate</button>
+                     </div>
+                 </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/twitter-bootstrap-hover-dropdown.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap-admin-theme-change-size.js"></script>
+        <script type="text/javascript" src="/vendors/uniform/jquery.uniform.min.js"></script>
+        <script type="text/javascript" src="/vendors/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="/vendors/selectize/dist/js/standalone/selectize.min.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/javascripts/bootstrap-wysihtml5/wysihtml5.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/javascripts/bootstrap-wysihtml5/core-b3.js"></script>
+        <script type="text/javascript" src="/vendors/twitter-bootstrap-wizard/jquery.bootstrap.wizard-for.bootstrap3.js"></script>
+        <script type="text/javascript" src="/vendors/boostrap3-typeahead/bootstrap3-typeahead.min.js"></script>
+
+        <script type="text/javascript">
+            $(function () {
+                $('.datepicker').datepicker();
+                $('.uniform_on').uniform();
+                $('.chzn-select').chosen();
+                $('.selectize-select').selectize();
+                $('.textarea-wysihtml5').wysihtml5({
+                    stylesheets: [
+                        'vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/stylesheets/bootstrap-wysihtml5/wysiwyg-color.css'
+                    ]
+                });
+
+                $('#rootwizard').bootstrapWizard({
+                    'nextSelector': '.next',
+                    'previousSelector': '.previous',
+                    onNext: function (tab, navigation, index) {
+                        var $total = navigation.find('li').length;
+                        var $current = index + 1;
+                        var $percent = ($current / $total) * 100;
+                        $('#rootwizard').find('.progress-bar').css('width', $percent + '%');
+                        // If it's the last tab then hide the last button and show the finish instead
+                        if ($current >= $total) {
+                            $('#rootwizard').find('.pager .next').hide();
+                            $('#rootwizard').find('.pager .finish').show();
+                            $('#rootwizard').find('.pager .finish').removeClass('disabled');
+                        } else {
+                            $('#rootwizard').find('.pager .next').show();
+                            $('#rootwizard').find('.pager .finish').hide();
+                        }
+                    },
+                    onPrevious: function (tab, navigation, index) {
+                        var $total = navigation.find('li').length;
+                        var $current = index + 1;
+                        var $percent = ($current / $total) * 100;
+                        $('#rootwizard').find('.progress-bar').css('width', $percent + '%');
+                        // If it's the last tab then hide the last button and show the finish instead
+                        if ($current >= $total) {
+                            $('#rootwizard').find('.pager .next').hide();
+                            $('#rootwizard').find('.pager .finish').show();
+                            $('#rootwizard').find('.pager .finish').removeClass('disabled');
+                        } else {
+                            $('#rootwizard').find('.pager .next').show();
+                            $('#rootwizard').find('.pager .finish').hide();
+                        }
+                    },
+                    onTabShow: function (tab, navigation, index) {
+                        var $total = navigation.find('li').length;
+                        var $current = index + 1;
+                        var $percent = ($current / $total) * 100;
+                        $('#rootwizard').find('.bar').css({ width: $percent + '%' });
+                    }
+                });
+                $('#rootwizard .finish').click(function () {
+                    alert('Finished!, Starting over!');
+                    $('#rootwizard').find('a[href*=\'tab1\']').trigger('click');
+                });
+            });
+            $(document).ready(function () {
+                $('#media').carousel({
+                    pause: true,
+                    interval: false,
+                });
+            });
+        </script>
+    </body>
+
+</html>
 {% endblock content %}

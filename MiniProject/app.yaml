@@ -8,12 +8,28 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: /bootstrap
-  static_dir: bootstrap
+- url: /Pages
+  static_dir: Pages
+  application_readable: true
+
+- url: /css
+  static_dir: css
+  application_readable: true
+
+- url: /fonts
+  static_dir: fonts
+  application_readable: true
+
+- url: /js
+  static_dir: js
+  application_readable: true
 
 - url: /Pages
   static_dir: Pages
   application_readable: true
+
+- url: /vendors
+  static_dir: vendors
 
 - url: /dropzone
   static_dir: dropzone
