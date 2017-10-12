@@ -241,9 +241,9 @@
                              return;
                          }
                          $.getJSON('/AutoComplete', request, function(data, status, xhr) {
-                             var results = $.ui.autocomplete.filter(data, request.term).sort();
+                             var results = $.ui.autocomplete.filter(data, request.term).sort().slice(0, 20);
                              cache[term] = results;
-                             response(results.slice(0, 20));
+                             response(results);
                          });
                      }
                  });

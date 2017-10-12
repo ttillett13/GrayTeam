@@ -52,7 +52,9 @@ class SearchStream(webapp2.RequestHandler):
                 streams_found = index.search(query)
 
                 for stream in streams_found.results:
-                    stream_obj = Stream.query(Stream.name == stream.field('stream_name').value).get()
+                    #stream_obj = Stream.query(Stream.name == stream.field('stream_name').value).get()
+                    key = ndb.Key(urlsafe=stream.doc_id)
+                    stream_obj = key.get()
                     if not stream_obj:
                         index.delete(stream.doc_id)
                     elif not stream.field('cover_image').value:
@@ -78,7 +80,6 @@ class SearchStream(webapp2.RequestHandler):
                     'url_linktext': auth[2],
                     'num_found': num_found,
                     'streams_found': enumerate(streams_found)
-                    #'pictures': pictures
                 }
 
             template = JINJA_ENVIRONMENT.get_template('/Pages/SearchStream.html')
