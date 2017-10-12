@@ -115,8 +115,8 @@ class TrendingReport(webapp2.RequestHandler):
                     stream.cover_page_url = images.get_serving_url(stream.pictures[0].get().image,
                                                          secure_url=False)
                     stream.put()
-                    sorted_streams[i] = stream
 
+        
         template_values = {
             'user': auth[0],
             'url': auth[1],
