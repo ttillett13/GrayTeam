@@ -30,6 +30,9 @@ handlers:
 
 - url: /vendors
   static_dir: vendors
+
+- url: /dropzone
+  static_dir: dropzone
   application_readable: true
 
 - url: /.*

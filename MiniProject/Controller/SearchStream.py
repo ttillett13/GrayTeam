@@ -16,18 +16,26 @@ from Config import *
 
 from Model.Stream import AutocompleteIndex, Stream, User
 from Controller.Common import authenticate
+from Model.Stream import User
+from Model.Stream import Picture
+import datetime
+from Common import *
+
 
 class SearchStream(webapp2.RequestHandler):
+
+
 
     def get(self):
         auth = authenticate(self)
 
         if auth[0]:
-            #current_user = User.query(User.username == auth[0]._User__email).get()
+            current_user = User.query(User.username == auth[0]._User__email).get()
 
             index = search.Index(INDEX_NAME)
             form_data = cgi.FieldStorage()
             query_string = form_data.getlist("search")
+
 
             if len(query_string) == 0:
                 template_values = {
@@ -36,7 +44,7 @@ class SearchStream(webapp2.RequestHandler):
                     'url_linktext': auth[2],
                     # 'num_found': len(streams_found.results),
                     'num_found': 0,
-                    'streams_found': []
+                    'streams_found': [],
                 }
 
             else:
@@ -47,10 +55,6 @@ class SearchStream(webapp2.RequestHandler):
 
                 for stream in streams_found.results:
                     if not stream.field('cover_image').value:
-                        #key_str = stream.doc_id.value
-                        #key = ndb.Key(urlsafe=key_str)
-                        #stream_obj = key.get
-                        #current_user = User.query(User.username == auth[0]._User__email).get()
 
                         stream_obj = Stream.query(Stream.name == stream.field('stream_name').value).get()
                         if stream_obj:
@@ -73,7 +77,7 @@ class SearchStream(webapp2.RequestHandler):
                     'url': auth[1],
                     'url_linktext': auth[2],
                     'num_found': num_found,
-                    'streams_found': enumerate(streams_found)
+                    'streams_found': enumerate(streams_found),
                     #'num_found' : len(query),
                     #enumerate = enumerate,
                 }

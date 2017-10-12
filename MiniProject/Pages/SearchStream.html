@@ -30,6 +30,25 @@
            <script type="text/javascript" src="/js/html5shiv.js"></script>
            <script type="text/javascript" src="/js/respond.min.js"></script>
         <![endif]-->
+        <style>
+            ul.ui-autocomplete {
+                list-style: none;
+                list-style-type: none;
+                padding: 0px;
+                margin: 0px;
+                width: 100px;
+                border-style: solid;
+                border-width: 3px;
+            }
+
+            ul.ui-autocomplete li{
+                background-color: white;
+                padding:5px 8px;
+                font-size:12px;
+                outline:2px;
+            }
+        </style>
+
     </head>
     <body class="bootstrap-admin-with-small-navbar">
 
@@ -47,14 +66,15 @@
                             </div>
                         </div>
                     </div>
+                    <form action="SearchStream" method="get">
 
                     <div class="row">
 						 <div class="col-md-12">
 							<div id="custom-search-input">
 								<div class="input-group col-md-12">
-									<input type="text" class="  search-query form-control" placeholder="Search" />
+									<input type="text" class="  search-query form-control" placeholder="Search" id = "autocomplete" name="search" />
 									<span class="input-group-btn">
-										<button class="btn btn-danger" type="button">
+										<button class="btn btn-danger" type="submit" value="Search">
 											<span class=" glyphicon glyphicon-search"></span>
 										</button>
 									</span>
@@ -66,7 +86,7 @@
 					
 					<div class="row">
 						<div class="col-md-6">
-							<p class = "alert alert-warning">3 results for search item,click on image to view detail
+                            <p class = "alert alert-warning">{{ num_found }} results found</br>Click on an image to view stream></p>
 						</div>
 					</div>
 					<div class="row">
@@ -76,16 +96,27 @@
 									<table class="table table-striped table-bordered" id="streamIOwn">
                                         
                                         <tbody>
+                                        {% for i, stream in streams_found %}
                                             <tr class="odd gradeX">
-                                                <td>show image here with img tag</td>
+                                                <td><a href="{{ stream.field('url').value }}">
+                                                      {% if stream.field('cover_image').value  %}
+                                                        <img src="{{ stream.field('cover_image').value }}"/>
+                                                      {% else %}
+                                                        <img src="http://placehold.it/150x150"/>
+                                                      {% endif %}
+                                                    </a>
+                                                    <p style="padding: 10px 10px 10px 10px;">{{ stream.field("stream_name").value }}</p>
+                                                </td>
                                         
                                             </tr>
-                                            <tr class="even gradeC">
-                                                <td>show image here with img tag</td>
-                                            </tr>
-                                            <tr class="odd gradeA">
-                                                <td>show image here with img tag</td>
-                                            </tr>
+                                            {% endfor %}
+
+                                            <!--<tr class="even gradeC">-->
+                                                <!--<td>show image here with img tag</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr class="odd gradeA">-->
+                                                <!--<td>show image here with img tag</td>-->
+                                            <!--</tr>-->
                                         </tbody>
                                     </table>
 					
@@ -93,6 +124,14 @@
                             </div>
                         </div>
                     </div>
+                    </form>
+                    <form action="AutoCompleteCreation" method="get">
+                      <div>
+                        <input type="submit" value="Rebuild Completion Index" align="center" hspace="10"/>
+
+                      </div>
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -170,4 +209,110 @@
         </script>
     </body>
 </html>
+
+<!--<head>-->
+    <!--<style>-->
+     <!--{-->
+            <!--box-sizing: border-box;-->
+        <!--}-->
+
+        <!--body {-->
+            <!--margin: 0;-->
+            <!--font-family: Arial;-->
+        <!--}-->
+
+        <!--.header {-->
+            <!--text-align: center;-->
+            <!--padding: 22px;-->
+        <!--}-->
+
+        <!--/* Create two equal columns that floats next to each other */-->
+        <!--.column {-->
+            <!--float: left;-->
+            <!--width: 33%;-->
+            <!--padding: 10px;-->
+        <!--}-->
+
+
+    <!--input[type=text] {-->
+        <!--width: 130px;-->
+        <!--box-sizing: border-box;-->
+        <!--border: 2px solid #ccc;-->
+        <!--border-radius: 4px;-->
+        <!--font-size: 16px;-->
+        <!--background-color: white;-->
+        <!--background-image: url('searchicon.png');-->
+        <!--background-position: 10px 10px;-->
+        <!--background-repeat: no-repeat;-->
+        <!--padding: 10px 10px 10px 10px;-->
+        <!-- -webkit-transition: width 0.4s ease-in-out;-->
+        <!--transition: width 0.4s ease-in-out;-->
+    <!--}-->
+
+    <!--ul.ui-autocomplete {-->
+    <!--list-style: none;-->
+    <!--list-style-type: none;-->
+    <!--padding: 0px;-->
+    <!--margin: 0px;-->
+    <!--width: 100px;-->
+    <!--border-style: solid;-->
+    <!--border-width: 3px;-->
+<!--}-->
+
+<!--ul.ui-autocomplete li{-->
+    <!--background-color: white;-->
+    <!--padding:5px 8px;-->
+    <!--font-size:12px;-->
+    <!--outline:2px;-->
+<!--}-->
+
+
+<!--</style>-->
+
+<!--</head>-->
+<!--<body>-->
+
+
+
+<!--<form action="SearchStream" method="get">-->
+  <!--&lt;!&ndash;<div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<input id = "autocomplete" type="text" name="search" placeholder="Search.." align="left" hspace="10"> </br></br>&ndash;&gt;-->
+    <!--&lt;!&ndash;<input type="submit" value="Search" align="left" hspace="10"/>&ndash;&gt;-->
+
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+  <!--<div>-->
+    <!--<p style="padding: 10px 10px 10px 10px;">{{ num_found }} results found</br>Click on an image to view stream</p>-->
+     <!--{% for i, stream in streams_found %}-->
+          <!--<div class="row">-->
+            <!--<div class="image" style="padding: 10px 10px 10px 10px;">-->
+              <!--<a href="{{ stream.field('url').value }}">-->
+                  <!--{% if stream.field('cover_image').value  %}-->
+                    <!--<img src="{{ stream.field('cover_image').value }}"/>-->
+                  <!--{% else %}-->
+                    <!--<img src="http://placehold.it/150x150"/>-->
+                  <!--{% endif %}-->
+
+              <!--</a>-->
+                <!--<p style="padding: 10px 10px 10px 10px;">{{ stream.field("stream_name").value }}</p>-->
+
+              <!--<br>-->
+            <!--</div>-->
+
+          <!--</div>-->
+    <!--{% endfor %}-->
+  <!--</div>-->
+
+<!--</form>-->
+
+
+<!--<form action="AutoCompleteCreation" method="get">-->
+  <!--<div>-->
+    <!--<input type="submit" value="Rebuild Completion Index" align="center" hspace="10"/>-->
+
+  <!--</div>-->
+
+<!--</form>-->
+
+<!--</body>-->
 {% endblock content %}

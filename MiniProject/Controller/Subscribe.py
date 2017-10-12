@@ -28,7 +28,10 @@ class Subscribe(webapp2.RequestHandler):
 
             form_data = cgi.FieldStorage()
             requests = form_data.getlist("subscribe")
-            stream = "dummy"
+            stream_name = self.request.get('stream_name')
+            status = self.request.get('stream_name')
+
+            #stream = "dummy"
             for key_str in requests:
                 key = ndb.Key(urlsafe=key_str)
                 stream = key.get
@@ -36,9 +39,9 @@ class Subscribe(webapp2.RequestHandler):
                     current_user.streams_subscribed.append(key)
                     current_user.put()
                     time.sleep(.1)
+                self.redirect('/ViewSingleStream?stream_name=' + stream_name + ";status=" + status)
 
-            self.redirect('/ManageStream')
-            #self.redirect(
-                  #      '/ViewSingleStream?stream_name=' + stream.name + ";status=" + stream.status + ";page=" + str(page))
+
+            #self.redirect('/ManageStream')
 
 
