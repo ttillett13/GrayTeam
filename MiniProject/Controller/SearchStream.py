@@ -76,8 +76,8 @@ class SearchStream(webapp2.RequestHandler):
                     'url': auth[1],
                     'url_linktext': auth[2],
                     'num_found': num_found,
-                    'streams_found': enumerate(streams_found),
-                    'pictures': pictures
+                    'streams_found': enumerate(streams_found)
+                    #'pictures': pictures
                 }
 
             template = JINJA_ENVIRONMENT.get_template('/Pages/SearchStream.html')

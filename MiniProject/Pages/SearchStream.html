@@ -60,6 +60,20 @@ ul.ui-autocomplete li{
 
 
 </style>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+        $.getJSON('/AutoComplete', function (data) {
+            $("#autocomplete").autocomplete({
+                source: function(req, response) {
+                    var results = $.ui.autocomplete.filter(data, req.term).sort();
+                    response(results.slice(0,20));
+                },
+                minLength: 1
+            });
+        });
+</script>
+
 
 </head>
 <body>
