@@ -1,0 +1,70 @@
+{% extends "/Pages/base.html" %}
+{% block title %}Connex.us - View All Streams {% endblock title %}
+
+{% block styles %}
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		margin: 0;
+		font-family: Arial;
+	}
+
+	.header {
+		text-align: center;
+		padding: 22px;
+	}
+
+	/* Create two equal columns that floats next to each other */
+	.column {
+		float: left;
+		width: 25%;
+		padding: 10px;
+	}
+
+	.container {
+    position: relative;
+    text-align: center;
+    color: white;
+	}
+
+	.centered {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.column img {
+		margin-top: 12px;
+	}
+
+	/* Clear floats after the columns */
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+	.floating_label {
+  position:absolute; z-index:200; top:50px; left:50px;
+}
+{% endblock styles %}
+
+{% block content %}
+	<div class="header">
+  <h1>View All Streams</h1>
+</div>
+<div class="row">
+    {% for stream in streams %}
+        <div class="column">
+			<a href="{{ stream[2] }}">
+				<div class="container">
+					<img src="{{ stream[1] }}" height="256" width="256">
+					<div class="centered"><h2 style="color:black">{{ stream[0] }}</h2></div>
+				</div>
+			</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

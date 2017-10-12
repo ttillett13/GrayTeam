@@ -1,70 +1,137 @@
 {% extends "/Pages/base.html" %}
 {% block title %}Connex.us - View All Streams {% endblock title %}
-
-{% block styles %}
-	* {
-		box-sizing: border-box;
-	}
-
-	body {
-		margin: 0;
-		font-family: Arial;
-	}
-
-	.header {
-		text-align: center;
-		padding: 22px;
-	}
-
-	/* Create two equal columns that floats next to each other */
-	.column {
-		float: left;
-		width: 25%;
-		padding: 10px;
-	}
-
-	.container {
-    position: relative;
-    text-align: center;
-    color: white;
-	}
-
-	.centered {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-
-	.column img {
-		margin-top: 12px;
-	}
-
-	/* Clear floats after the columns */
-	.row:after {
-		content: "";
-		display: table;
-		clear: both;
-	}
-	.floating_label {
-  position:absolute; z-index:200; top:50px; left:50px;
-}
-{% endblock styles %}
-
 {% block content %}
-	<div class="header">
-  <h1>View All Streams</h1>
-</div>
-<div class="row">
-    {% for stream in streams %}
-        <div class="column">
-			<a href="{{ stream[2] }}">
-				<div class="container">
-					<img src="{{ stream[1] }}" height="256" width="256">
-					<div class="centered"><h2 style="color:black">{{ stream[0] }}</h2></div>
-				</div>
-			</a>
+<html>
+    <head>
+        <title>Forms | Bootstrap 3.x Admin Theme</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" media="screen" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-theme.min.css">
+
+        <!-- Bootstrap Admin Theme -->
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-admin-theme.css">
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-admin-theme-change-size.css">
+
+        <!-- Vendors -->
+        <link rel="stylesheet" media="screen" href="/vendors/bootstrap-datepicker/css/datepicker.css">
+        <link rel="stylesheet" media="screen" href="/css/datepicker.fixes.css">
+        <link rel="stylesheet" media="screen" href="/vendors/uniform/themes/default/css/uniform.default.min.css">
+        <link rel="stylesheet" media="screen" href="/css/uniform.default.fixes.css">
+        <link rel="stylesheet" media="screen" href="/vendors/chosen.min.css">
+        <link rel="stylesheet" media="screen" href="/vendors/selectize/dist/css/selectize.bootstrap3.css">
+        <link rel="stylesheet" media="screen" href="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/stylesheets/bootstrap-wysihtml5/core-b3.css">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+           <script type="text/javascript" src="/js/html5shiv.js"></script>
+           <script type="text/javascript" src="/js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="bootstrap-admin-with-small-navbar">
+
+       <div class="container">
+
+      <h1 class="my-4 text-center text-lg-left">View All Streams</h1>
+
+      <div class="row text-center text-lg-left">
+
+        {% for stream in streams %}
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href={{ stream[2] }} class="d-block mb-4 h-100">
+              <div class="container">
+                  <img class="img-fluid img-thumbnail" src="{{ stream[1] }}" alt="">
+                  <label>{{ stream[0] }}</label>
+              </div>
+          </a>
         </div>
-    {% endfor %}
-</div>
+       {% endfor %}
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+        <!--<div class="col-lg-3 col-md-4 col-xs-6">-->
+          <!--<a href="#" class="d-block mb-4 h-100">-->
+            <!--<img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">-->
+			<!--<label>Image name</label>-->
+          <!--</a>-->
+        <!--</div>-->
+      </div>
+
+    </div>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/twitter-bootstrap-hover-dropdown.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap-admin-theme-change-size.js"></script>
+        <script type="text/javascript" src="/vendors/uniform/jquery.uniform.min.js"></script>
+        <script type="text/javascript" src="/vendors/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="/vendors/selectize/dist/js/standalone/selectize.min.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/javascripts/bootstrap-wysihtml5/wysihtml5.js"></script>
+        <script type="text/javascript" src="/vendors/bootstrap-wysihtml5-rails-b3/vendor/assets/javascripts/bootstrap-wysihtml5/core-b3.js"></script>
+        <script type="text/javascript" src="/vendors/twitter-bootstrap-wizard/jquery.bootstrap.wizard-for.bootstrap3.js"></script>
+        <script type="text/javascript" src="/vendors/boostrap3-typeahead/bootstrap3-typeahead.min.js"></script>
+
+
+    </body>
+</html>
 {% endblock content %}
