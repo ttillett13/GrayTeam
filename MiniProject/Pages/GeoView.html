@@ -132,6 +132,8 @@
                     google.maps.event.addListener(marker, 'mouseout', function() {
                         infowindow.close();
                     });
+
+
                 }
 
 
@@ -140,19 +142,38 @@
                     var lower_date = new Date($("#lower_bound").val());
                     var upper_date = new Date($("#upper_bound").val());
 
+                    refreshMap();
                     for (var i = 0; i < markers.length; i++)
                     {
+                        var cluster_markers = [];
+                        var test = [];
                         var picture_date = new Date(markers[i].date);
+
                         if (picture_date >= lower_date && picture_date <= upper_date)
                         {
                             markers[i].setMap(map);
+                            //cluster_markers.push(markers[i]);
+                            markerCluster.addMarker(markers[i]);
                         }
                         else
                         {
                             markers[i].setMap(null);
+
                         }
                     }
-                    markerCluster.clearMarkers();
+
+
+//                    markerCluster.removeMarkers(test);
+                    //markerCluster.addMarkers(cluster_markers);
+                    markerCluster.redraw();
+//                    markerCluster = new MarkerClusterer(map, cluster_markers,
+//                        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+                }
+
+                function refreshMap() {
+                    if (markerCluster) {
+                        markerCluster.clearMarkers();
+                    }
                 }
 
 			</script>
