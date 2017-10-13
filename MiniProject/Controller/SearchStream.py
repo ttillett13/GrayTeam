@@ -50,26 +50,29 @@ class SearchStream(webapp2.RequestHandler):
                 query_options = search.QueryOptions(limit=5)
                 query = search.Query(query_string=query_string[0], options=query_options)
                 streams_found = index.search(query)
-                num_found = len(streams_found.results)
 
                 for stream in streams_found.results:
-                    if not stream.field('cover_image').value:
-
-                        stream_obj = Stream.query(Stream.name == stream.field('stream_name').value).get()
-                        if stream_obj:
-                            if stream_obj.pictures:
-                                cover_image = images.get_serving_url(stream_obj.pictures[0].get().image,
-                                                                     secure_url=False)
-                                d = search.Document(
-                                    doc_id=stream.doc_id,
-                                    fields=[search.TextField(name="stream_name", value=stream_obj.name),
+                    #stream_obj = Stream.query(Stream.name == stream.field('stream_name').value).get()
+                    key = ndb.Key(urlsafe=stream.doc_id)
+                    stream_obj = key.get()
+                    if not stream_obj:
+                        index.delete(stream.doc_id)
+                    elif not stream.field('cover_image').value:
+                        if stream_obj.pictures:
+                            cover_image = images.get_serving_url(stream_obj.pictures[0].get().image,
+                                                                 secure_url=False)
+                            d = search.Document(
+                                doc_id=stream.doc_id,
+                                fields=[search.TextField(name="stream_name", value=stream_obj.name),
                                         search.TextField(name="cover_image", value=cover_image),
                                         search.TextField(name="url", value=stream_obj.url),
                                         search.TextField(name="tag", value=stream.field('tag').value)],
-                                    language="en")
-                                search.Index(name=INDEX_NAME).put(d)
+                                language="en")
+                            search.Index(name=INDEX_NAME).put(d)
 
                 streams_found = index.search(query)
+                num_found = len(streams_found.results)
+
 
                 template_values = {
                     'user': auth[0],
@@ -77,7 +80,6 @@ class SearchStream(webapp2.RequestHandler):
                     'url_linktext': auth[2],
                     'num_found': num_found,
                     'streams_found': enumerate(streams_found)
-                    #'pictures': pictures
                 }
 
             template = JINJA_ENVIRONMENT.get_template('/Pages/SearchStream.html')

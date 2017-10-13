@@ -222,14 +222,32 @@
             });
         </script>
          <script>
-            $.getJSON('/AutoComplete', function (data) {
-                $("#autocomplete").autocomplete({
-                    source: function (req, response) {
-                        var results = $.ui.autocomplete.filter(data, req.term).sort();
-                        response(results.slice(0, 20));
-                    },
-                    minLength: 1
-                });
+//            $.getJSON('/AutoComplete', function (data) {
+//                $("#autocomplete").autocomplete({
+//                    source: function (req, response) {
+//                        var results = $.ui.autocomplete.filter(data, req.term).sort();
+//                        response(results.slice(0, 20));
+//                    },
+//                    minLength: 1
+//                });
+//            });
+             $(function() {
+                 var cache = {};
+                 $("#autocomplete").autocomplete({
+                     minLength: 1,
+                     source: function(request, response) {
+                         var term = request.term;
+                         if (term in cache) {
+                             response(cache[term]);
+                             return;
+                         }
+                         $.getJSON('/AutoComplete', request, function(data, status, xhr) {
+                             var results = $.ui.autocomplete.filter(data, request.term).sort().slice(0, 20);
+                             cache[term] = results;
+                             response(results);
+                         });
+                     }
+                 });
             });
         </script>
     </body>
