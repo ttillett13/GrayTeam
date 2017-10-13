@@ -98,62 +98,81 @@
 
             <!-- content -->
             <div class="col-lg-12">
-                <div class="row">
-                    <button class="btn btn-primary">Subscribe</button>
-                </div>
+                <form action="Subscribe" method="get">
+                    <div class="subscribe">
+                        <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True"/>
+                        <input type="text" name="status" value="success" hidden="True">
+                        <button class="btn btn-primary" type="submit" name="subscribe" value="{{ stream.key.urlsafe()}}" id="subscribe">
+                            Subscribe
+                        </button>
+                    </div>
+                </form>
                 <div class='col-md-8'>
                     <div class="carousel slide media-carousel" id="media">
                         <div class="carousel-inner">
                             <div class="item  active">
                                 <div class="row">
+                                    {% for picture in pics %}
                                     <div class="col-md-4">
                                         <a class="thumbnail" href="#">
-                                            <img alt="" src="http://placehold.it/150x150">
+                                            <img alt="" src="{{ picture[1] }}" onclick="openModal(); currentSlide(1)"
+                                                class="hover-shadow cursor">
                                         </a>
-                                        <label>Image name</label>
+                                        <!--<label>Image name</label> -->
                                     </div>
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#">
-                                            <img alt="" src="http://placehold.it/150x150">
-                                        </a>
-                                        <label>Image name</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a class="thumbnail" href="#">
-                                            <img alt="" src="http://placehold.it/150x150">
-                                        </a>
-                                        <label>Image name</label>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
-                            
-                            
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class='col-md-4'>
-                    <div class="row">
-                        <button class="btn btn-primary">More Picture</button>
-                    </div>
+                    <form action="ViewSingleStream" method="post">
+                        <div class="row">
+                            <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True">
+                            <input type="text" name="decrementPage" value="{{ page }}" hidden="True">
+                            <button class="btn btn-primary" type="submit" name="moreImages" id="moreImages">More Images</button>
+                        </div>
+                    </form>
                     <br>
                     <br>
                     <br>
                     <br>
-                    
-                    <div class="">
-                        <button class="btn btn-primary">Geo View</button>
-                    </div>
+
+                    <form action="GeoView" method="get">
+                        <div class="geoview">
+                            <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True"/>
+                            <input type="text" name="status" value="success" hidden="True">
+                            <button class="btn btn-primary" type="submit" name="geoview" id="GeoView">Geo View</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                    <div class="field" align="left">
-                            <h3>Upload your images</h3>
-                            <input type="file" id="files" name="files[]" multiple />
-                            <button class="btn btn-primary">Upload Images</button>
+                <div class="field" align="left">
+                    <script type="text/javascript" src="/dropzone/dropzone.js"></script>
+                    <link rel="stylesheet" href="/dropzone/dropzone.css">
+
+                    <div>
+                        <form action="ViewSingleStream" method="post" id="my-awesome-dropzone" class="dropzone">
+                            <div class="dropzone-previews"></div> <!-- this is were the previews should be shown. -->
+
+                            <!-- Now setup your input fields -->
+                            <input type="text" name="stream_name" value="{{ stream.name }}" hidden="True"/>
+                            <input type="text" name="page" value="{{ page }}" hidden="True">
+
+                        </form>
+                        <button class="btn btn-primary" id="upload">Start Upload</button>
+                        <button class="btn btn-primary" id="stop">Cancel Upload</button>
                     </div>
+                           <!-- <h3>Upload your images</h3>
+                            <input type="file" id="files" name="files[]" multiple />
+                            <button class="btn btn-primary">Upload Images</button> -->
+                </div>
             </div>
         </div>
     </div>
@@ -245,14 +264,14 @@
                         $(".remove").click(function(){
                           $(this).parent(".pip").remove();
                         });
-                        
+
                         // Old code here
                         /*$("<img></img>", {
                           class: "imageThumb",
                           src: e.target.result,
                           title: file.name + " | Click to remove"
                         }).insertAfter("#files").click(function(){$(this).remove();});*/
-                        
+
                       });
                       fileReader.readAsDataURL(f);
                     }
@@ -268,6 +287,89 @@
                 });
             });
         </script>
+
+<script>
+    Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
+
+        // The configuration we've talked about above
+        autoQueue: true,
+        autoProcessQueue: false,
+        uploadMultiple: false,
+        parallelUploads: 1,
+        maxFiles: 100,
+
+        // The setting up of the dropzone
+        init: function () {
+            var uploadButton = document.querySelector("#upload")
+            var stopButton = document.querySelector("#stop")
+            var myDropzone = this;
+
+            // change the button to actually tell Dropzone to process the queue.
+            uploadButton.addEventListener("click", function () {
+                myDropzone.processQueue();
+            });
+            stopButton.addEventListener("click", function () {
+                myDropzone.removeAllFiles(true);
+                location.reload();
+
+            });
+            this.on("sending", function (file, xhr, formData) {
+                var name = "name";
+                formData.append(name, file.name);
+            });
+            this.on('queuecomplete', function () {
+                location.reload();
+            });
+            myDropzone.on('success', myDropzone.processQueue.bind(myDropzone));
+
+            this.handleFiles = function (files) {
+                var file, _i, _len, _results;
+                _results = [];
+                for (_i = 0, _len = files.length; _i < _len; _i++) {
+                    file = files[_i];
+                    _results.push(this.addFile(file));
+                    // Make sure we don't handle more files than requested
+                    if (this.options.maxFiles != null && this.options.maxFiles > 0 && _i >= (this.options.maxFiles - 1)) {
+                        break;
+                    }
+                }
+                return _results;
+            };
+            this._addFilesFromItems = function (items) {
+                var entry, item, _i, _len, _results;
+                _results = [];
+                for (_i = 0, _len = items.length; _i < _len; _i++) {
+                    item = items[_i];
+                    if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
+                        if (entry.isFile) {
+                            _results.push(this.addFile(item.getAsFile()));
+                        } else if (entry.isDirectory) {
+                            _results.push(this._addFilesFromDirectory(entry, entry.name));
+                        } else {
+                            _results.push(void 0);
+                        }
+                    } else if (item.getAsFile != null) {
+                        if ((item.kind == null) || item.kind === "file") {
+                            _results.push(this.addFile(item.getAsFile()));
+                        } else {
+                            _results.push(void 0);
+                        }
+                    } else {
+                        _results.push(void 0);
+                    }
+                    // Make sure we don't handle more files than requested
+                    if (this.options.maxFiles != null && this.options.maxFiles > 0 && _i >= (this.options.maxFiles - 1)) {
+                        break;
+                    }
+                }
+                return _results;
+            };
+        }
+
+    }
+
+
+</script>
 <!--&lt;!&ndash;&ndash;&gt;</body>&ndash;&gt;-->
 
 <!--&lt;!&ndash;</html>-->
