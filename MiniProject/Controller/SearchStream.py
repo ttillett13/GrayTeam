@@ -126,4 +126,4 @@ class AutoCompleteCreation(webapp2.RequestHandler):
             index = AutocompleteIndex(name=AUTOCOMPLETE_INDEX, values=list)
         index.put()
 
-        self.redirect('/SearchStream')
+        #self.redirect('/SearchStream')

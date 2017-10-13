@@ -130,13 +130,15 @@
                         </div>
                     </div>
                     </form>
-                    <form action="AutoCompleteCreation" method="get">
+                    <!--<form action="AutoCompleteCreation" method="get">
                       <div>
                         <input type="submit" value="Rebuild Completion Index" align="center" hspace="10"/>
 
                       </div>
 
-                    </form>
+                    </form> -->
+                    <button class="btn btn-primary" id="rebuildAutoComplete">Rebuild Completion Index</button>
+
                 </div>
             </div>
         </div>
@@ -242,6 +244,20 @@
                  });
             });
         </script>
+    <script>
+        $(function () {
+            var reloadButton = document.querySelector("#rebuildAutoComplete")
+            reloadButton.addEventListener("click", function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/AutoCompleteCreation",
+                    dataType: "text",
+                });
+                //location.href = '/AutoCompleteCreation';
+                location.reload();
+            });
+        });
+    </script>
     </body>
 </html>
 
