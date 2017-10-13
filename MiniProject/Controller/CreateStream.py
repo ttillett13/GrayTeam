@@ -74,6 +74,11 @@ class CreateStream(webapp2.RequestHandler):
             time.sleep(.1)
             subscribers = str(self.request.get('subscriber'))
             subscribers = subscribers.split(",")
+            subscriberMessage = self.request.get('subscriberMessage')
+            if subscriberMessage:
+                subscriberMessage = str(subscriberMessage)
+            else:
+                subscriberMessage = "Welcome to the stream"
 
             sg = sendgrid.SendGridAPIClient(
                 apikey="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")
@@ -88,7 +93,8 @@ class CreateStream(webapp2.RequestHandler):
                     # Send an email
                     to_email = Email(user.email)
                     subject = "You've been subscribed!"
-                    content = Content("text/plain", str(self.request.get('subscriberMessage')))
+                    #content = Content("text/plain", str(self.request.get('subscriberMessage')))
+                    content = Content("text/plain", subscriberMessage)
                     mail = Mail(from_email, subject, to_email, content)
                     response = sg.client.mail.send.post(request_body=mail.get())
 
