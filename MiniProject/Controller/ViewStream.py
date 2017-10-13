@@ -88,9 +88,12 @@ class ViewStream(webapp2.RequestHandler):
             status = "success"
 
             if decrementPage:
-                page = int(decrementPage) - 1
+                    page = int(decrementPage) - 1
             else:
                 page = int(standardPage) + 1
+
+            if page < 0:
+                page = 0
 
             # Check to see if image name already exists
             if picture_name and not Picture.query(Picture.name == picture_name).fetch():
