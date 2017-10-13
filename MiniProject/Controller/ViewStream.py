@@ -88,17 +88,21 @@ class ViewStream(webapp2.RequestHandler):
             status = "success"
 
             if decrementPage:
-                page = int(decrementPage) - 1
+                    page = int(decrementPage) - 1
             else:
                 page = int(standardPage) + 1
 
+            if page < 0:
+                page = 0
+
+            dt = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
             # Check to see if image name already exists
-            if picture_name and not Picture.query(Picture.name == picture_name).fetch():
+            if picture_name and not Picture.query(Picture.name == stream_name + "_" + str(picture_name) + "_" + dt).fetch():
                 for i in Stream.query().fetch():
                     if i.name == stream_name:
                         stream = i
 
-                filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + picture_name
+                filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + stream_name + "_" + str(picture_name) + "_" + dt
 
                 with cloudstorage.open(filename, 'w', content_type='image/jpeg') as filehandle:
                     filehandle.write(str(picture))
@@ -106,7 +110,8 @@ class ViewStream(webapp2.RequestHandler):
                 blobstore_filename = '/gs{}'.format(filename)
                 blob_key = blobstore.create_gs_key(blobstore_filename)
 
-                new_picture = Picture(name=str(picture_name), image=blob_key, comments=comments,
+                new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
+                                      image=blob_key, comments=comments,
                                       lat=random.uniform(-90, 90), lon=random.uniform(-180, 180),
                                       date_uploaded=datetime.datetime.today()).put()
 
