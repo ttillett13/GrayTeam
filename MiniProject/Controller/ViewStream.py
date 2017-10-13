@@ -102,7 +102,7 @@ class ViewStream(webapp2.RequestHandler):
                     if i.name == stream_name:
                         stream = i
 
-                filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + picture_name
+                filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + stream_name + "_" + str(picture_name) + "_" + dt
 
                 with cloudstorage.open(filename, 'w', content_type='image/jpeg') as filehandle:
                     filehandle.write(str(picture))
