@@ -95,8 +95,9 @@ class ViewStream(webapp2.RequestHandler):
             if page < 0:
                 page = 0
 
+            dt = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
             # Check to see if image name already exists
-            if picture_name and not Picture.query(Picture.name == picture_name).fetch():
+            if picture_name and not Picture.query(Picture.name == stream_name + "_" + str(picture_name) + "_" + dt).fetch():
                 for i in Stream.query().fetch():
                     if i.name == stream_name:
                         stream = i
@@ -109,7 +110,8 @@ class ViewStream(webapp2.RequestHandler):
                 blobstore_filename = '/gs{}'.format(filename)
                 blob_key = blobstore.create_gs_key(blobstore_filename)
 
-                new_picture = Picture(name=str(picture_name), image=blob_key, comments=comments,
+                new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
+                                      image=blob_key, comments=comments,
                                       lat=random.uniform(-90, 90), lon=random.uniform(-180, 180),
                                       date_uploaded=datetime.datetime.today()).put()
 
