@@ -99,12 +99,15 @@ class CreateStream(webapp2.RequestHandler):
                     response = sg.client.mail.send.post(request_body=mail.get())
 
             # need to also make a search api document
+            tag_words = tag_stream
+            tag_words.replace("#", "")
+            full_tag_stream = tag_stream + tag_words
             d = search.Document(
                 doc_id=new_stream.key.urlsafe(),
                 fields=[search.TextField(name="stream_name", value=stream_name),
                         search.TextField(name="cover_image", value=cover_image_url),
                         search.TextField(name="url", value=new_stream.url),
-                        search.TextField(name="tag", value=tag_stream.replace(",", " ").replace("#", ""))],
+                        search.TextField(name="tag", value=full_tag_stream.replace(",", " "))],
                 language="en")
             try:
                 search.Index(name=INDEX_NAME).put(d)
