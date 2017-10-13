@@ -102,24 +102,30 @@
 					</div>
 					<div class="row">
                         <div class="col-md-12">
-                            <div class="panel panel-default">
+                            <!--<div class="panel panel-default">
                                 <div class="bootstrap-admin-panel-content">
 									<table class="table table-striped table-bordered" id="streamIOwn">
                                         
-                                        <tbody>
+                                        <tbody> -->
                                         {% for i, stream in streams_found %}
-                                            <tr class="odd gradeX">
-                                                <td><a href="{{ stream.field('url').value }}">
+                                           <!-- <tr class="odd gradeX">
+                                                <td>-->
+                                            <div class="col-lg-3 col-md-4 col-xs-6">
+                                                <a href="{{ stream.field('url').value }}">
+                                                    <div class="container">
                                                       {% if stream.field('cover_image').value  %}
-                                                        <img src="{{ stream.field('cover_image').value }}"/>
+                                                        <img class="img-fluid img-thumbnail" width=256 height=256 src="{{ stream.field('cover_image').value }}"/>
                                                       {% else %}
-                                                        <img src="http://placehold.it/150x150"/>
+                                                        <img class="img-fluid img-thumbnail" width=256 height=256 src="http://placehold.it/150x150"/>
                                                       {% endif %}
+                                                        <label>{{ stream.field("stream_name").value }}</label>
+
+                                                        </div>
                                                     </a>
-                                                    <p style="padding: 10px 10px 10px 10px;">{{ stream.field("stream_name").value }}</p>
-                                                </td>
+                                            </div>
+                                               <!-- </td>
                                         
-                                            </tr>
+                                            </tr> -->
                                             {% endfor %}
 
                                             <!--<tr class="even gradeC">-->
@@ -128,11 +134,11 @@
                                             <!--<tr class="odd gradeA">-->
                                                 <!--<td>show image here with img tag</td>-->
                                             <!--</tr>-->
-                                        </tbody>
+                                <!--        </tbody>
                                     </table>
 					
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     </form>
