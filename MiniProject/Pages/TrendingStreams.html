@@ -131,16 +131,16 @@
                      <div class="row">
                         <!-- <td style="width: 163px;">&nbsp;<input name="onetype" type="checkbox" value="Every5Minutes" {% if report_sending=="Every5Minutes" %} checked="checked" {% endif %}/>Every 5 minutes</td>
 -->
-                         <input name="onetype" type="checkbox" value="NoReports" {% if report_sending=="NoReports" %} checked="checked" {% endif %}/><label>No reports</label>
+                         <input name="onetype" type="radio" value="NoReports" {% if report_sending=="NoReports" %} checked="checked" {% endif %}/><label>No reports</label>
                      </div>
                      <div class="row">
-                         <input name="onetype" type="checkbox" value="Every5Minutes" {% if report_sending=="Every5Minutes" %} checked="checked" {% endif %}/><label>Every 5 minutes</label>
+                         <input name="onetype" type="radio" value="Every5Minutes" {% if report_sending=="Every5Minutes" %} checked="checked" {% endif %}/><label>Every 5 minutes</label>
                      </div>
                      <div class="row">
-                         <input name="onetype" type="checkbox" value="Every1Hour" {% if report_sending=="Every1Hour" %} checked="checked" {% endif %}/><label>Every 1 hour</label>
+                         <input name="onetype" type="radio" value="Every1Hour" {% if report_sending=="Every1Hour" %} checked="checked" {% endif %}/><label>Every 1 hour</label>
                      </div>
                      <div class="row">
-                         <input name="onetype" type="checkbox" value="EveryDay" {% if report_sending=="EveryDay" %} checked="checked" {% endif %}/><label>Every day</label>
+                         <input name="onetype" type="radio" value="EveryDay" {% if report_sending=="EveryDay" %} checked="checked" {% endif %}/><label>Every day</label>
                      </div>
                      <div class="row">
                          <button class="btn btn-primary">Update Rate</button>
