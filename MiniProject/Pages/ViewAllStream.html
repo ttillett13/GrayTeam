@@ -41,12 +41,14 @@
         {% for stream in streams %}
         <div class="col-lg-3 col-md-4 col-xs-6">
           <a href={{ stream[2] }} class="d-block mb-4 h-100">
-              <div class="container">
+              <!--<div class="container"> -->
+              <div style="width: 300px; height: 300px;">
                   {% if stream[1]  %}
                     <img class="img-fluid img-thumbnail" src="{{ stream[1] }}" alt="" height="256" width="256">
                   {% else %}
                     <img class="img-fluid img-thumbnail" src="http://placehold.it/150x150" alt="" height="256" width="256">
                   {% endif %}
+                  <br>
                   <label>{{ stream[0] }}</label>
               </div>
           </a>
