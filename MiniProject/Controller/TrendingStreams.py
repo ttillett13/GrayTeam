@@ -100,7 +100,7 @@ class TrendingReport(webapp2.RequestHandler):
         num = len(sorted_streams)
         title = "Top 3 Trending Streams"
         if num > 3:
-            sorted_streams = sorted_streams[:2]
+            sorted_streams = sorted_streams[:3]
         elif num == 2:
             title = "Top 2 Trending Streams"
         elif num == 1:
@@ -109,13 +109,11 @@ class TrendingReport(webapp2.RequestHandler):
             title = "No Streams Trending Currently"
 
         counts = list(map(lambda x: len(list(x.view_times)), sorted_streams))
-        for i,stream in enumerate(sorted_streams):
+        for stream in sorted_streams:
             if not stream.cover_page_url:
                 if stream.pictures:
-                    stream.cover_page_url = images.get_serving_url(stream.pictures[0].get().image,
-                                                         secure_url=False)
+                    stream.cover_page_url = images.get_serving_url(stream.pictures[0].get().image,secure_url=False)
                     stream.put()
-
         
         template_values = {
             'user': auth[0],
