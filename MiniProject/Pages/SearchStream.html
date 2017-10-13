@@ -1,8 +1,8 @@
 {% extends "/Pages/base.html" %}
 
 {% block title %}Connex.us - Search Streams {% endblock title %}
+{% block styles %}
 
- {% block content %}
 <html>
     <head>
         <title>Forms | Bootstrap 3.x Admin Theme</title>
@@ -58,8 +58,9 @@
                 height:200px;
             }
         </style>
-
+{% endblock styles %}
     </head>
+    {% block content %}
     <body class="bootstrap-admin-with-small-navbar">
 
         <div class="container">
