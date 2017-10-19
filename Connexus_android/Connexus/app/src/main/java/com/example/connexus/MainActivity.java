@@ -1,9 +1,6 @@
 package com.example.connexus;
 
 //This code is largely based from https://www.androidhive.info/2014/02/android-login-with-google-plus-account-1/
-
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
@@ -36,16 +31,15 @@ public class MainActivity extends AppCompatActivity implements
         View.OnClickListener,
         GoogleApiClient.OnConnectionFailedListener {
 
+    public static final String EXTRA_MESSAGE = "com.example.connexus.MESSAGE";
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
 
-    private GoogleApiClient mGoogleApiClient;
-    private ProgressDialog mProgressDialog;
+    public GoogleApiClient mGoogleApiClient;
+    private MyApplication myApplication;
 
     private SignInButton btnSignIn;
     private Button btnSignOut, viewStreams;
-    private LinearLayout llProfileLayout;
-    private ImageView imgProfilePic;
     private TextView title, description;
     private Space space1, space2, space3;
 
@@ -56,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements
 
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
         btnSignOut = (Button) findViewById(R.id.btn_sign_out);
-        llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
         title = (TextView) findViewById(R.id.title);
         viewStreams = (Button) findViewById(R.id.view_streams);
         description = (TextView) findViewById(R.id.description);
@@ -76,8 +69,32 @@ public class MainActivity extends AppCompatActivity implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+
+        myApplication = (MyApplication)getApplicationContext();
+//        mGoogleApiClient = myApplication.googleApiHelper.getGoogleApiClient();
+        myApplication.setGoogleApiClient(mGoogleApiClient);
+
+        //GoogleSignInOptions gso = myApplication.googleApiHelper.getGoogleSignInOptions();
+        //mGoogleApiClient = myApplication.googleApiHelper.getGoogleApiClient();
+        //myApplication.googleApiHelper.connect();
+        //Boolean test = myApplication.googleApiHelper.isConnected();
+
         btnSignIn.setSize(SignInButton.SIZE_STANDARD);
         btnSignIn.setScopes(gso.getScopeArray());
+    }
+
+    public void loadStreamsPage(View view) {
+        String message = "this is a test";
+        Intent intent = new Intent(this, ViewAllStreams.class);
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+
+    public void loadStreamsPage() {
+        String message = "this is a test";
+        Intent intent = new Intent(this, ViewAllStreams.class);
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 
 
@@ -87,15 +104,19 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        updateUI(false);
-                    }
-                });
-    }
+//    public void signOut() {
+//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+//                new ResultCallback<Status>() {
+//                    @Override
+//                    public void onResult(Status status) {
+//                        Intent startMain = new Intent(Intent.ACTION_MAIN);
+//                        startMain.addCategory(Intent.CATEGORY_HOME);
+//                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(startMain);
+//                        //updateUI(false);
+//                    }
+//                });
+//    }
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
@@ -128,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
 
             case R.id.btn_sign_out:
-                signOut();
+                //signOut();
                 break;
         }
     }
@@ -170,18 +191,16 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateUI(boolean isSignedIn) {
         if (isSignedIn) {
-            btnSignIn.setVisibility(View.GONE);
-            title.setVisibility(View.GONE);
-            space1.setVisibility(View.GONE);
-            space2.setVisibility(View.GONE);
-            space3.setVisibility(View.GONE);
-            viewStreams.setVisibility(View.GONE);
-            description.setVisibility(View.GONE);
-            btnSignOut.setVisibility(View.VISIBLE);
-            llProfileLayout.setVisibility(View.VISIBLE);
-            //Intent intent = new Intent(this, ViewAllStreams.class);
-            //intent.putExtra("test", "test");
-            //startActivity(intent);
+//            btnSignIn.setVisibility(View.GONE);
+//            title.setVisibility(View.GONE);
+//            space1.setVisibility(View.GONE);
+//            space2.setVisibility(View.GONE);
+//            space3.setVisibility(View.GONE);
+//            viewStreams.setVisibility(View.GONE);
+//            description.setVisibility(View.GONE);
+//            btnSignOut.setVisibility(View.VISIBLE);
+            loadStreamsPage();
+
         } else {
             btnSignIn.setVisibility(View.VISIBLE);
             title.setVisibility(View.VISIBLE);
@@ -191,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements
             viewStreams.setVisibility(View.VISIBLE);
             description.setVisibility(View.VISIBLE);
             btnSignOut.setVisibility(View.GONE);
-            llProfileLayout.setVisibility(View.GONE);
         }
     }
 }

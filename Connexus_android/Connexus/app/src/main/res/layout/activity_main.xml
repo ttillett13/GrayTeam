@@ -17,26 +17,6 @@
         android:textSize="30sp" />
     <!--END LOGIN-->
 
-    <LinearLayout
-        android:id="@+id/llProfile"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal"
-        android:weightSum="3"
-        android:visibility="gone">
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical"
-            android:layout_weight="2" >
-
-        </LinearLayout>
-    </LinearLayout>
-
     <!--LOGIN-->
     <Space
         android:id="@+id/space1"
@@ -68,6 +48,7 @@
         android:id="@+id/view_streams"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="loadStreamsPage"
         android:text="View Streams" />
 
     <Space
