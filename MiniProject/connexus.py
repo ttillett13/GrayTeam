@@ -9,6 +9,7 @@ from Controller.Subscribe import Subscribe
 from Controller.Unsubscribe import Unsubscribe
 from Controller.ViewStream import ViewStream
 from Controller.ViewAllStream import ViewAllStream
+from Controller.ViewAllStream import ViewAllStreamsAPI
 from Controller.GeoView import GeoView
 
 import webapp2
@@ -36,5 +37,6 @@ app = webapp2.WSGIApplication([
     ('/ViewSingleStream', ViewStream),
     ('/ViewAllStream', ViewAllStream),
     ('/GeoView', GeoView),
+    ('/ViewAllStream/api', ViewAllStreamsAPI),
 ], debug=True)
 # [END app]

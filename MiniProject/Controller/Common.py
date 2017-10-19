@@ -2,6 +2,7 @@ from google.appengine.api import users
 from Model.Stream import User
 from Config import *
 import datetime
+from datetime import date, datetime
 
 def authenticate(page):
     user = users.get_current_user()
@@ -38,3 +39,10 @@ def add_years(d, years):
         return d.replace(year=d.year + years)
     except ValueError:
         return d + (datetime.date(d.year + years, 1, 1) - datetime.date(d.year, 1, 1))
+
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))

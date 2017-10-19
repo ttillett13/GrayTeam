@@ -4,6 +4,9 @@ threadsafe: true
 
 # [START handlers]
 handlers:
+- url: /_ah/spi/.*
+  script: main.api
+
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
@@ -45,4 +48,9 @@ libraries:
   version: latest
 - name: jinja2
   version: latest
+- name: endpoints
+  version: 1.0
+- name: pycrypto
+  version: 2.6
+
 # [END libraries]
