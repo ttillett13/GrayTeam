@@ -65,35 +65,23 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-
         myApplication = (MyApplication)getApplicationContext();
-//        mGoogleApiClient = myApplication.googleApiHelper.getGoogleApiClient();
-        myApplication.setGoogleApiClient(mGoogleApiClient);
-
-        //GoogleSignInOptions gso = myApplication.googleApiHelper.getGoogleSignInOptions();
-        //mGoogleApiClient = myApplication.googleApiHelper.getGoogleApiClient();
-        //myApplication.googleApiHelper.connect();
-        //Boolean test = myApplication.googleApiHelper.isConnected();
 
         btnSignIn.setSize(SignInButton.SIZE_STANDARD);
         btnSignIn.setScopes(gso.getScopeArray());
     }
 
     public void loadStreamsPage(View view) {
-        String message = "this is a test";
         Intent intent = new Intent(this, ViewAllStreams.class);
-        intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 
     public void loadStreamsPage() {
-        String message = "this is a test";
         Intent intent = new Intent(this, ViewAllStreams.class);
-        intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 
@@ -104,35 +92,22 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-//    public void signOut() {
-//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-//                new ResultCallback<Status>() {
-//                    @Override
-//                    public void onResult(Status status) {
-//                        Intent startMain = new Intent(Intent.ACTION_MAIN);
-//                        startMain.addCategory(Intent.CATEGORY_HOME);
-//                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(startMain);
-//                        //updateUI(false);
-//                    }
-//                });
-//    }
+    public void signOut(View view) {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        updateUI(false);
+                    }
+                });
+    }
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-
-            Log.e(TAG, "display name: " + acct.getDisplayName());
-
-            String personName = acct.getDisplayName();
-            String personPhotoUrl = acct.getPhotoUrl().toString();
-            String email = acct.getEmail();
-
-            Log.e(TAG, "Name: " + personName + ", email: " + email
-                    + ", Image: " + personPhotoUrl);
-
+            myApplication.setGoogleSignInAccount(acct);
             updateUI(true);
         } else {
             updateUI(false);
@@ -191,16 +166,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateUI(boolean isSignedIn) {
         if (isSignedIn) {
-//            btnSignIn.setVisibility(View.GONE);
-//            title.setVisibility(View.GONE);
-//            space1.setVisibility(View.GONE);
-//            space2.setVisibility(View.GONE);
-//            space3.setVisibility(View.GONE);
-//            viewStreams.setVisibility(View.GONE);
-//            description.setVisibility(View.GONE);
-//            btnSignOut.setVisibility(View.VISIBLE);
             loadStreamsPage();
-
         } else {
             btnSignIn.setVisibility(View.VISIBLE);
             title.setVisibility(View.VISIBLE);

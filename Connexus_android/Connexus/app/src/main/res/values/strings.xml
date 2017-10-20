@@ -4,4 +4,5 @@
 
     <!-- Button text -->
     <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="my_subscribed_streams">My Subscribed Streams</string>
 </resources>

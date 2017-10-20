@@ -3,21 +3,21 @@ package com.example.connexus;
 import android.app.Application;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.ResultCallback;
 
 
 public class MyApplication extends Application{
     private static MyApplication singleton;
-    public GoogleApiHelper googleApiHelper;
-    public GoogleApiClient mGoogleApiClient;
+    public GoogleSignInAccount mAcct;
 
     @Override
     public void onCreate() {
         super.onCreate();
         singleton = this;
-
-        googleApiHelper = new GoogleApiHelper(singleton);
 
     }
 
@@ -25,21 +25,15 @@ public class MyApplication extends Application{
         return singleton;
     }
 
-    public GoogleApiHelper getGoogleApiHelperInstance() {
-        return this.googleApiHelper;
+    public void setGoogleSignInAccount(GoogleSignInAccount pGoogleApiClient) {
+        this.mAcct = pGoogleApiClient;
     }
 
-    public static GoogleApiHelper getGoogleApiHelper() {
-        return getInstance().getGoogleApiHelperInstance();
-    }
-
-    public void setGoogleApiClient(GoogleApiClient pGoogleApiClient) {
-        this.mGoogleApiClient = pGoogleApiClient;
-    }
-
-    public GoogleApiClient getGoogleApiClient() {
-
-        return this.mGoogleApiClient;
+    public GoogleSignInAccount getGoogleSignInAccount() {
+        if (this.mAcct != null)
+            return this.mAcct;
+        else
+            return null;
     }
 
     public String test() {
