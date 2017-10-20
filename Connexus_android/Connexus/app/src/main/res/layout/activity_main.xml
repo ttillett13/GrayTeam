@@ -27,17 +27,10 @@
         android:id="@+id/btn_sign_in"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="signIn"
         android:layout_marginBottom="20dp" />
     <!--END LOGIN-->
-
-    <Button
-        android:id="@+id/btn_sign_out"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_logout_from_google"
-        android:visibility="gone"
-        android:onClick="signOut"
-        android:layout_marginBottom="10dp"/>
 
     <!--LOGIN-->
     <Space

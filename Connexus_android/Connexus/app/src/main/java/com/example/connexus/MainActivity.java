@@ -30,8 +30,6 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity implements
         View.OnClickListener,
         GoogleApiClient.OnConnectionFailedListener {
-
-    public static final String EXTRA_MESSAGE = "com.example.connexus.MESSAGE";
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
 
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements
     private MyApplication myApplication;
 
     private SignInButton btnSignIn;
-    private Button btnSignOut, viewStreams;
+    private Button viewStreams;
     private TextView title, description;
     private Space space1, space2, space3;
 
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
-        btnSignOut = (Button) findViewById(R.id.btn_sign_out);
         title = (TextView) findViewById(R.id.title);
         viewStreams = (Button) findViewById(R.id.view_streams);
         description = (TextView) findViewById(R.id.description);
@@ -58,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements
         space3 = (Space) findViewById(R.id.space3);
 
         btnSignIn.setOnClickListener(this);
-        btnSignOut.setOnClickListener(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -85,21 +81,9 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-
-    public void signOut(View view) {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        updateUI(false);
-                    }
-                });
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
@@ -123,9 +107,6 @@ public class MainActivity extends AppCompatActivity implements
                 signIn();
                 break;
 
-            case R.id.btn_sign_out:
-                //signOut();
-                break;
         }
     }
 
@@ -159,8 +140,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
@@ -175,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements
             space3.setVisibility(View.VISIBLE);
             viewStreams.setVisibility(View.VISIBLE);
             description.setVisibility(View.VISIBLE);
-            btnSignOut.setVisibility(View.GONE);
         }
     }
 }

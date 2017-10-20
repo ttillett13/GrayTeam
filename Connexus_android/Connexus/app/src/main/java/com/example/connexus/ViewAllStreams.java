@@ -70,7 +70,7 @@ public class ViewAllStreams extends AppCompatActivity implements
             updateUI(false);
     }
 
-    public void signIn(View view) {
+    public void goBackToLogin(View view) {
         finish();
     }
 
@@ -87,8 +87,6 @@ public class ViewAllStreams extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
