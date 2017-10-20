@@ -29,6 +29,10 @@ public class MyApplication extends Application{
         this.mAcct = pGoogleApiClient;
     }
 
+    public void resetGoogleSignInAccount() {
+        this.mAcct = null;
+    }
+
     public GoogleSignInAccount getGoogleSignInAccount() {
         if (this.mAcct != null)
             return this.mAcct;
