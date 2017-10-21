@@ -44,10 +44,17 @@ public class ImageAdapter extends BaseAdapter {
         TextView title = (TextView) retval.findViewById(R.id.os_texts);
         ImageView image_list_icon = (ImageView)retval.findViewById(R.id.os_images);
 
+
         title.setText(mThumbNames[position]);
 
         String url = getItem(position);
-        Picasso.with(retval.getContext()).load(url).fit().centerCrop().into(image_list_icon);
+        int length = url.length();
+        if (length > 0) {
+            Picasso.with(retval.getContext()).load(url).fit().centerCrop().into(image_list_icon);
+        }
+        else if (mThumbNames[position].length() > 0){
+            Picasso.with(retval.getContext()).load("http://placehold.it/150").fit().centerCrop().into(image_list_icon);
+        }
         return retval;
     }
 }
