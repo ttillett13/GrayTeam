@@ -14,6 +14,8 @@
         android:layout_height="600dp"
         android:orientation="vertical"
         android:weightSum="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
@@ -62,6 +64,8 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="Find Streams"
+                android:nextFocusUp="@id/te_search_criteria"
+                android:nextFocusLeft="@id/te_search_criteria"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_editor_absoluteY="293dp" />

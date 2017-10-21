@@ -38,13 +38,18 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Kapangyarihan on 10/18/17.
@@ -56,7 +61,8 @@ public class ViewAllStreams extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private Context mContext;
     private static final String TAG = MainActivity.class.getSimpleName();
-    private ArrayList<Bitmap> bitmapList;
+    private Gson gson;
+    private List<StreamPost> posts;
 
     private TextView title;
     private GridView imageGrid;
@@ -66,7 +72,6 @@ public class ViewAllStreams extends AppCompatActivity implements
     private EditText te_search_criteria;
     private Button btn_search;
     private Button btn_nearby;
-    //private static final String ENDPOINT = "https://kylewbanks.com/rest/posts.json";
     private static final String ENDPOINT = "http://10.0.2.2:8080/ViewAllStream/api";
 
 
@@ -86,7 +91,6 @@ public class ViewAllStreams extends AppCompatActivity implements
         te_search_criteria = (EditText) findViewById(R.id.te_search_criteria);
         btn_search = (Button) findViewById(R.id.btn_search);
         btn_nearby = (Button) findViewById(R.id.btn_nearby);
-        this.bitmapList = new ArrayList<Bitmap>();
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -103,71 +107,13 @@ public class ViewAllStreams extends AppCompatActivity implements
         else
             updateUI(false);
 
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+        gson = gsonBuilder.create();
 
+        requestQueue = Volley.newRequestQueue(this);
+        fetchPosts();
 
-        String[] images = {
-                "http://i.imgur.com/rFLNqWI.jpg",
-                "http://i.imgur.com/C9pBVt7.jpg",
-                "http://i.imgur.com/rT5vXE1.jpg",
-                "http://i.imgur.com/aIy5R2k.jpg",
-                "http://i.imgur.com/MoJs9pT.jpg",
-                "http://i.imgur.com/S963yEM.jpg",
-                "http://i.imgur.com/rLR2cyc.jpg",
-
-        };
-
-
-
-
-//
-//        this.imageGrid.setAdapter(new ImageAdapter(this, this.bitmapList));
-//
-//
-//
-//
-//
-//
-//        requestQueue = Volley.newRequestQueue(this);
-//        fetchPosts();
-
-        // references to our images
-
-
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(ViewAllStreams.this, images));
-        //gridview.setAdapter(new ArrayAdapter<Integer>(this,android.R.layout.simple_list_item_1, mThumbIds));
-
-//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    int position, long id) {
-//                Toast.makeText(ViewAllStreams.this, "" + position,
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-    private Bitmap urlImageToBitmap(String imageUrl) throws Exception {
-        Bitmap result = null;
-        URL url = new URL(imageUrl);
-        if(url != null) {
-            result = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        }
-        return result;
     }
 
     /*******************************************NETWORKING CODE******************************************/
@@ -179,7 +125,45 @@ public class ViewAllStreams extends AppCompatActivity implements
     private final Response.Listener<String> onPostsLoaded = new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
-            Log.i("PostActivity", response);
+            posts = Arrays.asList(gson.fromJson(response, StreamPost[].class));
+
+            ArrayList<String> images = new ArrayList<String>();
+
+            Log.i("PostActivity", posts.size() + " posts loaded.");
+            for (StreamPost post : posts) {
+                if (post.url != "") {
+                    String fixedStr = post.url.replaceAll("127.0.0.1", "10.0.2.2");
+                    images.add(fixedStr);
+                }
+                else {
+                    images.add("http://placehold.it/150");
+                }
+                Log.i("PostActivity", ": " + post.name);
+            }
+
+            for (int i = images.size(); i < 16; i++)
+            {
+                images.add("http://placehold.it/150");
+            }
+
+            String[] imageArr = new String[images.size()];
+            imageArr = images.toArray(imageArr);
+
+
+            GridView gridview = (GridView) findViewById(R.id.gridview);
+            gridview.setAdapter(new ImageAdapter(ViewAllStreams.this, imageArr));
+
+            //@TIFFANY: This is where you can define an onclick for each of the images.  I have put the api call in the post.path method
+//            gridview.setAdapter(new ArrayAdapter<Integer>(this,android.R.layout.simple_list_item_1, mThumbIds));
+//
+//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View v,
+//                                    int position, long id) {
+//                Toast.makeText(ViewAllStreams.this, "" + position,
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
         }
     };
 
@@ -237,19 +221,4 @@ public class ViewAllStreams extends AppCompatActivity implements
     }
     /*******************************************END LOGIN CODE********************************************/
 }
-
-
-//
-//class Post {
-//
-//    @SerializedName("id")
-//    long ID;
-//
-//    @SerializedName("date")
-//    Date lastUpdate;
-//
-//    String name;
-//    String imagePath;
-//    String url;
-//}
 

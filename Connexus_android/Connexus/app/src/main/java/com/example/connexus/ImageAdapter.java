@@ -6,21 +6,26 @@ package com.example.connexus;
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.util.zip.Inflater;
+
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    int imageTotal = 7;
+    int imageTotal = 16;
     public static String[] mThumbIds;
+    Inflater mLayoutInflater;
 
     public ImageAdapter(Context c, String[] list) {
         //super(c, R.layout.gridview_item, list);
         this.mContext = c;
         this.mThumbIds = list;
+        //mLayoutInflater = LayoutInflater.from(c);
     }
 
     public int getCount() {
@@ -37,6 +42,11 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+        // Inflate the single grid item layout
+        if (convertView == null) {
+            //mLayoutInflater = new LayoutInflater();
+            //convertView = mLayoutInflater.inflate(R.layout.image, parent, false);
+        }
         ImageView imageView;
         if (convertView == null) {
             imageView = new ImageView(mContext);
