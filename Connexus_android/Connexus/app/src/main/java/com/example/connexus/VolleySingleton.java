@@ -1,5 +1,6 @@
 package com.example.connexus;
 
+//Got this from https://developer.android.com/training/volley/requestqueue.html
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.LruCache;
@@ -45,8 +46,6 @@ public class VolleySingleton {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;

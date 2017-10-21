@@ -14,6 +14,8 @@ from Model.Stream import Stream
 from Model.Stream import Picture
 from Model.Stream import User
 from Controller.Common import authenticate
+import json
+from Controller.Common import json_serial
 
 
 import datetime
@@ -28,52 +30,60 @@ class ViewStream(webapp2.RequestHandler):
     def get(self):
         auth = authenticate(self)
         if auth[0]:
-
-            stream_name = self.request.get('stream_name')
-            status = self.request.get('status')
-            page = self.request.get('page')
-
-
-
-            # TODO: For some reason stream = Stream.query(Stream.name == stream_name).get() does not work... fix it later
-            for i in Stream.query().fetch():
-                if i.name == stream_name:
-                    stream = i
-
-            time = datetime.datetime.time(datetime.datetime.now())
-            stream.view_times.append(time)
-            stream.times_viewed = stream.times_viewed + 1
-            stream.put()
-
-            pics = []
-            if stream.pictures:
-                if not page:
-                    page = len(stream.pictures)
-                page = int(page)
-                if page == 0:
-                    page = len(stream.pictures)
-
-                iter = 0
-                for i in reversed(range(page - 3, page)):
-                    if iter < len(stream.pictures):
-                        pic_temp = stream.pictures[i].get()
-                        pics.append((pic_temp.name, images.get_serving_url(pic_temp.image, secure_url=False)))
-                    iter += 1
-            else:
-                page = 0
-
             template_values = {
                 'user': auth[0],
                 'url': auth[1],
                 'url_linktext': auth[2],
-                'stream': stream,
-                'pics': pics,
-                'status': status,
-                'page': page,
-                'stream_name': stream.name
             }
+            current_user = User.query(User.username == auth[0]._User__email).get()
+            template_values = dict(template_values.items() + self.build_template(current_user, self.request).items())
+
+
             template = JINJA_ENVIRONMENT.get_template('/Pages/ViewStream.html')
             self.response.write(template.render(template_values))
+
+    @staticmethod
+    def build_template(current_user, request):
+        stream_name = request.get('stream_name')
+        status = request.get('status')
+        page = request.get('page')
+
+        # TODO: For some reason stream = Stream.query(Stream.name == stream_name).get() does not work... fix it later
+        for i in Stream.query().fetch():
+            if i.name == stream_name:
+                stream = i
+
+        time = datetime.datetime.time(datetime.datetime.now())
+        stream.view_times.append(time)
+        stream.times_viewed = stream.times_viewed + 1
+        stream.put()
+
+        pics = []
+        if stream.pictures:
+            if not page:
+                page = len(stream.pictures)
+            page = int(page)
+            if page == 0:
+                page = len(stream.pictures)
+
+            iter = 0
+            for i in reversed(range(page - 3, page)):
+                if iter < len(stream.pictures):
+                    pic_temp = stream.pictures[i].get()
+                    pics.append((pic_temp.name, images.get_serving_url(pic_temp.image, secure_url=False)))
+                iter += 1
+        else:
+            page = 0
+
+        template_values = {
+            'stream': stream,
+            'pics': pics,
+            'status': status,
+            'page': page,
+            'stream_name': stream.name
+        }
+
+        return template_values
 
     def post(self):
         auth = authenticate(self)
@@ -126,3 +136,8 @@ class ViewStream(webapp2.RequestHandler):
 
             self.redirect('/ViewSingleStream?stream_name=' + stream_name + ";status=" + status + ";page=" + str(
                 page))  # [END ViewStream]
+
+class ViewStreamAPI(webapp2.RequestHandler):
+    def get(self):
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.out.write(json.dumps(ViewStream.build_template("test@example.com", self.request), default=json_serial))
