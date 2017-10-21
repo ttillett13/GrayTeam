@@ -11,6 +11,12 @@ from Controller.ViewStream import ViewStream
 from Controller.ViewAllStream import ViewAllStream
 from Controller.ViewAllStream import ViewAllStreamsAPI
 from Controller.GeoView import GeoView
+from Controller.ViewStream import ViewStreamAPI
+#from Controller.TrendingStreams import TrendingAPI
+from Controller.SearchStream import SearchStreamAPI
+from Controller.ManageStream import ManageStreamAPI
+from Controller.GeoView import GeoViewAPI
+
 
 import webapp2
 from Controller.Common import authenticate
@@ -38,5 +44,10 @@ app = webapp2.WSGIApplication([
     ('/ViewAllStream', ViewAllStream),
     ('/GeoView', GeoView),
     ('/ViewAllStream/api', ViewAllStreamsAPI),
+    ('/ViewSingleStream/api', ViewStreamAPI),
+    #('/Trending/api', TrendingAPI),
+    ('/SearchStream/api', SearchStreamAPI),
+    ('/ManageStream/api', ManageStreamAPI),
+    ('/GeoView/api', GeoViewAPI),
 ], debug=True)
 # [END app]

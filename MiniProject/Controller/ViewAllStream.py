@@ -2,11 +2,12 @@ import webapp2
 
 from Config import *
 from Model.Stream import Stream
+from Model.Stream import User
 from Controller.Common import authenticate
 
-from Controller.Common import json_serial
 from google.appengine.api import images
 import json
+from Controller.Common import json_serial
 
 
 class ViewAllStream(webapp2.RequestHandler):
@@ -18,14 +19,13 @@ class ViewAllStream(webapp2.RequestHandler):
                 'url': auth[1],
                 'url_linktext': auth[2],
             }
-            template_values = dict(template_values.items() + self.build_template().items())
+            current_user = User.query(User.username == auth[0]._User__email).get()
+            template_values = dict(template_values.items() + self.build_template(current_user, self.request).items())
             template = JINJA_ENVIRONMENT.get_template('/Pages/ViewAllStream.html')
             self.response.write(template.render(template_values))
 
     @staticmethod
-    def build_template():
-
-
+    def build_template(current_user, request):
             raw_streams = Stream.query().fetch()
 
             streams = []
@@ -61,6 +61,14 @@ class ViewAllStream(webapp2.RequestHandler):
             return template_values
 
 class ViewAllStreamsAPI(webapp2.RequestHandler):
-    def get(self):
+    def post(self):
             self.response.headers['Content-Type'] = 'application/json'
-            self.response.out.write(json.dumps(ViewAllStream.build_template(), default=json_serial))
+            json_data = ViewAllStream.build_template("test@example.com", self.request)
+            new_json = []
+            for item in json_data['streams']:
+                item_dict = {"name": item[0],
+                            "url": item[1],
+                            "path": item[2],
+                            "datetime": item[3]}
+                new_json.append(item_dict)
+            self.response.out.write(json.dumps(new_json, default=json_serial))
