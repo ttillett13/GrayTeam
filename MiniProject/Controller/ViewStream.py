@@ -36,14 +36,14 @@ class ViewStream(webapp2.RequestHandler):
                 'url_linktext': auth[2],
             }
             current_user = User.query(User.username == auth[0]._User__email).get()
-            template_values = dict(template_values.items() + self.build_template(current_user, self.request).items())
+            template_values = dict(template_values.items() + self.build_template(current_user, self.request, 3).items())
 
 
             template = JINJA_ENVIRONMENT.get_template('/Pages/ViewStream.html')
             self.response.write(template.render(template_values))
 
     @staticmethod
-    def build_template(current_user, request):
+    def build_template(current_user, request, page_size):
         stream_name = request.get('stream_name')
         status = request.get('status')
         page = request.get('page')
@@ -67,7 +67,7 @@ class ViewStream(webapp2.RequestHandler):
                 page = len(stream.pictures)
 
             iter = 0
-            for i in reversed(range(page - 3, page)):
+            for i in reversed(range(page - page_size, page)):
                 if iter < len(stream.pictures):
                     pic_temp = stream.pictures[i].get()
                     pics.append((pic_temp.name, images.get_serving_url(pic_temp.image, secure_url=False)))
@@ -143,7 +143,7 @@ class ViewStreamAPI(webapp2.RequestHandler):
             #self.response.out.write(json.dumps(ViewStream.build_template("test@example.com", self.request), default=json_serial))
 
             self.response.headers['Content-Type'] = 'application/json'
-            json_data = ViewStream.build_template("test@example.com", self.request)
+            json_data = ViewStream.build_template("test@example.com", self.request, 16)
 
             new_json = []
             for item in json_data['pics']:

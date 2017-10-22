@@ -111,7 +111,7 @@ public class ViewStream extends AppCompatActivity implements
 
            for (int i = images.size(); i < 16; i++)
             {
-                images.add("http://placehold.it/150");
+                images.add("");
                 names.add("");
             }
 
@@ -123,6 +123,13 @@ public class ViewStream extends AppCompatActivity implements
 
             GridView gridview = (GridView) findViewById(R.id.gridview2);
             gridview.setAdapter(new ImageAdapter(ViewStream.this, imageArr, nameArr));
+
+            btn_view_streams.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), ViewAllStreams.class);
+                    startActivity(intent);
+                }
+            });
 
         }
     };

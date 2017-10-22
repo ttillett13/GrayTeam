@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -137,8 +136,8 @@ public class ViewAllStreams extends AppCompatActivity implements
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 String name = ViewAllStreams.this.posts.get(position).name;
-                Toast.makeText(ViewAllStreams.this, name + ": " + position,
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(ViewAllStreams.this, name + ": " + position,
+                        Toast.LENGTH_SHORT).show(); */
                 //ViewStream viewStream = new ViewStream();
                 //viewStream.viewStreamPage(name);
                 //viewStreamPage(name);

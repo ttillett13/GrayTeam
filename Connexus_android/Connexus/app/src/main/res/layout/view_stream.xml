@@ -62,8 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="Streams"
                 android:visibility="gone"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/te_search_criteria" />
+                app:layout_constraintLeft_toLeftOf="parent" />
 
             <Button
                 android:id="@+id/btn_upload"
@@ -74,7 +73,6 @@
                 android:layout_weight="1"
                 android:text="Upload"
                 android:visibility="gone"
-                app:layout_constraintLeft_toRightOf="@+id/te_search_criteria"
                 tools:layout_editor_absoluteY="365dp" />
 
         </LinearLayout>
