@@ -61,7 +61,7 @@ class ViewAllStream(webapp2.RequestHandler):
             return template_values
 
 class ViewAllStreamsAPI(webapp2.RequestHandler):
-    def post(self):
+    def get(self):
             self.response.headers['Content-Type'] = 'application/json'
             json_data = ViewAllStream.build_template("test@example.com", self.request)
             new_json = []

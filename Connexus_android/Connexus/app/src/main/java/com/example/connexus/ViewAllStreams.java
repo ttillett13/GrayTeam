@@ -110,14 +110,15 @@ public class ViewAllStreams extends AppCompatActivity implements
 
             Log.i("PostActivity", posts.size() + " posts loaded.");
             for (StreamPost post : posts) {
-                String fixedStr = post.url.replaceAll("127.0.0.1", "10.0.2.2");
+                String fixedStr;
+                fixedStr = post.url.replaceAll("127.0.0.1", "10.0.2.2");
                 images.add(fixedStr);
                 names.add(post.name);
             }
 
             for (int i = images.size(); i < 16; i++)
             {
-                images.add("http://placehold.it/150");
+                images.add("");
                 names.add("");
             }
 
