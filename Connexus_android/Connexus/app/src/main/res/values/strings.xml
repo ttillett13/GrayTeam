@@ -6,5 +6,6 @@
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="my_subscribed_streams">My Subscribed Streams</string>
     <string name="btn_login_to_google">Go Back to Login Screen</string>
+    <string name="title_activity_upload_image">UploadImage</string>
 
 </resources>

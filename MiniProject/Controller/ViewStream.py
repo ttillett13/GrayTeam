@@ -139,5 +139,18 @@ class ViewStream(webapp2.RequestHandler):
 
 class ViewStreamAPI(webapp2.RequestHandler):
     def get(self):
+            #self.response.headers['Content-Type'] = 'application/json'
+            #self.response.out.write(json.dumps(ViewStream.build_template("test@example.com", self.request), default=json_serial))
+
             self.response.headers['Content-Type'] = 'application/json'
-            self.response.out.write(json.dumps(ViewStream.build_template("test@example.com", self.request), default=json_serial))
+            json_data = ViewStream.build_template("test@example.com", self.request)
+
+            new_json = []
+            for item in json_data['pics']:
+                item_dict = {"name": json_data['stream_name'],
+                            "pic": item[1],
+                            "status": json_data['status'],
+                            "page": json_data['page']}
+                new_json.append(item_dict)
+            self.response.out.write(json.dumps(new_json, default=json_serial))
+

@@ -1,16 +1,18 @@
 package com.example.connexus;
 
-
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -129,15 +131,23 @@ public class ViewAllStreams extends AppCompatActivity implements
             gridview.setAdapter(new ImageAdapter(ViewAllStreams.this, imageArr, nameArr));
 
             //@TIFFANY: This is where you can define an onclick for each of the images.  I have put the api call in the post.path method
-//            gridview.setAdapter(new ArrayAdapter<Integer>(this,android.R.layout.simple_list_item_1, mThumbIds));
-//
-//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    int position, long id) {
-//                Toast.makeText(ViewAllStreams.this, "" + position,
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
+           // gridview.setAdapter(new ArrayAdapter<Integer>(this,android.R.layout.simple_list_item_1, mThumbIds));
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                String name = ViewAllStreams.this.posts.get(position).name;
+                Toast.makeText(ViewAllStreams.this, name + ": " + position,
+                        Toast.LENGTH_SHORT).show();
+                //ViewStream viewStream = new ViewStream();
+                //viewStream.viewStreamPage(name);
+                //viewStreamPage(name);
+                Intent intent = new Intent(getApplicationContext(), ViewStream.class);
+                Bundle b = new Bundle();
+                b.putString("stream_name", name);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
         }
     };

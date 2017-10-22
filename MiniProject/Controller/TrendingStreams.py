@@ -154,7 +154,7 @@ class TrendingReport(webapp2.RequestHandler):
             if send:
                 to_email = Email(user.email)
                 subject = "Trending Streams Report"
-                content = Content("html", render)
+                content = Content("text/html", render)
                 mail = Mail(from_email, subject, to_email, content)
                 response = sg.client.mail.send.post(request_body=mail.get())
 
