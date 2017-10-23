@@ -27,7 +27,9 @@ import com.google.gson.GsonBuilder;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewStream extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener{
@@ -41,9 +43,11 @@ public class ViewStream extends AppCompatActivity implements
     private Gson gson;
 
     private TextView title;
+    private TextView subtitle;
     private GridView imageGrid;
     private Button btn_view_streams;
     private Button btn_upload;
+    private Button btn_more_images;
     //private static final String ENDPOINT = "https://kylewbanks.com/rest/posts.json";
     private static final String ENDPOINT = "http://10.0.2.2:8080/ViewSingleStream/api";
     //private static final String ENDPOINT = "http://10.0.2.2:8080/ViewAllStream/api";
@@ -51,6 +55,8 @@ public class ViewStream extends AppCompatActivity implements
 
     private RequestQueue requestQueue;
     private List<ImagePost> posts;
+    private int page;
+    String name;
 
 
 
@@ -61,21 +67,25 @@ public class ViewStream extends AppCompatActivity implements
 
         myApplication = (MyApplication)getApplicationContext();
         title = (TextView) findViewById(R.id.title2);
+        subtitle = (TextView) findViewById(R.id.subtitle);
         imageGrid = (GridView) findViewById(R.id.gridview2);
         btn_view_streams = (Button) findViewById(R.id.btn_view_streams);
         btn_upload = (Button) findViewById(R.id.btn_upload);
+        btn_more_images = (Button) findViewById(R.id.btn_more_images);
         this.bitmapList = new ArrayList<Bitmap>();
-        updateUI(true);
+        page = 0;
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
         gson = gsonBuilder.create();
 
-        //http://127.0.0.1:8080/ViewSingleStream/api?stream_name=me
+        //http://127.0.0.1:8080/ViewSingleStream?stream_name=flags;status=success;page=7
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
-            String name = extras.getString("stream_name");
-            CurEndpoint = ENDPOINT + "?stream_name=" + name;
+            String nameParam = extras.getString("stream_name");
+            name = nameParam;
+            updateUI(true);
+            CurEndpoint = ENDPOINT + "?stream_name=" + name + ";status=success;page=" + page;
             requestQueue = Volley.newRequestQueue(this);
             fetchPosts();
         }
@@ -88,6 +98,23 @@ public class ViewStream extends AppCompatActivity implements
         requestQueue.add(request);
     }
 
+    private void updatePage() {
+        StringRequest request = new StringRequest(Request.Method.POST, ENDPOINT, onPostsLoaded_post, onPostsError)
+        {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("stream_name", name);
+                params.put("status", "success");
+                params.put("decrementPage", Integer.toString(page));
+                return params;
+            }
+        };
+        requestQueue.add(request);
+    }
+
+
+
     private final Response.Listener<String> onPostsLoaded = new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
@@ -95,9 +122,10 @@ public class ViewStream extends AppCompatActivity implements
 
             ArrayList<String> images = new ArrayList<String>();
             ArrayList<String> names = new ArrayList<String>();
-
-            Log.i("PostActivity", posts.size() + " posts loaded.");
+            int size = posts.size();
+            Log.i("PostActivity", size + " posts loaded.");
             for (ImagePost post : posts) {
+                page = post.page;
                 //ArrayList<String> pics = post.pics;
                 //for (String image : pics) {
                 String image = post.pic;
@@ -130,7 +158,25 @@ public class ViewStream extends AppCompatActivity implements
                     startActivity(intent);
                 }
             });
+            btn_more_images.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    updatePage();
+                }
+            });
 
+        }
+    };
+
+    private final Response.Listener<String> onPostsLoaded_post = new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+            posts = Arrays.asList(gson.fromJson(response, ImagePost[].class));
+            int size = posts.size();
+            Log.i("PostActivity", size + " posts loaded.");
+            page = posts.get(0).page;
+            CurEndpoint = ENDPOINT + "?stream_name=" + name + ";status=success;page=" + page;
+            fetchPosts();
+            // Display the first 500 characters of the response string.
         }
     };
 
@@ -177,6 +223,7 @@ public class ViewStream extends AppCompatActivity implements
         getSupportActionBar().setHomeButtonEnabled(false);
         if (isSignedIn) {
             title.setVisibility(View.VISIBLE);
+            subtitle.setText("View A Stream: " + name);
             imageGrid.setVisibility(View.VISIBLE);
             //btn_sign_out.setVisibility(View.VISIBLE);
             //btn_sign_in.setVisibility(View.GONE);

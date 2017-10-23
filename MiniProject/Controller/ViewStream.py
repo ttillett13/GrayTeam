@@ -88,69 +88,93 @@ class ViewStream(webapp2.RequestHandler):
     def post(self):
         auth = authenticate(self)
         if auth[0]:
+            current_user = User.query(User.username == auth[0]._User__email).get()
+            template_values = dict(self.build_post_template(current_user, self.request).items())
+            stream_name = template_values.get("name")
+            status = template_values.get("status")
+            page = template_values.get("page")
+            self.redirect('/ViewSingleStream?stream_name=' + stream_name + ";status=" + status + ";page=" + str(page))  # [END ViewStream]
 
-            stream_name = self.request.get('stream_name')
-            picture_name = self.request.get('name')
-            picture = self.request.get('file')
-            comments = self.request.get('comments')
-            decrementPage = self.request.get('decrementPage')
-            standardPage = self.request.get('page')
-            status = "success"
+    @staticmethod
+    def build_post_template(current_user, request):
+        stream_name = request.get('stream_name')
+        picture_name = request.get('name')
+        picture = request.get('file')
+        comments = request.get('comments')
+        decrementPage = request.get('decrementPage')
+        standardPage = request.get('page')
+        status = "success"
 
-            if decrementPage:
-                    page = int(decrementPage) - 1
-            else:
-                page = int(standardPage) + 1
+        if decrementPage:
+            page = int(decrementPage) - 1
+        else:
+            page = int(standardPage) + 1
 
-            if page < 0:
-                page = 0
+        if page < 0:
+            page = 0
 
-            dt = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
-            # Check to see if image name already exists
-            if picture_name and not Picture.query(Picture.name == stream_name + "_" + str(picture_name) + "_" + dt).fetch():
-                for i in Stream.query().fetch():
-                    if i.name == stream_name:
-                        stream = i
+        dt = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+        # Check to see if image name already exists
+        if picture_name and not Picture.query(
+                        Picture.name == stream_name + "_" + str(picture_name) + "_" + dt).fetch():
+            for i in Stream.query().fetch():
+                if i.name == stream_name:
+                    stream = i
 
-                filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + stream_name + "_" + str(picture_name) + "_" + dt
+            filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + stream_name + "_" + str(picture_name) + "_" + dt
 
-                with cloudstorage.open(filename, 'w', content_type='image/jpeg') as filehandle:
-                    filehandle.write(str(picture))
+            with cloudstorage.open(filename, 'w', content_type='image/jpeg') as filehandle:
+                filehandle.write(str(picture))
 
-                blobstore_filename = '/gs{}'.format(filename)
-                blob_key = blobstore.create_gs_key(blobstore_filename)
+            blobstore_filename = '/gs{}'.format(filename)
+            blob_key = blobstore.create_gs_key(blobstore_filename)
 
-                new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
-                                      image=blob_key, comments=comments,
-                                      lat=random.uniform(-90, 90), lon=random.uniform(-180, 180),
-                                      date_uploaded=datetime.datetime.today()).put()
+            new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
+                                  image=blob_key, comments=comments,
+                                  lat=random.uniform(-90, 90), lon=random.uniform(-180, 180),
+                                  date_uploaded=datetime.datetime.today()).put()
 
-                # Update Stream
-                stream.pictures.append(new_picture)
-                stream.picture_count += 1
-                stream.last_new_picture = datetime.datetime.now()
-                stream.put()
-                time.sleep(1)
-            elif not decrementPage:
-                status = "fail"
+            # Update Stream
+            stream.pictures.append(new_picture)
+            stream.picture_count += 1
+            stream.last_new_picture = datetime.datetime.now()
+            stream.put()
+            time.sleep(1)
+        elif not decrementPage:
+            status = "fail"
 
-            self.redirect('/ViewSingleStream?stream_name=' + stream_name + ";status=" + status + ";page=" + str(
-                page))  # [END ViewStream]
+        template_values = {
+            'name': stream_name,
+            'status': status,
+            'page': page,
+            'pic': ""
+        }
+
+        return template_values
+
+
 
 class ViewStreamAPI(webapp2.RequestHandler):
     def get(self):
-            #self.response.headers['Content-Type'] = 'application/json'
-            #self.response.out.write(json.dumps(ViewStream.build_template("test@example.com", self.request), default=json_serial))
+        # self.response.headers['Content-Type'] = 'application/json'
+        # self.response.out.write(json.dumps(ViewStream.build_template("test@example.com", self.request), default=json_serial))
 
-            self.response.headers['Content-Type'] = 'application/json'
-            json_data = ViewStream.build_template("test@example.com", self.request, 16)
+        self.response.headers['Content-Type'] = 'application/json'
+        json_data = ViewStream.build_template("test@example.com", self.request, 16)
 
-            new_json = []
-            for item in json_data['pics']:
-                item_dict = {"name": json_data['stream_name'],
+        new_json = []
+        for item in json_data['pics']:
+            item_dict = {"name": json_data['stream_name'],
                             "pic": item[1],
                             "status": json_data['status'],
                             "page": json_data['page']}
-                new_json.append(item_dict)
-            self.response.out.write(json.dumps(new_json, default=json_serial))
+            new_json.append(item_dict)
+        self.response.out.write(json.dumps(new_json, default=json_serial))
+
+    def post(self):
+        self.response.headers['Content-Type'] = 'application/json'
+        json_data = dict(ViewStream.build_post_template("test@example.com", self.request))
+        new_json = []
+        new_json.append(json_data)
+        self.response.out.write(json.dumps(new_json, default=json_serial))
 
