@@ -34,7 +34,7 @@ class SearchStream(webapp2.RequestHandler):
                 'url_linktext': auth[2],
             }
             current_user = User.query(User.username == auth[0]._User__email).get()
-            template_values = dict(template_values.items() + self.build_template(current_user, self.request).items())
+            template_values = dict(template_values.items() + self.build_template(current_user, self.request, 5).items())
             #current_user = User.query(User.username == auth[0]._User__email).get()
 
 
@@ -43,10 +43,9 @@ class SearchStream(webapp2.RequestHandler):
             self.response.write(template.render(template_values))
 
     @staticmethod
-    def build_template(current_user, request):
+    def build_template(current_user, request, limit):
         index = search.Index(INDEX_NAME)
-        form_data = cgi.FieldStorage()
-        query_string = form_data.getlist("search")
+        query_string = request.get('search')
 
         if len(query_string) == 0:
             template_values = {
@@ -55,8 +54,9 @@ class SearchStream(webapp2.RequestHandler):
             }
 
         else:
-            query_options = search.QueryOptions(limit=5)
-            query = search.Query(query_string=query_string[0], options=query_options)
+            query_options = search.QueryOptions(limit=limit)
+            query = search.Query(query_string=query_string, options=query_options)
+
             streams_found = index.search(query)
 
             for stream in streams_found.results:
@@ -133,4 +133,15 @@ class AutoCompleteCreation(webapp2.RequestHandler):
 class SearchStreamAPI(webapp2.RequestHandler):
     def get(self):
             self.response.headers['Content-Type'] = 'application/json'
-            self.response.out.write(json.dumps(SearchStream.build_template("test@example.com", self.request), default=json_serial))
+            json_data = SearchStream.build_template("test@example.com", self.request, 8)
+
+            new_json = []
+            new_json.append({"num_found": json_data['num_found']})
+            for i, item in json_data['streams_found']:
+                item_dict = {"name": item.field('stream_name').value,
+                             "url": item.field('cover_image').value,
+                             "path": item.field('url').value,
+                             "datetime": datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}
+                new_json.append(item_dict)
+
+            self.response.out.write(json.dumps(new_json, default=json_serial))

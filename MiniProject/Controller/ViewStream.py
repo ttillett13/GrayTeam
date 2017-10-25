@@ -3,6 +3,7 @@ import urllib
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.api import urlfetch
 
 import jinja2
 import webapp2
@@ -103,6 +104,12 @@ class ViewStream(webapp2.RequestHandler):
         comments = request.get('comments')
         decrementPage = request.get('decrementPage')
         standardPage = request.get('page')
+        latitude = request.get('latitude')
+        if not latitude:
+            latitude = random.uniform(-90, 90)
+        longitude = request.get('longitude')
+        if not longitude:
+            longitude = random.uniform(-180, 180)
         status = "success"
 
         if decrementPage:
@@ -131,7 +138,7 @@ class ViewStream(webapp2.RequestHandler):
 
             new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
                                   image=blob_key, comments=comments,
-                                  lat=random.uniform(-90, 90), lon=random.uniform(-180, 180),
+                                  lat=latitude, lon=longitude,
                                   date_uploaded=datetime.datetime.today()).put()
 
             # Update Stream
@@ -172,6 +179,7 @@ class ViewStreamAPI(webapp2.RequestHandler):
         self.response.out.write(json.dumps(new_json, default=json_serial))
 
     def post(self):
+        urlfetch.set_default_fetch_deadline(60)
         self.response.headers['Content-Type'] = 'application/json'
         json_data = dict(ViewStream.build_post_template("test@example.com", self.request))
         new_json = []

@@ -34,6 +34,7 @@ class Stream(ndb.Model):
     url = ndb.StringProperty(indexed=False)
     creation_time = ndb.DateTimeProperty(indexed=False)
     cover_page_url = ndb.StringProperty(indexed=False)
+    distance = ndb.FloatProperty(indexed=False, default=0.0)
 
 class TrendReport(ndb.Model):
     name = ndb.StringProperty(indexed=True)

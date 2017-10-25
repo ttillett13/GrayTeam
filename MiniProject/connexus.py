@@ -14,6 +14,7 @@ from Controller.GeoView import GeoView
 from Controller.ViewStream import ViewStreamAPI
 #from Controller.TrendingStreams import TrendingAPI
 from Controller.SearchStream import SearchStreamAPI
+from Controller.NearbyStream import NearbyStreamAPI
 from Controller.ManageStream import ManageStreamAPI
 from Controller.GeoView import GeoViewAPI
 
@@ -47,6 +48,7 @@ app = webapp2.WSGIApplication([
     ('/ViewSingleStream/api', ViewStreamAPI),
     #('/Trending/api', TrendingAPI),
     ('/SearchStream/api', SearchStreamAPI),
+    ('/NearbyStream/api', NearbyStreamAPI),
     ('/ManageStream/api', ManageStreamAPI),
     ('/GeoView/api', GeoViewAPI),
 ], debug=True)
