@@ -63,7 +63,7 @@
                 android:layout_marginLeft="8dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Find Streams"
+                android:hint="Find Streams"
                 android:nextFocusUp="@id/te_search_criteria"
                 android:nextFocusLeft="@id/te_search_criteria"
                 android:visibility="gone"

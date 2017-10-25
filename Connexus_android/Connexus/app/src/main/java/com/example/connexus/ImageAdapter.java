@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    int imageTotal = 16;
+   // int imageTotal = 16;
     public String[] mThumbIds;
     private String[] mThumbNames;
     private static LayoutInflater mLayoutInflater=null;
@@ -27,7 +27,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return imageTotal;
+        return mThumbNames.length;
     }
 
     @Override

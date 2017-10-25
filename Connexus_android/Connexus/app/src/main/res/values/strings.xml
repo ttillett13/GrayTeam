@@ -8,4 +8,6 @@
     <string name="btn_login_to_google">Go Back to Login Screen</string>
     <string name="title_activity_upload_image">UploadImage</string>
 
+    <string name="search_result">%s results for <font fgcolor="#000000"><b>%s</b></font>, click on image to view stream</string>
+
 </resources>
