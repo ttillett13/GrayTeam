@@ -1,9 +1,6 @@
 package com.example.connexus;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.Date;
-
 
 public class StreamPost {
 

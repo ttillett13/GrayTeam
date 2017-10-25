@@ -3,7 +3,6 @@ package com.example.connexus;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +23,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,7 +36,7 @@ public class ViewStream extends AppCompatActivity implements
     private MyApplication myApplication;
     private GoogleApiClient mGoogleApiClient;
     private Context mContext;
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = ViewStream.class.getSimpleName();
     private ArrayList<Bitmap> bitmapList;
     private Gson gson;
 
@@ -48,8 +46,9 @@ public class ViewStream extends AppCompatActivity implements
     private Button btn_view_streams;
     private Button btn_upload;
     private Button btn_more_images;
+    public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
     //private static final String ENDPOINT = "https://kylewbanks.com/rest/posts.json";
-    private static final String ENDPOINT = "http://10.0.2.2:8080/ViewSingleStream/api";
+    private static final String ENDPOINT = BASE_ENDPOINT + "ViewSingleStream/api";
     //private static final String ENDPOINT = "http://10.0.2.2:8080/ViewAllStream/api";
     private String CurEndpoint;
 
@@ -82,9 +81,9 @@ public class ViewStream extends AppCompatActivity implements
         //http://127.0.0.1:8080/ViewSingleStream?stream_name=flags;status=success;page=7
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
-            String nameParam = extras.getString("stream_name");
-            name = nameParam;
-            updateUI(true);
+            name = extras.getString("stream_name");
+            page = extras.getInt("page");
+            updateUI();
             CurEndpoint = ENDPOINT + "?stream_name=" + name + ";status=success;page=" + page;
             requestQueue = Volley.newRequestQueue(this);
             fetchPosts();
@@ -106,7 +105,7 @@ public class ViewStream extends AppCompatActivity implements
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("stream_name", name);
                 params.put("status", "success");
-                params.put("decrementPage", Integer.toString(page));
+                params.put("decrementPage", Integer.toString(page-15));
                 return params;
             }
         };
@@ -126,15 +125,10 @@ public class ViewStream extends AppCompatActivity implements
             Log.i("PostActivity", size + " posts loaded.");
             for (ImagePost post : posts) {
                 page = post.page;
-                //ArrayList<String> pics = post.pics;
-                //for (String image : pics) {
                 String image = post.pic;
-                    String fixedStr = image.replaceAll("127.0.0.1", "10.0.2.2");
-                    images.add(fixedStr);
-                    //names.add(post.name);
-                    names.add("");
-               // }
-
+                String fixedStr = image.replaceAll("127.0.0.1", "10.0.2.2");
+                images.add(fixedStr);
+                names.add("");
             }
 
            for (int i = images.size(); i < 16; i++)
@@ -163,6 +157,15 @@ public class ViewStream extends AppCompatActivity implements
                     updatePage();
                 }
             });
+            btn_upload.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), UploadImages.class);
+                    Bundle b = new Bundle();
+                    b.putString("stream_name", name);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
+            });
 
         }
     };
@@ -187,27 +190,6 @@ public class ViewStream extends AppCompatActivity implements
         }
     };
 
-    private Bitmap urlImageToBitmap(String imageUrl) throws Exception {
-        Bitmap result = null;
-        URL url = new URL(imageUrl);
-        if(url != null) {
-            result = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        }
-        return result;
-    }
-
-
-    public void uploadImage(View view) {
-        Intent intent = new Intent(this, UploadImages.class);
-        startActivity(intent);
-    }
-
-    public void uploadImage() {
-        Intent intent = new Intent(this, UploadImages.class);
-        startActivity(intent);
-    }
-
-
 
     //****************************************END OF NETWORKING CODE**************************************//*
 
@@ -218,25 +200,16 @@ public class ViewStream extends AppCompatActivity implements
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-    private void updateUI(boolean isSignedIn) {
+    private void updateUI() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);
-        if (isSignedIn) {
-            title.setVisibility(View.VISIBLE);
-            subtitle.setText("View A Stream: " + name);
-            imageGrid.setVisibility(View.VISIBLE);
-            //btn_sign_out.setVisibility(View.VISIBLE);
-            //btn_sign_in.setVisibility(View.GONE);
-            btn_upload.setVisibility(View.VISIBLE);
-            btn_view_streams.setVisibility(View.VISIBLE);
-        } else {
-            title.setVisibility(View.VISIBLE);
-            imageGrid.setVisibility(View.VISIBLE);
-            //btn_sign_out.setVisibility(View.GONE);
-            //btn_sign_in.setVisibility(View.VISIBLE);
-            btn_upload.setVisibility(View.VISIBLE);
-            btn_view_streams.setVisibility(View.VISIBLE);
-        }
+        title.setVisibility(View.VISIBLE);
+        subtitle.setText("View A Stream: " + name);
+        imageGrid.setVisibility(View.VISIBLE);
+        //btn_sign_out.setVisibility(View.VISIBLE);
+        //btn_sign_in.setVisibility(View.GONE);
+        btn_upload.setVisibility(View.VISIBLE);
+        btn_view_streams.setVisibility(View.VISIBLE);
     }
 }
 

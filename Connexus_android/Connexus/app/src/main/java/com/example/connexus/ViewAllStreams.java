@@ -49,7 +49,8 @@ public class ViewAllStreams extends AppCompatActivity implements
     private EditText te_search_criteria;
     private Button btn_search;
     private Button btn_nearby;
-    private static final String ENDPOINT = "http://10.0.2.2:8080/ViewAllStream/api";
+    public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
+    private static final String ENDPOINT = BASE_ENDPOINT + "ViewAllStream/api";
 
 
     private RequestQueue requestQueue;
@@ -144,6 +145,7 @@ public class ViewAllStreams extends AppCompatActivity implements
                 Intent intent = new Intent(getApplicationContext(), ViewStream.class);
                 Bundle b = new Bundle();
                 b.putString("stream_name", name);
+                b.putInt("page", 0);
                 intent.putExtras(b);
                 startActivity(intent);
             }
