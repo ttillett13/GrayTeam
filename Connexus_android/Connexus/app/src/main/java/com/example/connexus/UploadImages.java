@@ -123,7 +123,15 @@ public class UploadImages extends AppCompatActivity implements
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takePicture();
+                try {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_IMAGE_CAPTURE);
+                    } else {
+                        takePicture();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -205,104 +213,9 @@ public class UploadImages extends AppCompatActivity implements
                 return params;
             }
         };
-
-        //VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
-        /*StringRequest request = new StringRequest(Request.Method.POST, ENDPOINT, onPostsLoaded_post, onPostsError) {
-            File photo = new File(picturePath);
-            RequestParams params = new RequestParams();
-            params.put("photo", photo);
-
-        }; */
-            /*@Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("stream_name", name);
-                params.put("page", Integer.toString(page));
-                params.put("file", photo);
-                params.put("name", "dummy");
-                return params;
-            }
-        };*/
         requestQueue.add(multipartRequest);
-
-        /*String responseBody = "failure";
-        HttpClient client = HttpClientBuilder.create().build();
-        client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-
-        //String url = WWPApi.URL_USERS;
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("user_id", String.valueOf(userId));
-        map.put("action", "update");
-        //url = addQueryParams(map, url);
-
-        HttpPost post = new HttpPost(ENDPOINT);
-        post.addHeader("Accept", "application/json");
-
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.setCharset(MIME.UTF8_CHARSET);
-
-        if (career != null)
-            builder.addTextBody("career", career, ContentType.create("text/plain", MIME.UTF8_CHARSET));
-        if (gender != null)
-            builder.addTextBody("gender", gender, ContentType.create("text/plain", MIME.UTF8_CHARSET));
-        if (username != null)
-            builder.addTextBody("username", username, ContentType.create("text/plain", MIME.UTF8_CHARSET));
-        if (email != null)
-            builder.addTextBody("email", email, ContentType.create("text/plain", MIME.UTF8_CHARSET));
-        if (password != null)
-            builder.addTextBody("password", password, ContentType.create("text/plain", MIME.UTF8_CHARSET));
-        if (country != null)
-            builder.addTextBody("country", country, ContentType.create("text/plain", MIME.UTF8_CHARSET));
-        if (file != null)
-            builder.addBinaryBody("Filedata", file, ContentType.MULTIPART_FORM_DATA, file.getName());
-
-        post.setEntity(builder.build());
-
-        try {
-            responseBody = EntityUtils.toString(client.execute(post).getEntity(), "UTF-8");
-//  System.out.println("Response from Server ==> " + responseBody);
-
-            JSONObject object = new JSONObject(responseBody);
-            Boolean success = object.optBoolean("success");
-            String message = object.optString("error");
-
-            if (!success) {
-                responseBody = message;
-            } else {
-                responseBody = "success";
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            client.getConnectionManager().shutdown();
-        }
- */
     }
 
-    private final Response.Listener<String> onPostsLoaded_post = new Response.Listener<String>() {
-        @Override
-        public void onResponse(String response) {
-            posts = Arrays.asList(gson.fromJson(response, ImagePost[].class));
-            int size = posts.size();
-            Log.i("PostActivity", size + " posts loaded.");
-            int page = posts.get(0).page;
-            Intent intent = new Intent(getApplicationContext(), ViewStream.class);
-            Bundle b = new Bundle();
-            b.putString("stream_name", name);
-            b.putInt("page", page);
-            intent.putExtras(b);
-            startActivity(intent);
-
-        }
-    };
-
-    private final Response.ErrorListener onPostsError = new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            Log.e("PostActivity", error.toString());
-        }
-    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -330,31 +243,13 @@ public class UploadImages extends AppCompatActivity implements
             case GET_FROM_GALLERY:
                 if (resultCode == Activity.RESULT_OK) {
                     selectedImageUri = data.getData();
-                    /*imagePath = selectedImageUri.getPath();
-
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContentResolver().query(selectedImageUri,
-                            filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    picturePath = cursor.getString(columnIndex);
-                    cursor.close(); */
-
                     picturePath = getPath(getApplicationContext(), selectedImageUri);
-
-
-                    //launchUploadActivity2(true);
                     Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     photo = stream.toByteArray();
-                    //photo = byteArray.toString();
                     btn_upload.setEnabled(true);
-                    //iv.setImageBitmap(bitmap);
-
-
-                    Toast.makeText(this, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case REQUEST_IMAGE_CAPTURE:
