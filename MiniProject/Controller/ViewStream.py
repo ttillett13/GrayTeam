@@ -4,6 +4,7 @@ import urllib
 from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
+from google.appengine.api import search
 
 import jinja2
 import webapp2
@@ -153,6 +154,19 @@ class ViewStream(webapp2.RequestHandler):
             stream.last_new_picture = datetime.datetime.now()
             stream.put()
             time.sleep(1)
+            # add image comments to stream search index
+            index = search.Index(INDEX_NAME)
+            search_stream = index.get(doc_id=stream_name)
+            tags = search.field.getValue('tag');
+            tags = tags + comments;
+            d = search.Document(
+                doc_id=stream_name,
+                fields=[search.TextField(name="stream_name", value=stream.name),
+                        search.TextField(name="cover_image", value=search_stream.field('cover_image').value),
+                        search.TextField(name="url", value=stream.url),
+                        search.TextField(name="tag", value=tags)],
+                language="en")
+            index.put(d)
         elif not decrementPage:
             status = "fail"
 
