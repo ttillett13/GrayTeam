@@ -3,6 +3,7 @@ package com.example.connexus.activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.connexus.ImageAdapter;
 import com.example.connexus.MainActivity;
 import com.example.connexus.R;
+import com.example.connexus.ViewStream;
 import com.example.connexus.beans.NearbyModel;
 import com.example.connexus.beans.SearchStreamModel;
 import com.google.android.gms.common.ConnectionResult;
@@ -46,7 +49,7 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 
     private GridView gv_allStreams;
     private Button btn_More, btn_MoreResult;
-    private static final String ENDPOINT = "http://10.0.2.2:8080/ViewAllStream/api";
+    private static final String ENDPOINT = "http://10.0.2.2:8080/NearbyStream/api";
 
 
     private RequestQueue requestQueue;
@@ -70,17 +73,19 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
         gson = gsonBuilder.create();
 
-        requestQueue = Volley.newRequestQueue(this);
-//           fetchPosts();
-
         initLocation();
+
+        requestQueue = Volley.newRequestQueue(this);
+        //fetchPosts();
+
 
         btn_More.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 posts=null;
                 //fillData();
-                processGridData();
+                //processGridData();
+                fetchPosts();
             }
         });
     }
@@ -126,26 +131,29 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, mLastLocation.getLatitude() + " : "+mLastLocation.getLongitude(), Toast.LENGTH_LONG).show();
 
         }
-        CurEndpoint = ENDPOINT + "?longitude=" +mLastLocation.getLongitude() +";latitude=" + mLastLocation.getLatitude();
-        processGridData();
+        fetchPosts();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         mGoogleApiClient.disconnect();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         mGoogleApiClient.connect();
     }
 
     /*******************************************NETWORKING CODE******************************************/
     private void fetchPosts() {
-        StringRequest request = new StringRequest(Request.Method.GET, CurEndpoint, onPostsLoaded, onPostsError);
-        requestQueue.add(request);
+       // processCurrentLocation();
+        if (mLastLocation!=null){
+            CurEndpoint = ENDPOINT + "?longitude=" +mLastLocation.getLongitude() +";latitude=" + mLastLocation.getLatitude();
+            StringRequest request = new StringRequest(Request.Method.GET, CurEndpoint, onPostsLoaded, onPostsError);
+            requestQueue.add(request);
+        }
     }
 
     private final Response.Listener<String> onPostsLoaded = new Response.Listener<String>() {
@@ -165,7 +173,7 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 
     private NearbyModel getDummyData(int rndNo){
         NearbyModel ssm = new NearbyModel();
-        ssm.datetime = Calendar.getInstance().getTime();
+       // ssm.datetime = Calendar.getInstance().getTime();
         ssm.name = "Name - "+rndNo;
         ssm.path = "/ViewSingleStream?stream_name=Nature Stream";
         ssm.url =  "http://127.0.0.1:8080/_ah/img/encoded_gs_file:c3RhZ2luZy52aWJyYW50LW1pbmQtMTc3NjIzLmFwcHNwb3QuY29tL1BpY3R1cmVzL0tvYWxhLmpwZw==";
@@ -174,12 +182,11 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
     }
     private void processGridData(){
 
-        if(posts==null){
-            posts = new ArrayList<>();
-            for(int i=0;i<10;i++){
-                posts.add(getDummyData(i));
-            }
+        if(posts==null || posts.size()==0){
+            Toast.makeText(this, "No Record Found!", Toast.LENGTH_SHORT).show();
+            return;
         }
+
         ArrayList<String> images = new ArrayList<String>();
         ArrayList<String> names = new ArrayList<String>();
 
@@ -188,13 +195,7 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
             String fixedStr;
             fixedStr = post.url.replaceAll("127.0.0.1", "10.0.2.2");
             images.add(fixedStr);
-            names.add(post.name);
-        }
-
-        for (int i = images.size(); i < 16; i++)
-        {
-            images.add("");
-            names.add("");
+            names.add(post.name+ " - " +post.distance);
         }
 
         String[] imageArr = new String[images.size()];
@@ -204,6 +205,25 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 
 
         gv_allStreams.setAdapter(new ImageAdapter(NearbyStreams.this, imageArr, nameArr));
+
+        gv_allStreams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                String name = NearbyStreams.this.posts.get(position).name;
+                /*Toast.makeText(ViewAllStreams.this, name + ": " + position,
+                        Toast.LENGTH_SHORT).show(); */
+                //ViewStream viewStream = new ViewStream();
+                //viewStream.viewStreamPage(name);
+                //viewStreamPage(name);
+                Intent intent = new Intent(NearbyStreams.this, ViewStream.class);
+                Bundle b = new Bundle();
+                b.putString("stream_name", name);
+                b.putInt("page", 0);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+
     }
 }
 
