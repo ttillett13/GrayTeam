@@ -72,3 +72,40 @@ class ViewAllStreamsAPI(webapp2.RequestHandler):
                             "datetime": item[3]}
                 new_json.append(item_dict)
             self.response.out.write(json.dumps(new_json, default=json_serial))
+
+class SubscribedStreamsAPI(webapp2.RedirectHandler):
+    def get(self):
+        user_email = self.request.get('user')
+        current_user = User.query(User.email == user_email).get()
+        streams_subscribed = [key.get() for key in current_user.streams_subscribed]
+
+
+        items = []
+
+        for stream in streams_subscribed:
+            for picture in stream.pictures:
+                item = []
+                item.append(stream.name)
+                item.append(stream.url)
+                picture_temp = picture.get()
+                item.append(images.get_serving_url(picture_temp.image, secure_url=False))
+                item.append(picture_temp.date_uploaded)
+                items.append(item)
+
+        items = sorted(items, key=lambda x: str(x[3]))
+
+
+
+        self.response.headers['Content-Type'] = 'application/json'
+        new_json = []
+        i = 0
+        for item in items:
+            if i == 16:
+                break
+            item_dict = {"name": item[0],
+                        "url": item[2],
+                        "path": item[1],
+                        "datetime": item[3]}
+            new_json.append(item_dict)
+            i += 1
+        self.response.out.write(json.dumps(new_json, default=json_serial))

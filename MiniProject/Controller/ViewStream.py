@@ -145,7 +145,7 @@ class ViewStream(webapp2.RequestHandler):
             new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
                                   image=blob_key, comments=comments,
                                   lat=latitude, lon=longitude,
-                                  date_uploaded=datetime.datetime.today()).put()
+                                  date_uploaded=datetime.datetime.now()).put()
 
             # Update Stream
             stream.pictures.append(new_picture)
