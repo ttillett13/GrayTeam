@@ -50,6 +50,7 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 
 
     private RequestQueue requestQueue;
+    private String CurEndpoint;
 
     GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -73,6 +74,15 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 //           fetchPosts();
 
         initLocation();
+
+        btn_More.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                posts=null;
+                //fillData();
+                processGridData();
+            }
+        });
     }
 
 
@@ -116,6 +126,7 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, mLastLocation.getLatitude() + " : "+mLastLocation.getLongitude(), Toast.LENGTH_LONG).show();
 
         }
+        CurEndpoint = ENDPOINT + "?longitude=" +mLastLocation.getLongitude() +";latitude=" + mLastLocation.getLatitude();
         processGridData();
     }
 
@@ -133,7 +144,7 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 
     /*******************************************NETWORKING CODE******************************************/
     private void fetchPosts() {
-        StringRequest request = new StringRequest(Request.Method.GET, ENDPOINT, onPostsLoaded, onPostsError);
+        StringRequest request = new StringRequest(Request.Method.GET, CurEndpoint, onPostsLoaded, onPostsError);
         requestQueue.add(request);
     }
 
