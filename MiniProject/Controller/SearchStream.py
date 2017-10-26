@@ -136,7 +136,7 @@ class SearchStreamAPI(webapp2.RequestHandler):
             json_data = SearchStream.build_template("test@example.com", self.request, 8)
 
             new_json = []
-            new_json.append({"num_found": json_data['num_found']})
+           # new_json.append({"num_found": json_data['num_found']})
             for i, item in json_data['streams_found']:
                 item_dict = {"name": item.field('stream_name').value,
                              "url": item.field('cover_image').value,

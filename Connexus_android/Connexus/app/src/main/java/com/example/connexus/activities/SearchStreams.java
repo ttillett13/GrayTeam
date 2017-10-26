@@ -2,11 +2,13 @@ package com.example.connexus.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -23,6 +25,8 @@ import com.example.connexus.ImageAdapter;
 import com.example.connexus.MainActivity;
 import com.example.connexus.R;
 import com.example.connexus.StreamPost;
+import com.example.connexus.ViewAllStreams;
+import com.example.connexus.ViewStream;
 import com.example.connexus.beans.SearchStreamModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -84,16 +88,18 @@ public class SearchStreams extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 posts=null;
-               // fillData();
-                processGridData();
+                CurEndpoint = ENDPOINT + "?search=" + et_Search.getText().toString().trim();
+                fetchPosts();
+                //processGridData();
             }
         });
         btn_MoreResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 posts=null;
-                //fillData();
-                processGridData();
+                CurEndpoint = ENDPOINT + "?search=" + et_Search.getText().toString().trim();
+                fetchPosts();
+               // processGridData();
             }
         });
     }
@@ -122,7 +128,7 @@ public class SearchStreams extends AppCompatActivity{
 
     private SearchStreamModel getDummyData(int rndNo){
         SearchStreamModel ssm = new SearchStreamModel();
-        ssm.datetime = Calendar.getInstance().getTime();
+       // ssm.datetime = Calendar.getInstance().getTime();
         ssm.name = "Name - "+rndNo;
         ssm.path = "/ViewSingleStream?stream_name=Nature Stream";
         ssm.url =  "http://127.0.0.1:8080/_ah/img/encoded_gs_file:c3RhZ2luZy52aWJyYW50LW1pbmQtMTc3NjIzLmFwcHNwb3QuY29tL1BpY3R1cmVzL0tvYWxhLmpwZw==";
@@ -160,6 +166,24 @@ public class SearchStreams extends AppCompatActivity{
 
 
         gv_allStreams.setAdapter(new ImageAdapter(SearchStreams.this, imageArr, nameArr));
+
+        gv_allStreams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                String name = SearchStreams.this.posts.get(position).name;
+                /*Toast.makeText(ViewAllStreams.this, name + ": " + position,
+                        Toast.LENGTH_SHORT).show(); */
+                //ViewStream viewStream = new ViewStream();
+                //viewStream.viewStreamPage(name);
+                //viewStreamPage(name);
+                Intent intent = new Intent(SearchStreams.this, ViewStream.class);
+                Bundle b = new Bundle();
+                b.putString("stream_name", name);
+                b.putInt("page", 0);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
     }
     private void fillData(){
         if(posts==null || posts.size()==0) {
