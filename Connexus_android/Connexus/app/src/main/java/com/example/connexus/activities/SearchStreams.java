@@ -43,8 +43,11 @@ public class SearchStreams extends AppCompatActivity{
     private GridView gv_allStreams;
     private Button btn_Search, btn_MoreResult;
     private EditText et_Search;
-    private static final String ENDPOINT = "http://10.0.2.2:8080/ViewAllStream/api";
+    //public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
+    //private static final String ENDPOINT = BASE_ENDPOINT + "ViewSingleStream/api";
 
+    private static final String ENDPOINT = "http://10.0.2.2:8080/SearchStream/api";
+    private String CurEndpoint;
 
     private RequestQueue requestQueue;
 
@@ -71,30 +74,33 @@ public class SearchStreams extends AppCompatActivity{
 
         requestQueue = Volley.newRequestQueue(this);
         if(searchText.length() > 0){
-//            fetchPosts();
+            CurEndpoint = ENDPOINT + "?search=" + searchText;
+            fetchPosts();
         }
        // processGridData();
-        fillData();
+       // fillData();
 
         btn_Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 posts=null;
-                fillData();
+               // fillData();
+                processGridData();
             }
         });
         btn_MoreResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 posts=null;
-                fillData();
+                //fillData();
+                processGridData();
             }
         });
     }
 
     /*******************************************NETWORKING CODE******************************************/
     private void fetchPosts() {
-        StringRequest request = new StringRequest(Request.Method.GET, ENDPOINT, onPostsLoaded, onPostsError);
+        StringRequest request = new StringRequest(Request.Method.GET, CurEndpoint, onPostsLoaded, onPostsError);
         requestQueue.add(request);
     }
 

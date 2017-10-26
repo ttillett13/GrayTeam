@@ -1,0 +1,91 @@
+import webapp2
+
+from Config import *
+from Model.Stream import Stream
+from Model.Stream import User
+from Controller.Common import authenticate
+#import geopy.distance
+from math import radians, sin, cos, acos
+from google.appengine.api import images
+import json
+from Controller.Common import json_serial
+
+
+class NearbyStream(webapp2.RequestHandler):
+
+    def get(self):
+        auth = authenticate(self)
+        if auth[0]:
+            template_values = {
+                'user': auth[0],
+                'url': auth[1],
+                'url_linktext': auth[2],
+            }
+            current_user = User.query(User.username == auth[0]._User__email).get()
+            template_values = dict(template_values.items() + self.build_template(current_user, self.request).items())
+            template = JINJA_ENVIRONMENT.get_template('/Pages/ViewAllStream.html')
+            self.response.write(template.render(template_values))
+
+    @staticmethod
+    def build_template(current_user, request):
+            raw_streams = Stream.query().fetch()
+            longitude = float(request.get('longitude'))
+            latitude = float(request.get('latitude'))
+
+            streams = []
+            if raw_streams:
+                for stream in raw_streams:
+                    isSet = False
+                    short_distance = 0.0
+                    if stream.pictures:
+                        for item in stream.pictures:
+                            picture = item.get()
+                            lon = picture.lon
+                            lat = picture.lat
+
+                            distance =6371.01 * acos(sin(latitude)*sin(lat) + cos(latitude)*cos(lat)*cos(longitude - lon))
+                            distance= distance * 0.621371
+
+                            if short_distance == 0.0 or short_distance > distance:
+                                short_distance = distance
+
+                        stream.distance=short_distance
+                        if stream.cover_page_url:
+                            stream_to_append = [stream.name,
+                                                stream.cover_page_url,
+                                                stream.url,
+                                                stream.creation_time,
+                                                stream.distance]
+                        else:
+                            cover_image = stream.pictures[0].get()
+                            stream_to_append = [stream.name,
+                                                images.get_serving_url(cover_image.image, secure_url=False),
+                                                stream.url,
+                                                stream.creation_time,
+                                                stream.distance]
+
+                        streams.append(stream_to_append)
+
+            streams = sorted(streams, key=lambda x: str(x[4]))
+            template_values = {
+
+                'streams': streams
+            }
+
+            return template_values
+
+
+class NearbyStreamAPI(webapp2.RequestHandler):
+    def get(self):
+            self.response.headers['Content-Type'] = 'application/json'
+            json_data = NearbyStream.build_template("test@example.com", self.request)
+            new_json = []
+            for item in json_data['streams']:
+                item_dict = {"name": item[0],
+                            "url": item[1],
+                            "path": item[2],
+                            "datetime": item[3],
+                            "distance":item[4]}
+                new_json.append(item_dict)
+            self.response.out.write(json.dumps(new_json, default=json_serial))
+
