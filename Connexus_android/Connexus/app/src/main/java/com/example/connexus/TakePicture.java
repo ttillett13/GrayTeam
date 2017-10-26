@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -42,8 +43,8 @@ import java.util.List;
 public class TakePicture extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private Button btn_take;
-    private Button btn_use;
+    private ImageButton btn_take;
+    private ImageButton btn_use;
     private Button btn_streams;
 
     public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
@@ -84,8 +85,8 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.Co
         setContentView(R.layout.take_picture);
 
         image = (ImageView) findViewById(R.id.picture_preview);
-        btn_take = (Button) findViewById(R.id.btn_picture);
-        btn_use = (Button) findViewById(R.id.btn_usepic);
+        btn_take = (ImageButton) findViewById(R.id.btn_picture);
+        btn_use = (ImageButton) findViewById(R.id.btn_usepic);
         btn_streams = (Button) findViewById(R.id.btn_take_streams);
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -109,7 +110,7 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.Co
             }
         });
 
-
+        btn_use.setEnabled(false);
         btn_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,6 +194,7 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.Co
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     photo = stream.toByteArray();
+                    btn_use.setEnabled(true);
                     //btn_upload.setEnabled(true);
                     /*//use imageUri here to access the image
                     selectedImageUri = imageUri;
