@@ -10,7 +10,7 @@ class Picture(ndb.Model):
     comments = ndb.TextProperty(indexed=False)
     lat = ndb.FloatProperty(indexed=False)
     lon = ndb.FloatProperty(indexed=False)
-    date_uploaded = ndb.DateProperty(indexed=False)
+    date_uploaded = ndb.DateTimeProperty(indexed=False)
 
 # [START Model]
 class User(ndb.Model):
