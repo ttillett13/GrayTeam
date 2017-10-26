@@ -97,7 +97,7 @@
             android:id="@+id/my_subscribed_streams"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="signOut"
+            android:onClick="fetchSubscribed"
             android:text="@string/my_subscribed_streams"
             android:visibility="gone"
             app:layout_constraintHorizontal_bias="0.0"

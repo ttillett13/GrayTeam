@@ -42,6 +42,7 @@
 
         <activity android:name=".activities.SearchStreams"/>
         <activity android:name=".activities.NearbyStreams" />
+        <activity android:name=".TakePicture" />
         <activity
             android:name=".UploadImages"
             android:parentActivityName=".MainActivity">

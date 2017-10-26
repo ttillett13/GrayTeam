@@ -52,8 +52,14 @@ public class ViewAllStreams extends AppCompatActivity implements
     private EditText te_search_criteria;
     private Button btn_search;
     private Button btn_nearby;
+    private GridView gridView;
+    private GsonBuilder gsonBuilder;
     public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
+    //public static final String BASE_ENDPOINT = "http://10.0.2.2:8080/";
     private static final String ENDPOINT = BASE_ENDPOINT + "ViewAllStream/api";
+    private static final String SUBSCRIBED_ENDPOINT = BASE_ENDPOINT + "mySubscribedStreams/api";
+    //private static final String ENDPOINT = "http://10.0.2.2:8080/ViewAllStream/api";
+    //private static final String SUBSCRIBED_ENDPOINT = "http://10.0.2.2:8080/SubscribedStreams/api";
 
 
     private RequestQueue requestQueue;
@@ -72,6 +78,7 @@ public class ViewAllStreams extends AppCompatActivity implements
         te_search_criteria = (EditText) findViewById(R.id.te_search_criteria);
         btn_search = (Button) findViewById(R.id.btn_search);
         btn_nearby = (Button) findViewById(R.id.btn_nearby);
+
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +108,7 @@ public class ViewAllStreams extends AppCompatActivity implements
         else
             updateUI(false);
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
         gson = gsonBuilder.create();
 
@@ -111,10 +118,20 @@ public class ViewAllStreams extends AppCompatActivity implements
     }
 
     /*******************************************NETWORKING CODE******************************************/
+    public void fetchSubscribed(View view) {
+        gridView.removeAllViewsInLayout();
+        gsonBuilder.setDateFormat("yyyy-MM-dd");
+        StringRequest request = new StringRequest(Request.Method.GET, SUBSCRIBED_ENDPOINT + "?user=" + myApplication.mAcct.getEmail() + ";", onPostsLoaded, onPostsError);
+        requestQueue.add(request);
+    }
+
     private void fetchPosts() {
+
         StringRequest request = new StringRequest(Request.Method.GET, ENDPOINT, onPostsLoaded, onPostsError);
         requestQueue.add(request);
     }
+
+
 
     private final Response.Listener<String> onPostsLoaded = new Response.Listener<String>() {
         @Override
@@ -144,12 +161,12 @@ public class ViewAllStreams extends AppCompatActivity implements
             nameArr = names.toArray(nameArr);
 
 
-            GridView gridview = (GridView) findViewById(R.id.gridview);
-            gridview.setAdapter(new ImageAdapter(ViewAllStreams.this, imageArr, nameArr));
+            gridView = (GridView) findViewById(R.id.gridview);
+            gridView.setAdapter(new ImageAdapter(ViewAllStreams.this, imageArr, nameArr));
 
             //@TIFFANY: This is where you can define an onclick for each of the images.  I have put the api call in the post.path method
            // gridview.setAdapter(new ArrayAdapter<Integer>(this,android.R.layout.simple_list_item_1, mThumbIds));
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 String name = ViewAllStreams.this.posts.get(position).name;

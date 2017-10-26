@@ -107,9 +107,15 @@ class ViewStream(webapp2.RequestHandler):
         latitude = request.get('latitude')
         if not latitude:
             latitude = random.uniform(-90, 90)
+        else:
+            latitude = int(latitude)
+
         longitude = request.get('longitude')
         if not longitude:
             longitude = random.uniform(-180, 180)
+        else:
+            longitude = int(longitude)
+
         status = "success"
 
         if decrementPage:
@@ -139,7 +145,7 @@ class ViewStream(webapp2.RequestHandler):
             new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
                                   image=blob_key, comments=comments,
                                   lat=latitude, lon=longitude,
-                                  date_uploaded=datetime.datetime.today()).put()
+                                  date_uploaded=datetime.datetime.now()).put()
 
             # Update Stream
             stream.pictures.append(new_picture)

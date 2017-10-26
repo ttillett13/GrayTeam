@@ -67,7 +67,8 @@
             android:ems="10"
             android:background="@drawable/border"
             android:inputType="textMultiLine"
-            android:text="Add a message and/or tags"
+            android:text=""
+            android:hint="Add a message and/or tags"
             android:visibility="visible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_camera" />
