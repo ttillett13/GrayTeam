@@ -13,7 +13,7 @@
         android:layout_below="@+id/os_images"
         android:id="@+id/os_texts"
         android:layout_width="60dp"
-        android:layout_height="20dp"
+        android:layout_height="23dp"
         android:textAlignment="center"
         android:textSize="18dp"
         android:textStyle="bold"/>
