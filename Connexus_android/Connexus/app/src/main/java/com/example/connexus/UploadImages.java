@@ -34,6 +34,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -49,12 +50,12 @@ import java.util.Map;
  * Created by tiffanytillett on 10/21/17.
  */
 
-/*public class UploadImages  extends AppCompatActivity
+public class UploadImages  extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        ActivityCompat.OnRequestPermissionsResultCallback  { */
-    public class UploadImages extends AppCompatActivity implements
-            GoogleApiClient.OnConnectionFailedListener{
+        ActivityCompat.OnRequestPermissionsResultCallback  {
+ /*   public class UploadImages extends AppCompatActivity implements
+            GoogleApiClient.OnConnectionFailedListener{ */
 
     private TextView subtitle;
     private TextView comments;
@@ -181,8 +182,8 @@ import java.util.Map;
                 upload();
             }
         });
-        //initLocation();
-        //processCurrentLocation();
+        initLocation();
+        processCurrentLocation();
     }
 
     private void upload() {
@@ -243,7 +244,7 @@ import java.util.Map;
         requestQueue.add(multipartRequest);
     }
 
-    /*private void initLocation() {
+    private void initLocation() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -261,11 +262,11 @@ import java.util.Map;
                 /*if (mLastLocation != null) {
                     Toast.makeText(this, mLastLocation.getLatitude() + " : " + mLastLocation.getLongitude(), Toast.LENGTH_LONG).show();
                 }  */
-  /*          }
+           }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    } */
+    }
     public void onPostsLoaded(NetworkResponse response) {
         String resultResponse = new String(response.data);
         String json = "";
@@ -445,7 +446,7 @@ import java.util.Map;
     }
 
 
-    /*@Override
+    @Override
     public void onConnected(Bundle arg0) {
         processCurrentLocation();
     }
@@ -453,7 +454,7 @@ import java.util.Map;
     @Override
     public void onConnectionSuspended(int arg0) {
         mGoogleApiClient.connect();
-    } */
+    }
 
 
 

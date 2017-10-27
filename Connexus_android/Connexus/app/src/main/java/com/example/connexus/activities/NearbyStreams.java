@@ -20,16 +20,16 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.connexus.NearbyImageAdapter;
 import com.example.connexus.MainActivity;
+import com.example.connexus.NearbyImageAdapter;
 import com.example.connexus.R;
 import com.example.connexus.ViewAllStreams;
 import com.example.connexus.ViewStream;
 import com.example.connexus.beans.NearbyModel;
-import com.example.connexus.beans.SearchStreamModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,7 +38,6 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -84,10 +83,10 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
         btn_More.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                posts=null;
+                //posts=null;
                 //fillData();
-               // processGridData();
-               fetchPosts();
+               processGridData();
+               //fetchPosts();
             }
         });
         btn_view_streams.setOnClickListener(new View.OnClickListener() {
@@ -159,12 +158,28 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
     private void fetchPosts() {
        // processCurrentLocation();
         if (mLastLocation!=null){
-            CurEndpoint = ENDPOINT + "?longitude=" +mLastLocation.getLongitude() +";latitude=" + mLastLocation.getLatitude();
+            CurEndpoint = ENDPOINT + "?longitude=" +Double.toString(mLastLocation.getLongitude()) +";latitude=" + Double.toString(mLastLocation.getLatitude());
             StringRequest request = new StringRequest(Request.Method.GET, CurEndpoint, onPostsLoaded, onPostsError);
             requestQueue.add(request);
         }else{
             CurEndpoint = ENDPOINT + "?longitude=21.1822047256;latitude=-137.205322073";
             StringRequest request = new StringRequest(Request.Method.GET, CurEndpoint, onPostsLoaded, onPostsError);
+            request.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 100000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 50000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
             requestQueue.add(request);
         }
 
@@ -245,6 +260,7 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
                 }
 
             }
+            if (imagenum >= posts.size()) imagenum = 0;
 
             gv_allStreams.setAdapter(new NearbyImageAdapter(NearbyStreams.this, imageArr, nameArr, distanceArr));
         }

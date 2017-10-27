@@ -46,15 +46,15 @@ class NearbyStream(webapp2.RequestHandler):
                             distance =6371.01 * acos(sin(latitude)*sin(lat) + cos(latitude)*cos(lat)*cos(longitude - lon))
                             distance= distance * 0.621371
 
-                            stream_to_append = [stream.name,
-                                                images.get_serving_url(picture.image, secure_url=False),
-                                                stream.url,
-                                                stream.creation_time,
-                                                distance]
+                            stream_to_append = {"name": stream.name,
+                                                "url": images.get_serving_url(picture.image, secure_url=False),
+                                                "path": stream.url,
+                                                "datetime": stream.creation_time,
+                                                "distance": distance}
 
                             pictures.append(stream_to_append)
 
-            pictures = sorted(pictures, key=lambda x: x[4])
+            pictures = sorted(pictures, key=lambda x: x["distance"])
             template_values = {
 
                 'pictures': pictures
@@ -66,14 +66,15 @@ class NearbyStream(webapp2.RequestHandler):
 class NearbyStreamAPI(webapp2.RequestHandler):
     def get(self):
             self.response.headers['Content-Type'] = 'application/json'
-            json_data = NearbyStream.build_template("test@example.com", self.request)
+            json_data = NearbyStream.build_template("test@example.com", self.request)["pictures"]
             new_json = []
-            for item in json_data['pictures']:
-                item_dict = {"name": item[0],
-                            "url": item[1],
-                            "path": item[2],
-                            "datetime": item[3],
-                            "distance":item[4]}
-                new_json.append(item_dict)
-            self.response.out.write(json.dumps(new_json, default=json_serial))
+            # for item in json_data['pictures']:
+            #     item_dict = {"name": item[0],
+            #                 "url": item[1],
+            #                 "path": item[2],
+            #                 "datetime": item[3],
+            #                 "distance":item[4]}
+            #     new_json.append(item_dict)
+            # self.response.out.write(json.dumps(new_json, default=json_serial))
+            self.response.out.write(json.dumps(json_data, default=json_serial))
 

@@ -151,7 +151,6 @@ public class ViewStream extends AppCompatActivity implements
 
     void DisplayImages() {
         ArrayList<String> images = new ArrayList<String>();
-        ArrayList<String> names = new ArrayList<String>();
         int size = posts.size();
         Log.i("PostActivity", size + " posts loaded.");
         int stop = start + Math.min(numPerPage, size-start);
@@ -176,9 +175,6 @@ public class ViewStream extends AppCompatActivity implements
 
         String[] imageArr = new String[images.size()];
         imageArr = images.toArray(imageArr);
-        String[] nameArr = new String[names.size()];
-        nameArr = names.toArray(nameArr);
-
 
         GridView gridview = (GridView) findViewById(R.id.gridview2);
         gridview.setAdapter(new ViewImageAdapter(ViewStream.this, imageArr));

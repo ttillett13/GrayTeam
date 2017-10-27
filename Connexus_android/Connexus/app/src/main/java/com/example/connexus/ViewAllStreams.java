@@ -196,7 +196,9 @@ public class ViewAllStreams extends AppCompatActivity implements
 
     /*********************************************LOGIN CODE*********************************************/
     public void goBackToLogin(View view) {
-        finish();
+        //finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     public void signOut(View view) {

@@ -115,13 +115,13 @@ class ViewStream(webapp2.RequestHandler):
         if not latitude:
             latitude = random.uniform(-90, 90)
         else:
-            latitude = int(latitude)
+            latitude = float(latitude)
 
         longitude = request.get('longitude')
         if not longitude:
             longitude = random.uniform(-180, 180)
         else:
-            longitude = int(longitude)
+            longitude = float(longitude)
 
         status = "success"
 
