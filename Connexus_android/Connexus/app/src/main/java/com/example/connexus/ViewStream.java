@@ -162,7 +162,6 @@ public class ViewStream extends AppCompatActivity implements
             String image = post.pic;
             String fixedStr = image.replaceAll("127.0.0.1", "10.0.2.2");
             images.add(fixedStr);
-            names.add("");
         }
         if (stop >= size) {
             start = 0;
@@ -173,7 +172,6 @@ public class ViewStream extends AppCompatActivity implements
         for (int i = images.size(); i < 16; i++)
         {
             images.add("");
-            names.add("");
         }
 
         String[] imageArr = new String[images.size()];
@@ -183,7 +181,7 @@ public class ViewStream extends AppCompatActivity implements
 
 
         GridView gridview = (GridView) findViewById(R.id.gridview2);
-        gridview.setAdapter(new ImageAdapter(ViewStream.this, imageArr, nameArr));
+        gridview.setAdapter(new ViewImageAdapter(ViewStream.this, imageArr));
     }
 
     private final Response.Listener<String> onPostsLoaded_post = new Response.Listener<String>() {
