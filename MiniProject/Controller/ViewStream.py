@@ -77,7 +77,9 @@ class ViewStream(webapp2.RequestHandler):
             else:
                 for picture in stream.pictures:
                     pic = picture.get()
-                    pics.append((pic.name, images.get_serving_url(pic.image, secure_url=False)))
+                    pics.append((pic.name, images.get_serving_url(pic.image, secure_url=False), pic.date_uploaded))
+                #pictures = sorted(pictures, key=lambda x: x[4])
+                pics = sorted(pics, key=lambda x:x[2], reverse=True)
         else:
             page = 0
 

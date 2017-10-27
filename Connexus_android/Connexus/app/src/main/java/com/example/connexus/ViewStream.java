@@ -154,7 +154,7 @@ public class ViewStream extends AppCompatActivity implements
         ArrayList<String> names = new ArrayList<String>();
         int size = posts.size();
         Log.i("PostActivity", size + " posts loaded.");
-        int stop = start + Math.min(start + numPerPage, size-start);
+        int stop = start + Math.min(numPerPage, size-start);
         for (int i=start; i<stop; i++) {
             //for (ImagePost post : posts) {
             ImagePost post = posts.get(i);
