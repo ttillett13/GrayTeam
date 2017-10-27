@@ -57,7 +57,7 @@ public class ViewAllStreams extends AppCompatActivity implements
     public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
     //public static final String BASE_ENDPOINT = "http://10.0.2.2:8080/";
     private static final String ENDPOINT = BASE_ENDPOINT + "ViewAllStream/api";
-    private static final String SUBSCRIBED_ENDPOINT = BASE_ENDPOINT + "mySubscribedStreams/api";
+    private static final String SUBSCRIBED_ENDPOINT = BASE_ENDPOINT + "SubscribedStreams/api";
     //private static final String ENDPOINT = "http://10.0.2.2:8080/ViewAllStream/api";
     //private static final String SUBSCRIBED_ENDPOINT = "http://10.0.2.2:8080/SubscribedStreams/api";
 
