@@ -32,7 +32,7 @@ class NearbyStream(webapp2.RequestHandler):
             longitude = float(request.get('longitude'))
             latitude = float(request.get('latitude'))
 
-            streams = []
+            pictures = []
             if raw_streams:
                 for stream in raw_streams:
                     isSet = False
@@ -46,30 +46,18 @@ class NearbyStream(webapp2.RequestHandler):
                             distance =6371.01 * acos(sin(latitude)*sin(lat) + cos(latitude)*cos(lat)*cos(longitude - lon))
                             distance= distance * 0.621371
 
-                            if short_distance == 0.0 or short_distance > distance:
-                                short_distance = distance
-
-                        stream.distance=short_distance
-                        if stream.cover_page_url:
                             stream_to_append = [stream.name,
-                                                stream.cover_page_url,
+                                                images.get_serving_url(picture.image, secure_url=False),
                                                 stream.url,
                                                 stream.creation_time,
-                                                stream.distance]
-                        else:
-                            cover_image = stream.pictures[0].get()
-                            stream_to_append = [stream.name,
-                                                images.get_serving_url(cover_image.image, secure_url=False),
-                                                stream.url,
-                                                stream.creation_time,
-                                                stream.distance]
+                                                distance]
 
-                        streams.append(stream_to_append)
+                            pictures.append(stream_to_append)
 
-            streams = sorted(streams, key=lambda x: str(x[4]))
+            pictures = sorted(pictures, key=lambda x: x[4])
             template_values = {
 
-                'streams': streams
+                'pictures': pictures
             }
 
             return template_values
@@ -80,7 +68,7 @@ class NearbyStreamAPI(webapp2.RequestHandler):
             self.response.headers['Content-Type'] = 'application/json'
             json_data = NearbyStream.build_template("test@example.com", self.request)
             new_json = []
-            for item in json_data['streams']:
+            for item in json_data['pictures']:
                 item_dict = {"name": item[0],
                             "url": item[1],
                             "path": item[2],

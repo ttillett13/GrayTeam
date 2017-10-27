@@ -120,7 +120,6 @@ public class ViewAllStreams extends AppCompatActivity implements
     /*******************************************NETWORKING CODE******************************************/
     public void fetchSubscribed(View view) {
         gridView.removeAllViewsInLayout();
-        gsonBuilder.setDateFormat("yyyy-MM-dd");
         StringRequest request = new StringRequest(Request.Method.GET, SUBSCRIBED_ENDPOINT + "?user=" + myApplication.mAcct.getEmail() + ";", onPostsLoaded, onPostsError);
         requestQueue.add(request);
     }

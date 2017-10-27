@@ -49,8 +49,9 @@ public class SearchStreams extends AppCompatActivity{
     private EditText et_Search;
     //public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
     //private static final String ENDPOINT = BASE_ENDPOINT + "ViewSingleStream/api";
+    public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
+    private static final String ENDPOINT = BASE_ENDPOINT + "SearchStream/api";
 
-    private static final String ENDPOINT = "http://10.0.2.2:8080/SearchStream/api";
     private String CurEndpoint;
 
     private RequestQueue requestQueue;

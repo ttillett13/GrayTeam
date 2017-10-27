@@ -23,7 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.connexus.ImageAdapter;
+import com.example.connexus.NearbyImageAdapter;
 import com.example.connexus.MainActivity;
 import com.example.connexus.R;
 import com.example.connexus.ViewStream;
@@ -49,8 +49,8 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 
     private GridView gv_allStreams;
     private Button btn_More, btn_MoreResult;
-    private static final String ENDPOINT = "http://10.0.2.2:8080/NearbyStream/api";
-
+    public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
+    private static final String ENDPOINT = BASE_ENDPOINT + "NearbyStream/api";
 
     private RequestQueue requestQueue;
     private String CurEndpoint;
@@ -153,7 +153,12 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
             CurEndpoint = ENDPOINT + "?longitude=" +mLastLocation.getLongitude() +";latitude=" + mLastLocation.getLatitude();
             StringRequest request = new StringRequest(Request.Method.GET, CurEndpoint, onPostsLoaded, onPostsError);
             requestQueue.add(request);
+        }else{
+            CurEndpoint = ENDPOINT + "?longitude=21.1822047256;latitude=-137.205322073";
+            StringRequest request = new StringRequest(Request.Method.GET, CurEndpoint, onPostsLoaded, onPostsError);
+            requestQueue.add(request);
         }
+
     }
 
     private final Response.Listener<String> onPostsLoaded = new Response.Listener<String>() {
@@ -189,22 +194,26 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 
         ArrayList<String> images = new ArrayList<String>();
         ArrayList<String> names = new ArrayList<String>();
+        ArrayList<String> distance = new ArrayList<String>();
 
         Log.i("PostActivity", posts.size() + " posts loaded.");
         for (NearbyModel post : posts) {
             String fixedStr;
             fixedStr = post.url.replaceAll("127.0.0.1", "10.0.2.2");
             images.add(fixedStr);
-            names.add(post.name+ " - " +post.distance);
+            names.add(post.name);
+            distance.add(post.distance);
         }
 
         String[] imageArr = new String[images.size()];
         imageArr = images.toArray(imageArr);
         String[] nameArr = new String[names.size()];
         nameArr = names.toArray(nameArr);
+        String[] distanceArr = new String[distance.size()];
+        distanceArr=distance.toArray(distanceArr);
 
 
-        gv_allStreams.setAdapter(new ImageAdapter(NearbyStreams.this, imageArr, nameArr));
+        gv_allStreams.setAdapter(new NearbyImageAdapter(NearbyStreams.this, imageArr, nameArr,distanceArr));
 
         gv_allStreams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
