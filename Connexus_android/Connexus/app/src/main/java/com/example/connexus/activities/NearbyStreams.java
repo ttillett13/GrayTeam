@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.connexus.NearbyImageAdapter;
 import com.example.connexus.MainActivity;
 import com.example.connexus.R;
+import com.example.connexus.ViewAllStreams;
 import com.example.connexus.ViewStream;
 import com.example.connexus.beans.NearbyModel;
 import com.example.connexus.beans.SearchStreamModel;
@@ -48,12 +49,13 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
 
 
     private GridView gv_allStreams;
-    private Button btn_More, btn_MoreResult;
+    private Button btn_More, btn_MoreResult,btn_view_streams;
     public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
     private static final String ENDPOINT = BASE_ENDPOINT + "NearbyStream/api";
 
     private RequestQueue requestQueue;
     private String CurEndpoint;
+    private int imagenum=0;
 
     GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -66,7 +68,7 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
         gv_allStreams = (GridView) findViewById(R.id.gv_allStreams);
         btn_More = (Button) findViewById(R.id.btn_More);
         btn_MoreResult = (Button) findViewById(R.id.btn_MoreResult);
-
+        btn_view_streams = (Button) findViewById(R.id.btn_view_streams);
         btn_MoreResult.setVisibility(View.GONE);
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -84,10 +86,17 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
             public void onClick(View view) {
                 posts=null;
                 //fillData();
-                //processGridData();
-                fetchPosts();
+               // processGridData();
+               fetchPosts();
             }
         });
+        btn_view_streams.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewAllStreams.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
@@ -191,30 +200,54 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, "No Record Found!", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (imagenum<posts.size()) {
 
-        ArrayList<String> images = new ArrayList<String>();
-        ArrayList<String> names = new ArrayList<String>();
-        ArrayList<String> distance = new ArrayList<String>();
+            ArrayList<String> images = new ArrayList<String>();
+            ArrayList<String> names = new ArrayList<String>();
+            ArrayList<String> distance = new ArrayList<String>();
 
-        Log.i("PostActivity", posts.size() + " posts loaded.");
-        for (NearbyModel post : posts) {
-            String fixedStr;
-            fixedStr = post.url.replaceAll("127.0.0.1", "10.0.2.2");
-            images.add(fixedStr);
-            names.add(post.name);
-            distance.add(post.distance);
+            Log.i("PostActivity", posts.size() + " posts loaded.");
+            for (NearbyModel post : posts) {
+                String fixedStr;
+                fixedStr = post.url.replaceAll("127.0.0.1", "10.0.2.2");
+                images.add(fixedStr);
+                names.add(post.name);
+                distance.add(post.distance + "mi");
+            }
+//        String[] imageArr = new String[images.size()];
+//       // imageArr = images.toArray(imageArr);
+//        String[] nameArr = new String[names.size()];
+//       // nameArr = names.toArray(nameArr);
+//        String[] distanceArr = new String[distance.size()];
+//       // distanceArr=distance.toArray(distanceArr);
+            int index = 0;
+            int max = imagenum + 12;
+            int size=12;
+            if (max>posts.size()){
+                size=posts.size()-imagenum;
+            }
+            String[] imageArr = new String[size];
+            // imageArr = images.toArray(imageArr);
+            String[] nameArr = new String[size];
+            // nameArr = names.toArray(nameArr);
+            String[] distanceArr = new String[size];
+            // distanceArr=distance.toArray(distanceArr);
+
+            for (int i = imagenum; i < max; i++) {
+                if (imagenum < posts.size()) {
+                    imageArr[index] = images.get(imagenum);
+                    nameArr[index] = names.get(imagenum);
+                    distanceArr[index] = distance.get(imagenum);
+                    index++;
+                    imagenum++;
+                } else {
+                    break;
+                }
+
+            }
+
+            gv_allStreams.setAdapter(new NearbyImageAdapter(NearbyStreams.this, imageArr, nameArr, distanceArr));
         }
-
-        String[] imageArr = new String[images.size()];
-        imageArr = images.toArray(imageArr);
-        String[] nameArr = new String[names.size()];
-        nameArr = names.toArray(nameArr);
-        String[] distanceArr = new String[distance.size()];
-        distanceArr=distance.toArray(distanceArr);
-
-
-        gv_allStreams.setAdapter(new NearbyImageAdapter(NearbyStreams.this, imageArr, nameArr,distanceArr));
-
         gv_allStreams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
