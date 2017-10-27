@@ -1,14 +1,11 @@
 package com.example.connexus;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +13,6 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +25,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -40,8 +35,7 @@ import java.util.List;
  * Created by tiffanytillett on 10/21/17.
  */
 
-public class TakePicture extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
+public class TakePicture extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private ImageButton btn_take;
     private ImageButton btn_use;
@@ -59,25 +53,13 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.Co
     private Gson gson;
     private ImageView image;
 
-    private Uri fileUri;
-    String picturePath;
-    Uri selectedImage;
     byte[] photo;
-    String ba1;
     public static String URL = "Paste your URL here";
     public static final int REQUEST_IMAGE_CAPTURE = 1;
-    public static final int GET_LOCATION = 2;
-    String filePath;
-    String imagePath;
-    String imagepath2;
-    Uri imageUri;
-    int count;
-    public static String dir;
 
     Activity activity;
     Context context;
     GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,15 +98,10 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.Co
             public void onClick(View view) {
                 //need to go back to upload page
                 //findViewById(R.id.btn_upload).setEnabled(true);
-                processCurrentLocation();
                 Intent intent = new Intent(getApplicationContext(), UploadImages.class);
                 Bundle b = new Bundle();
                 b.putString("stream_name", name);
                 b.putByteArray("photo", photo);
-                if (mLastLocation != null) {
-                    b.putDouble("lat", mLastLocation.getLatitude());
-                    b.putDouble("lon", mLastLocation.getLongitude());
-                }
                 intent.putExtras(b);
                 startActivity(intent);
             }
@@ -135,38 +112,9 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.Co
                 startActivity(intent);
             }
         });
-        initLocation();
     }
 
-    private void initLocation() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API).build();
-        mGoogleApiClient.connect();
-    }
-    private void processCurrentLocation() {
-        try {
-            if ((ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                || (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION}, GET_LOCATION);
-            } else {
-                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                /*if (mLastLocation != null) {
-                    Toast.makeText(this, mLastLocation.getLatitude() + " : " + mLastLocation.getLongitude(), Toast.LENGTH_LONG).show();
-                }  */
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //processCurrentLocation();
-    }
 
     private void takePicture() {
 
@@ -325,20 +273,9 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.Co
     }
 
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-    }
-
-    @Override
-    public void onConnected(Bundle arg0) {
-        processCurrentLocation();
-    }
-
-    @Override
-    public void onConnectionSuspended(int arg0) {
-        mGoogleApiClient.connect();
     }
 
 

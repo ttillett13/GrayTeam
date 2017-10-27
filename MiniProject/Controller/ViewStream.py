@@ -67,13 +67,17 @@ class ViewStream(webapp2.RequestHandler):
             page = int(page)
             if page == 0:
                 page = len(stream.pictures)
-
-            iter = 0
-            for i in reversed(range(page - page_size, page)):
-                if iter < len(stream.pictures):
-                    pic_temp = stream.pictures[i].get()
-                    pics.append((pic_temp.name, images.get_serving_url(pic_temp.image, secure_url=False)))
-                iter += 1
+            if page_size == 3: # web app
+                iter = 0
+                for i in reversed(range(page - page_size, page)):
+                    if iter < len(stream.pictures):
+                        pic_temp = stream.pictures[i].get()
+                        pics.append((pic_temp.name, images.get_serving_url(pic_temp.image, secure_url=False)))
+                    iter += 1
+            else:
+                for picture in stream.pictures:
+                    pic = picture.get()
+                    pics.append((pic.name, images.get_serving_url(pic.image, secure_url=False)))
         else:
             page = 0
 
@@ -131,42 +135,51 @@ class ViewStream(webapp2.RequestHandler):
         # Check to see if image name already exists
         if picture_name and not Picture.query(
                         Picture.name == stream_name + "_" + str(picture_name) + "_" + dt).fetch():
-            for i in Stream.query().fetch():
-                if i.name == stream_name:
-                    stream = i
+            stream = Stream.query(Stream.name == stream_name).get()
+            # for i in Stream.query().fetch():
+            #     if i.name == stream_name:
+            #         stream = i
+            if stream:
 
-            filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + stream_name + "_" + str(picture_name) + "_" + dt
 
-            with cloudstorage.open(filename, 'w', content_type='image/jpeg') as filehandle:
-                filehandle.write(str(picture))
+                filename = '/{}/Pictures'.format(BUCKET_NAME) + "/" + stream_name + "_" + str(picture_name) + "_" + dt
 
-            blobstore_filename = '/gs{}'.format(filename)
-            blob_key = blobstore.create_gs_key(blobstore_filename)
+                with cloudstorage.open(filename, 'w', content_type='image/jpeg') as filehandle:
+                    filehandle.write(str(picture))
 
-            new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
-                                  image=blob_key, comments=comments,
-                                  lat=latitude, lon=longitude,
-                                  date_uploaded=datetime.datetime.now()).put()
+                blobstore_filename = '/gs{}'.format(filename)
+                blob_key = blobstore.create_gs_key(blobstore_filename)
 
-            # Update Stream
-            stream.pictures.append(new_picture)
-            stream.picture_count += 1
-            stream.last_new_picture = datetime.datetime.now()
-            stream.put()
-            time.sleep(1)
-            # add image comments to stream search index
-            index = search.Index(INDEX_NAME)
-            search_stream = index.get(doc_id=stream_name)
-            tags = search.field.getValue('tag');
-            tags = tags + comments;
-            d = search.Document(
-                doc_id=stream_name,
-                fields=[search.TextField(name="stream_name", value=stream.name),
-                        search.TextField(name="cover_image", value=search_stream.field('cover_image').value),
-                        search.TextField(name="url", value=stream.url),
-                        search.TextField(name="tag", value=tags)],
-                language="en")
-            index.put(d)
+                new_picture = Picture(name=stream_name + "_" + str(picture_name) + "_" + dt,
+                                      image=blob_key, comments=comments,
+                                      lat=latitude, lon=longitude,
+                                      date_uploaded=datetime.datetime.now()).put()
+
+                # Update Stream
+                stream.pictures.append(new_picture)
+                stream.picture_count += 1
+                stream.last_new_picture = datetime.datetime.now()
+                stream.put()
+                time.sleep(1)
+                # add image comments to stream search index
+                #if not stream.cover_page_url:
+                #    stream.cover_page_url = images.get_serving_url(new_picture.image, secure_url=False)
+
+                index = search.Index(INDEX_NAME)
+                doc_id = stream.key.urlsafe()
+                search_stream = index.get(doc_id)
+                tags = search_stream.field('tag').value + " " + comments
+                #tags = str(stream.tags) + comments
+                d = search.Document(
+                    doc_id=doc_id,
+                    fields=[search.TextField(name="stream_name", value=stream.name),
+                            search.TextField(name="cover_image", value=stream.cover_page_url),
+                            search.TextField(name="url", value=stream.url),
+                            search.TextField(name="tag", value=tags)],
+                    language="en")
+                index.put(d)
+            else:
+                status = "fail"
         elif not decrementPage:
             status = "fail"
 

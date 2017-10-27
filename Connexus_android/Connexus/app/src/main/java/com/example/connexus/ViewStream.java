@@ -57,6 +57,9 @@ public class ViewStream extends AppCompatActivity implements
     private int page;
     String name;
 
+    private int start;
+    private static final int numPerPage = 16;
+
 
 
     @Override
@@ -73,6 +76,7 @@ public class ViewStream extends AppCompatActivity implements
         btn_more_images = (Button) findViewById(R.id.btn_more_images);
         this.bitmapList = new ArrayList<Bitmap>();
         page = 0;
+        start = 0;
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
@@ -88,6 +92,29 @@ public class ViewStream extends AppCompatActivity implements
             requestQueue = Volley.newRequestQueue(this);
             fetchPosts();
         }
+
+
+        btn_view_streams.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewAllStreams.class);
+                startActivity(intent);
+            }
+        });
+        btn_more_images.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //updatePage();
+                DisplayImages();
+            }
+        });
+        btn_upload.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UploadImages.class);
+                Bundle b = new Bundle();
+                b.putString("stream_name", name);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -118,57 +145,46 @@ public class ViewStream extends AppCompatActivity implements
         @Override
         public void onResponse(String response) {
             posts = Arrays.asList(gson.fromJson(response, ImagePost[].class));
-
-            ArrayList<String> images = new ArrayList<String>();
-            ArrayList<String> names = new ArrayList<String>();
-            int size = posts.size();
-            Log.i("PostActivity", size + " posts loaded.");
-            for (ImagePost post : posts) {
-                page = post.page;
-                String image = post.pic;
-                String fixedStr = image.replaceAll("127.0.0.1", "10.0.2.2");
-                images.add(fixedStr);
-                names.add("");
-            }
-
-           for (int i = images.size(); i < 16; i++)
-            {
-                images.add("");
-                names.add("");
-            }
-
-            String[] imageArr = new String[images.size()];
-            imageArr = images.toArray(imageArr);
-            String[] nameArr = new String[names.size()];
-            nameArr = names.toArray(nameArr);
-
-
-            GridView gridview = (GridView) findViewById(R.id.gridview2);
-            gridview.setAdapter(new ImageAdapter(ViewStream.this, imageArr, nameArr));
-
-            btn_view_streams.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), ViewAllStreams.class);
-                    startActivity(intent);
-                }
-            });
-            btn_more_images.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    updatePage();
-                }
-            });
-            btn_upload.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), UploadImages.class);
-                    Bundle b = new Bundle();
-                    b.putString("stream_name", name);
-                    intent.putExtras(b);
-                    startActivity(intent);
-                }
-            });
-
+            DisplayImages();
         }
     };
+
+    void DisplayImages() {
+        ArrayList<String> images = new ArrayList<String>();
+        ArrayList<String> names = new ArrayList<String>();
+        int size = posts.size();
+        Log.i("PostActivity", size + " posts loaded.");
+        int stop = start + Math.min(start + numPerPage, size-start);
+        for (int i=start; i<stop; i++) {
+            //for (ImagePost post : posts) {
+            ImagePost post = posts.get(i);
+            page = post.page;
+            String image = post.pic;
+            String fixedStr = image.replaceAll("127.0.0.1", "10.0.2.2");
+            images.add(fixedStr);
+            names.add("");
+        }
+        if (stop >= size) {
+            start = 0;
+        } else {
+            start = stop;
+        }
+
+        for (int i = images.size(); i < 16; i++)
+        {
+            images.add("");
+            names.add("");
+        }
+
+        String[] imageArr = new String[images.size()];
+        imageArr = images.toArray(imageArr);
+        String[] nameArr = new String[names.size()];
+        nameArr = names.toArray(nameArr);
+
+
+        GridView gridview = (GridView) findViewById(R.id.gridview2);
+        gridview.setAdapter(new ImageAdapter(ViewStream.this, imageArr, nameArr));
+    }
 
     private final Response.Listener<String> onPostsLoaded_post = new Response.Listener<String>() {
         @Override

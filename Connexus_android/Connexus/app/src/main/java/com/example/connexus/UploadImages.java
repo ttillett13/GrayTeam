@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,8 +49,12 @@ import java.util.Map;
  * Created by tiffanytillett on 10/21/17.
  */
 
-public class UploadImages extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener {
+/*public class UploadImages  extends AppCompatActivity
+        implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        ActivityCompat.OnRequestPermissionsResultCallback  { */
+    public class UploadImages extends AppCompatActivity implements
+            GoogleApiClient.OnConnectionFailedListener{
 
     private TextView subtitle;
     private TextView comments;
@@ -57,10 +62,9 @@ public class UploadImages extends AppCompatActivity implements
     private Button btn_library;
     private Button btn_upload;
 
-    public static final String BASE_ENDPOINT = "https://vibrant-mind-177623.appspot.com/";
+    public static final String BASE_ENDPOINT = "http://vibrant-mind-177623.appspot.com/";
+    //public static final String BASE_ENDPOINT = "http://10.0.2.2:8080/";
     private static final String ENDPOINT = BASE_ENDPOINT + "ViewSingleStream/api";
-    //private static final String ENDPOINT = "http://10.0.2.2:8080/ViewSingleStream/api";
-    //private static final String ENDPOINT = "https://vibrant-mind-177623.appspot.com/ViewSingleStream/api";
     private String CurEndpoint;
     private static final String TAG = UploadImages.class.getSimpleName();
     private RequestQueue requestQueue;
@@ -79,6 +83,7 @@ public class UploadImages extends AppCompatActivity implements
     public static String URL = "Paste your URL here";
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int GET_FROM_GALLERY = 3;
+    public static final int GET_LOCATION = 2;
 
     String filePath;
     String imagePath;
@@ -89,6 +94,8 @@ public class UploadImages extends AppCompatActivity implements
 
     Activity activity;
     Context context;
+    GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +181,8 @@ public class UploadImages extends AppCompatActivity implements
                 upload();
             }
         });
+        //initLocation();
+        //processCurrentLocation();
     }
 
     private void upload() {
@@ -214,6 +223,10 @@ public class UploadImages extends AppCompatActivity implements
                 params.put("name", "connexus" + Integer.toBinaryString(count));
                 String text = comments.getText().toString();
                 params.put("comments", text);
+                if (mLastLocation != null) {
+                    params.put("latitude", Double.toString(mLastLocation.getLatitude()));
+                    params.put("longitude", Double.toString(mLastLocation.getLongitude()));
+                }
                 count++;
                 return params;
             }
@@ -228,6 +241,51 @@ public class UploadImages extends AppCompatActivity implements
             }
         };
         requestQueue.add(multipartRequest);
+    }
+
+    /*private void initLocation() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build();
+        mGoogleApiClient.connect();
+    }
+    private void processCurrentLocation() {
+        try {
+            if ((ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                    || (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION}, GET_LOCATION);
+            } else {
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                /*if (mLastLocation != null) {
+                    Toast.makeText(this, mLastLocation.getLatitude() + " : " + mLastLocation.getLongitude(), Toast.LENGTH_LONG).show();
+                }  */
+  /*          }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } */
+    public void onPostsLoaded(NetworkResponse response) {
+        String resultResponse = new String(response.data);
+        String json = "";
+        try {
+            json = new String(response.data,
+                    HttpHeaderParser.parseCharset(response.headers));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        posts = Arrays.asList(gson.fromJson(json, ImagePost[].class));
+        int size = posts.size();
+        Log.i("PostActivity", size + " posts loaded.");
+        int page = posts.get(0).page;
+        Intent intent = new Intent(getApplicationContext(), ViewStream.class);
+        Bundle b = new Bundle();
+        b.putString("stream_name", name);
+        b.putInt("page", page);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
 
@@ -385,6 +443,18 @@ public class UploadImages extends AppCompatActivity implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
+
+
+    /*@Override
+    public void onConnected(Bundle arg0) {
+        processCurrentLocation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int arg0) {
+        mGoogleApiClient.connect();
+    } */
+
 
 
 }
