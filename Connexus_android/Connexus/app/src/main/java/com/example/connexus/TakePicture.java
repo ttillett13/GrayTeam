@@ -98,6 +98,7 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.On
             public void onClick(View view) {
                 //need to go back to upload page
                 //findViewById(R.id.btn_upload).setEnabled(true);
+                finish();
                 Intent intent = new Intent(getApplicationContext(), UploadImages.class);
                 Bundle b = new Bundle();
                 b.putString("stream_name", name);
@@ -117,11 +118,11 @@ public class TakePicture extends AppCompatActivity implements GoogleApiClient.On
 
 
     private void takePicture() {
-
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+
 
     }
 

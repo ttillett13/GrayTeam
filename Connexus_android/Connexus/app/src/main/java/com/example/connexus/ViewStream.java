@@ -96,8 +96,9 @@ public class ViewStream extends AppCompatActivity implements
 
         btn_view_streams.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ViewAllStreams.class);
-                startActivity(intent);
+                finish();
+//                Intent intent = new Intent(getApplicationContext(), ViewAllStreams.class);
+//                startActivity(intent);
             }
         });
         btn_more_images.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +109,7 @@ public class ViewStream extends AppCompatActivity implements
         });
         btn_upload.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(getApplicationContext(), UploadImages.class);
                 Bundle b = new Bundle();
                 b.putString("stream_name", name);

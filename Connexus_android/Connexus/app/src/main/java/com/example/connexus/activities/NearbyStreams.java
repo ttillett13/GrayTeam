@@ -91,8 +91,9 @@ public class NearbyStreams extends AppCompatActivity implements GoogleApiClient.
         });
         btn_view_streams.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ViewAllStreams.class);
-                startActivity(intent);
+                finish();
+//                Intent intent = new Intent(getApplicationContext(), ViewAllStreams.class);
+//                startActivity(intent);
             }
         });
 

@@ -177,6 +177,7 @@ public class SearchStreams extends AppCompatActivity{
                 //ViewStream viewStream = new ViewStream();
                 //viewStream.viewStreamPage(name);
                 //viewStreamPage(name);
+                finish();
                 Intent intent = new Intent(SearchStreams.this, ViewStream.class);
                 Bundle b = new Bundle();
                 b.putString("stream_name", name);

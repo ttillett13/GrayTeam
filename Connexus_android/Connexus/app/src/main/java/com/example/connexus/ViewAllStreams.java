@@ -168,18 +168,20 @@ public class ViewAllStreams extends AppCompatActivity implements
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                String name = ViewAllStreams.this.posts.get(position).name;
+                if (position < ViewAllStreams.this.posts.size()) {
+                    String name = ViewAllStreams.this.posts.get(position).name;
                 /*Toast.makeText(ViewAllStreams.this, name + ": " + position,
                         Toast.LENGTH_SHORT).show(); */
                 //ViewStream viewStream = new ViewStream();
                 //viewStream.viewStreamPage(name);
                 //viewStreamPage(name);
-                Intent intent = new Intent(getApplicationContext(), ViewStream.class);
-                Bundle b = new Bundle();
-                b.putString("stream_name", name);
-                b.putInt("page", 0);
-                intent.putExtras(b);
-                startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), ViewStream.class);
+                    Bundle b = new Bundle();
+                    b.putString("stream_name", name);
+                    b.putInt("page", 0);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -196,9 +198,9 @@ public class ViewAllStreams extends AppCompatActivity implements
 
     /*********************************************LOGIN CODE*********************************************/
     public void goBackToLogin(View view) {
-        //finish();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        finish();
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        startActivity(intent);
     }
 
     public void signOut(View view) {

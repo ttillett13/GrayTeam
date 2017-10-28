@@ -203,12 +203,15 @@ public class UploadImages  extends AppCompatActivity
                 int size = posts.size();
                 Log.i("PostActivity", size + " posts loaded.");
                 int page = posts.get(0).page;
+                finish();
+
                 Intent intent = new Intent(getApplicationContext(), ViewStream.class);
                 Bundle b = new Bundle();
                 b.putString("stream_name", name);
                 b.putInt("page", page);
                 intent.putExtras(b);
                 startActivity(intent);
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -281,6 +284,7 @@ public class UploadImages  extends AppCompatActivity
         int size = posts.size();
         Log.i("PostActivity", size + " posts loaded.");
         int page = posts.get(0).page;
+        finish();
         Intent intent = new Intent(getApplicationContext(), ViewStream.class);
         Bundle b = new Bundle();
         b.putString("stream_name", name);
@@ -307,6 +311,7 @@ public class UploadImages  extends AppCompatActivity
         b.putString("stream_name", name);
         intent.putExtras(b);
         startActivity(intent);
+        finish();
     }
 
 
