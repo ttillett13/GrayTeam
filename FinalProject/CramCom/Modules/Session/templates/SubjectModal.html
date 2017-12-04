@@ -1,0 +1,48 @@
+<!-- Modal -->
+    <div class="modal fade" style="margin-top: 150px; overflow:visible;" id="AddSubject" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form name="fr1" action="newSubject" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="token" value="{{ token }}"/>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Ask Question </h4>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Title</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="title" placeholder="Please Enter Title"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Tag</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="tags" placeholder="Please Enter Space Separated Tags"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea
+                                        name="content" placeholder="Enter Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" name="sbt" value="Submit" class="btn btn-default"/>
+                        <input type="button" name="cancel" value="Cancel" class="btn btn-default" data-dismiss="modal"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

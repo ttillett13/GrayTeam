@@ -1,0 +1,787 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-01 21:09-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: CramCom/Modules/Group/templates/AddSession.html:11
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:11
+#: CramCom/Modules/Group/templates/StudyGroups.html:196
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:12
+#, fuzzy
+#| msgid "Study Groups"
+msgid "Add Study Group"
+msgstr "Studiengruppe hinzufügen"
+
+#: CramCom/Modules/Group/templates/AddSession.html:17
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:17
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:18
+msgid "Group Name"
+msgstr "Gruppenname"
+
+#: CramCom/Modules/Group/templates/AddSession.html:20
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:20
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:24
+msgid "Please Enter Group Name"
+msgstr "geben Sie den Gruppennamen ein"
+
+#: CramCom/Modules/Group/templates/AddSession.html:23
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:23
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:59
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:62
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:28
+msgid "Description"
+msgstr "Beschreibung"
+
+#: CramCom/Modules/Group/templates/AddSession.html:26
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:26
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:34
+msgid "Group Description"
+msgstr "Gruppenbeschreibung"
+
+#: CramCom/Modules/Group/templates/AddSession.html:31
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:31
+#: CramCom/Modules/Group/templates/InviteMembers.html:18
+#, fuzzy
+#| msgid "E-mail Addresses"
+msgid "Email Addresses"
+msgstr "E-mailadressen"
+
+#: CramCom/Modules/Group/templates/AddSession.html:34
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:34
+#: CramCom/Modules/Group/templates/InviteMembers.html:21
+#, fuzzy
+#| msgid "Please Confirm Your E-mail Address"
+msgid "Please Enter Email Addresses"
+msgstr "bestätigen Sie Ihre E-Mail-Adresse"
+
+#: CramCom/Modules/Group/templates/AddSession.html:39
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:39
+#: CramCom/Modules/Group/templates/InviteMembers.html:26
+msgid "Message for Email"
+msgstr "Nachricht für E-Mail"
+
+#: CramCom/Modules/Group/templates/AddSession.html:42
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:42
+#: CramCom/Modules/Group/templates/InviteMembers.html:29
+msgid "Enter Message"
+msgstr "Nachricht eingeben"
+
+#: CramCom/Modules/Group/templates/AddSession.html:47
+#: CramCom/Modules/Group/templates/AddSession.html:50
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:47
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:50
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:40
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:46
+msgid "Expire Date"
+msgstr "Ablaufdatum"
+
+#: CramCom/Modules/Group/templates/AddSession.html:55
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:55
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:68
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:52
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:43
+msgid "Submit"
+msgstr "Einreichen"
+
+#: CramCom/Modules/Group/templates/AddSession.html:56
+#: CramCom/Modules/Group/templates/CreateStudyGroupModal.html:56
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:69
+#: CramCom/Modules/Group/templates/InviteMembers.html:35
+#: CramCom/Modules/Group/templates/UpdateStudyGroupModal.html:53
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:44
+msgid "Cancel"
+msgstr "Stornieren"
+
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:12
+msgid "Create Study Session"
+msgstr "Lernsitzung erstellen"
+
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:18
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:19
+msgid "Study Session Name"
+msgstr "Study-Sitzungsname"
+
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:21
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:22
+msgid "Session name"
+msgstr "Sitzungsname"
+
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:27
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:35
+msgid "Study Session Date"
+msgstr "Study Session Datum"
+
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:36
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:38
+msgid "Date to be held"
+msgstr "Datum, das zu halten ist"
+
+#: CramCom/Modules/Group/templates/CreateStudySessionModal.html:53
+msgid "Study Session Duration"
+msgstr "Study Session Dauer"
+
+#: CramCom/Modules/Group/templates/GroupBox.html:12
+#, fuzzy
+#| msgid "Invite Members"
+msgid "Members"
+msgstr "Mitglieder einladen"
+
+#: CramCom/Modules/Group/templates/InviteMembers.html:12
+#: CramCom/Modules/Group/templates/Sessions.html:208
+msgid "Invite Members"
+msgstr "Mitglieder einladen"
+
+#: CramCom/Modules/Group/templates/InviteMembers.html:34
+msgid "Send Invitations"
+msgstr "Einladungen verschicken"
+
+#: CramCom/Modules/Group/templates/LinksContainer.html:5
+msgid "Common Links"
+msgstr "Gemeinsame Links"
+
+#: CramCom/Modules/Group/templates/LinksContainer.html:17
+#, fuzzy
+#| msgid "Add Session"
+msgid "Add New Link"
+msgstr "Sitzung hinzufügen"
+
+#: CramCom/Modules/Group/templates/LinksContainer.html:18
+msgid "Display Text"
+msgstr "Text anzeigen"
+
+#: CramCom/Modules/Group/templates/LinksContainer.html:19
+msgid "URL"
+msgstr "URL"
+
+#: CramCom/Modules/Group/templates/LinksContainer.html:20
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: CramCom/Modules/Group/templates/SessionBox.html:11
+msgid "Completed Subjects"
+msgstr "Abgeschlossene Fächer"
+
+#: CramCom/Modules/Group/templates/Sessions.html:167
+msgid "Active Sessions"
+msgstr "Aktive Sitzungen"
+
+#: CramCom/Modules/Group/templates/Sessions.html:185
+msgid "Completed Sessions"
+msgstr "Abgeschlossene Sitzungen"
+
+#: CramCom/Modules/Group/templates/Sessions.html:210
+#, fuzzy
+#| msgid "Study Groups"
+msgid "Edit Study Group"
+msgstr "Lerngruppen"
+
+#: CramCom/Modules/Group/templates/Sessions.html:215
+#, fuzzy
+#| msgid "Study Groups"
+msgid "Archive Study Group"
+msgstr "Archiv-Studiengruppe"
+
+#: CramCom/Modules/Group/templates/Sessions.html:219
+msgid "Add Session"
+msgstr "Sitzung hinzufügen"
+
+#: CramCom/Modules/Group/templates/StudyGroups.html:135
+#: CramCom/templates/navbar.html:13
+msgid "Study Groups"
+msgstr "Lerngruppen"
+
+#: CramCom/Modules/Group/templates/StudyGroups.html:144
+msgid "Create"
+msgstr "Erstellen"
+
+#: CramCom/Modules/Group/templates/StudyGroups.html:165
+msgid "Member of"
+msgstr "Mitglied von"
+
+#: CramCom/Modules/Group/templates/StudyGroups.html:186
+#, fuzzy
+#| msgid "Study Groups"
+msgid "Archived Study Groups"
+msgstr "Lerngruppen"
+
+#: CramCom/Modules/Group/templates/StudyGroups.html:191
+#, fuzzy
+#| msgid "Study Groups"
+msgid "Active Study Groups"
+msgstr "Lerngruppen"
+
+#: CramCom/Modules/Group/templates/Subscribed.html:3
+msgid "Subscribe"
+msgstr "Abonnieren"
+
+#: CramCom/Modules/Group/templates/Subscribed.html:5
+msgid "You have successfully subscribed to the group!"
+msgstr "Sie haben die Gruppe erfolgreich abonniert!"
+
+#: CramCom/Modules/Session/templates/Session.html:192
+#, fuzzy
+#| msgid "Add Session"
+msgid "Edit Session"
+msgstr "Sitzung hinzufügen"
+
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:13
+msgid "Update Study Session"
+msgstr "Lernsitzung aktualisieren"
+
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:27
+#, fuzzy
+#| msgid "Study Session Duration"
+msgid "Study Session Description"
+msgstr "Study Session Dauer"
+
+#: CramCom/Modules/Session/templates/UpdateStudySessionModal.html:30
+#, fuzzy
+#| msgid "Description"
+msgid "Session description"
+msgstr "Beschreibung"
+
+#: CramCom/settings/base.py:162 CramCom/templates/navbar.html:24
+msgid "English"
+msgstr "Englisch"
+
+#: CramCom/settings/base.py:163 CramCom/templates/navbar.html:25
+msgid "German"
+msgstr "Deutsche"
+
+#: CramCom/templates/account/account_inactive.html:10
+#: CramCom/templates/account/account_inactive.html:17
+msgid "Account Inactive"
+msgstr "Konto Inaktiv"
+
+#: CramCom/templates/account/account_inactive.html:30
+msgid "This account is inactive."
+msgstr "Dieses Konto ist inaktiv."
+
+#: CramCom/templates/account/email.html:10
+msgid "Account"
+msgstr "Konto"
+
+#: CramCom/templates/account/email.html:18
+msgid "E-mail Addresses"
+msgstr "E-mailadressen"
+
+#: CramCom/templates/account/email.html:31
+msgid "The following e-mail addresses are associated with your account:"
+msgstr "Die folgenden E-Mail-Adressen sind mit Ihrem Konto verknüpft:"
+
+#: CramCom/templates/account/email.html:45
+msgid "Verified"
+msgstr "Überprüft"
+
+#: CramCom/templates/account/email.html:47
+msgid "Unverified"
+msgstr "Nicht überprüft"
+
+#: CramCom/templates/account/email.html:49
+msgid "Primary"
+msgstr "Primär"
+
+#: CramCom/templates/account/email.html:55
+msgid "Make Primary"
+msgstr "Mache die Primäre"
+
+#: CramCom/templates/account/email.html:56
+msgid "Re-send Verification"
+msgstr "Senden Sie die Bestätigung erneut"
+
+#: CramCom/templates/account/email.html:57
+#: CramCom/templates/socialaccount/connections.html:35
+msgid "Remove"
+msgstr "Löschen"
+
+#: CramCom/templates/account/email.html:64
+msgid "Warning:"
+msgstr "Warnung:"
+
+#: CramCom/templates/account/email.html:64
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+"Sie haben derzeit keine E-Mail-Adresse eingerichtet. Sie sollten wirklich "
+"hinzufügeneine E-Mail-Adresse, damit Sie Benachrichtigungen erhalten, Ihr "
+"Passwort zurücksetzen können, usw."
+
+#: CramCom/templates/account/email.html:69
+msgid "Add E-mail Address"
+msgstr "E-Mail-Adresse hinzufügen"
+
+#: CramCom/templates/account/email.html:74
+msgid "Add E-mail"
+msgstr "E-Mail hinzufügen"
+
+#: CramCom/templates/account/email.html:90
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr "Möchten Sie die ausgewählte E-Mail-Adresse wirklich entfernen?"
+
+#: CramCom/templates/account/email/email_confirmation_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because user %(user_display)s has given yours "
+"as an e-mail address to connect their account.\n"
+"\n"
+"To confirm this is correct, go to %(activate_url)s\n"
+msgstr ""
+"Hallo von %(site_name)s!\n"
+"\n"
+"Sie erhalten diese E-Mail, weil der Benutzer %(user_display)s Ihre E-Mail "
+"angegeben hatAls E-Mail-Adresse, um ihr Konto zu verbinden. \n"
+"\n"
+"Um dies zu bestätigen, gehen Sie zu %(activate_url)s\n"
+
+#: CramCom/templates/account/email/email_confirmation_message.txt:7
+#, python-format
+msgid ""
+"Thank you from %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+"Danke von %(site_name)s!\n"
+"%(site_domain)s"
+
+#: CramCom/templates/account/email/email_confirmation_subject.txt:3
+msgid "Please Confirm Your E-mail Address"
+msgstr "Bitte bestätigen Sie Ihre E-Mail-Adresse"
+
+#: CramCom/templates/account/email/password_reset_key_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+msgstr ""
+"Hallo von %(site_name)s!\n"
+"\n"
+"Sie erhalten diese E-Mail, weil Sie oder eine andere Person eine E-Mail "
+"angefordert haben.Passwort für Ihr Benutzerkonto.\n"
+"Es kann ignoriert werden, wenn Sie kein Zurücksetzen des Kennworts "
+"angefordert haben. Klicken Sie aufLink unten, um Ihr Passwort zurückzusetzen."
+
+#: CramCom/templates/account/email/password_reset_key_message.txt:8
+#, python-format
+msgid "In case you forgot, your username is %(username)s."
+msgstr "Falls Sie vergessen haben, ist Ihr Benutzername %(username)s"
+
+#: CramCom/templates/account/email/password_reset_key_message.txt:10
+#, python-format
+msgid ""
+"Thank you for using %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+"Danke, dass du %(site_name)s benutzt hast!\n"
+"%(site_domain)s"
+
+#: CramCom/templates/account/email/password_reset_key_subject.txt:3
+msgid "Password Reset E-mail"
+msgstr "Passwort zurücksetzen E-Mail"
+
+#: CramCom/templates/account/email_confirm.html:11
+#: CramCom/templates/account/email_confirm.html:20
+msgid "Confirm E-mail Address"
+msgstr "E-Mail-Adresse bestätigen"
+
+#: CramCom/templates/account/email_confirm.html:37
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+"Bitte bestätigen Sie, dass <a href=\"mailto:%(email)s\">%(email)s</a> eine E-"
+"Mail istAdresse für Benutzer %(user_display)s."
+
+#: CramCom/templates/account/email_confirm.html:41
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#: CramCom/templates/account/email_confirm.html:48
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+"Dieser Bestätigungslink für die E-Mail ist abgelaufen oder ungültig. Bitte "
+"<a href =\"%(email_url)s\">eine neue E-Mail-Bestätigungsanfrage ausgeben</a>."
+
+#: CramCom/templates/account/login.html:12
+#: CramCom/templates/account/login.html:19
+#: CramCom/templates/account/login.html:81
+msgid "Sign In"
+msgstr "Anmelden"
+
+#: CramCom/templates/account/login.html:41
+#, python-format
+msgid ""
+"Please sign in with one\n"
+"                of your existing third party accounts. Or, <a href="
+"\"%(signup_url)s\">sign up</a>\n"
+"                for a %(site_name)s account and sign in below:"
+msgstr ""
+"Bitte melde dich mit einem an\n"
+"Ihrer bestehenden Drittanbieterkonten. Oder, <a href=\"%(signup_url)s"
+"\">Anmeldung</a>\n"
+"Für ein %(site_name)s Konto und melden Sie sich unter:"
+
+#: CramCom/templates/account/login.html:63
+msgid "or"
+msgstr "oder"
+
+#: CramCom/templates/account/login.html:70
+#, python-format
+msgid ""
+"If you have not created an account yet, then please\n"
+"<a href=\"%(signup_url)s\">sign up</a> first."
+msgstr ""
+"Wenn Sie noch kein Konto erstellt haben, dann bitte\n"
+"<a href=\"%(signup_url)s\">melden Sie sich zuerst an</a>."
+
+#: CramCom/templates/account/login.html:80
+msgid "Forgot Password?"
+msgstr "Passwort vergessen?"
+
+#: CramCom/templates/account/logout.html:10
+#: CramCom/templates/account/logout.html:18
+#: CramCom/templates/account/logout.html:39
+msgid "Sign Out"
+msgstr "Ausloggen"
+
+#: CramCom/templates/account/logout.html:32
+msgid "Are you sure you want to sign out?"
+msgstr "Sind Sie sicher, dass Sie sich abmelden möchten?"
+
+#: CramCom/templates/account/messages/cannot_delete_primary_email.txt:2
+#, python-format
+msgid "You cannot remove your primary e-mail address (%(email)s)."
+msgstr "Sie können Ihre primäre E-Mail-Adresse nicht entfernen (%(email)s)."
+
+#: CramCom/templates/account/messages/email_confirmation_sent.txt:2
+#, python-format
+msgid "Confirmation e-mail sent to %(email)s."
+msgstr "Bestätigungs-E-Mail an %(email)s gesendet."
+
+#: CramCom/templates/account/messages/email_confirmed.txt:2
+#, python-format
+msgid "You have confirmed %(email)s."
+msgstr "Bestätigungs-E-Mail an %(email)s gesendet."
+
+#: CramCom/templates/account/messages/email_deleted.txt:2
+#, python-format
+msgid "Removed e-mail address %(email)s."
+msgstr "Entfernte E-Mail-Adresse %(email)s."
+
+#: CramCom/templates/account/messages/logged_in.txt:4
+#, python-format
+msgid "Successfully signed in as %(name)s."
+msgstr "Erfolgreich als %(name)s angemeldet"
+
+#: CramCom/templates/account/messages/logged_out.txt:2
+msgid "You have signed out."
+msgstr "Sie haben sich abgemeldet."
+
+#: CramCom/templates/account/messages/password_changed.txt:2
+msgid "Password successfully changed."
+msgstr "Passwort erfolgreich geändert."
+
+#: CramCom/templates/account/messages/password_set.txt:2
+msgid "Password successfully set."
+msgstr "Passwort erfolgreich gesetzt"
+
+#: CramCom/templates/account/messages/primary_email_set.txt:2
+msgid "Primary e-mail address set."
+msgstr "Primäre E-Mail-Adresse festgelegt."
+
+#: CramCom/templates/account/messages/unverified_primary_email.txt:2
+msgid "Your primary e-mail address must be verified."
+msgstr "Ihre primäre E-Mail-Adresse muss verifiziert sein."
+
+#: CramCom/templates/account/password_change.html:10
+#: CramCom/templates/account/password_change.html:18
+#: CramCom/templates/account/password_change.html:36
+#: CramCom/templates/account/password_reset_from_key.html:9
+#: CramCom/templates/account/password_reset_from_key.html:17
+#: CramCom/templates/account/password_reset_from_key_done.html:9
+#: CramCom/templates/account/password_reset_from_key_done.html:17
+msgid "Change Password"
+msgstr "Passwort ändern"
+
+#: CramCom/templates/account/password_reset.html:11
+#: CramCom/templates/account/password_reset.html:19
+#: CramCom/templates/account/password_reset_done.html:11
+#: CramCom/templates/account/password_reset_done.html:19
+msgid "Password Reset"
+msgstr "Passwort zurücksetzen"
+
+#: CramCom/templates/account/password_reset.html:38
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+"Passwort vergessen? Geben Sie Ihre E-Mail-Adresse ein und wir senden "
+"IhnenEine E-Mail, mit der Sie es zurücksetzen können."
+
+#: CramCom/templates/account/password_reset.html:43
+msgid "Reset My Password"
+msgstr "Setze mein Passwort zurück"
+
+#: CramCom/templates/account/password_reset.html:46
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr ""
+"Bitte kontaktieren Sie uns, wenn Sie Probleme haben, Ihr Passwort "
+"zurückzusetzen."
+
+#: CramCom/templates/account/password_reset_done.html:38
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"Wir haben Ihnen eine E-Mail geschickt. Bitte kontaktieren Sie uns, wenn Sie "
+"sie nicht erhalten.in ein paar Minuten."
+
+#: CramCom/templates/account/password_reset_from_key.html:17
+msgid "Bad Token"
+msgstr "Schlechtes Zeichen"
+
+#: CramCom/templates/account/password_reset_from_key.html:33
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+"Der Link zum Zurücksetzen des Passworts war ungültig, möglicherweise weil es "
+"bereits geschehen ist.verwendet. Bitte fordern Sie ein <a href="
+"\"%(passwd_reset_url)s\">neues Passwort zurücksetzen</a>."
+
+#: CramCom/templates/account/password_reset_from_key.html:39
+msgid "change password"
+msgstr "Passwort ändern"
+
+#: CramCom/templates/account/password_reset_from_key.html:42
+#: CramCom/templates/account/password_reset_from_key_done.html:31
+msgid "Your password is now changed."
+msgstr "Ihr Passwort ist jetzt geändert."
+
+#: CramCom/templates/account/password_set.html:10
+#: CramCom/templates/account/password_set.html:18
+#: CramCom/templates/account/password_set.html:35
+msgid "Set Password"
+msgstr "Passwort festlegen"
+
+#: CramCom/templates/account/signup.html:11
+#: CramCom/templates/socialaccount/signup.html:5
+msgid "Signup"
+msgstr "Anmelden"
+
+#: CramCom/templates/account/signup.html:18
+#: CramCom/templates/account/signup.html:40 CramCom/templates/navbar.html:40
+#: CramCom/templates/socialaccount/signup.html:8
+#: CramCom/templates/socialaccount/signup.html:19
+msgid "Sign Up"
+msgstr "Anmelden"
+
+#: CramCom/templates/account/signup.html:31
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+"Haben Sie bereits ein Konto? Dann melden Sie sich bitte <a href="
+"\"%(login_url)s\">an</a>."
+
+#: CramCom/templates/account/signup_closed.html:11
+#: CramCom/templates/account/signup_closed.html:19
+msgid "Sign Up Closed"
+msgstr "Anmeldung geschlossen"
+
+#: CramCom/templates/account/signup_closed.html:32
+msgid "We are sorry, but the sign up is currently closed."
+msgstr "Es tut uns leid, aber die Anmeldung ist derzeit geschlossen."
+
+#: CramCom/templates/account/snippets/already_logged_in.html:5
+msgid "Note"
+msgstr "Hinweis"
+
+#: CramCom/templates/account/snippets/already_logged_in.html:5
+#, python-format
+msgid "you are already logged in as %(user_display)s."
+msgstr "Sie sind bereits als %(user_display)s angemeldet."
+
+#: CramCom/templates/account/verification_sent.html:10
+#: CramCom/templates/account/verification_sent.html:17
+#: CramCom/templates/account/verified_email_required.html:10
+#: CramCom/templates/account/verified_email_required.html:18
+msgid "Verify Your E-mail Address"
+msgstr "Bestätige deine Email-Adresse"
+
+#: CramCom/templates/account/verification_sent.html:32
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"Wir haben Ihnen eine E-Mail zur Überprüfung gesendet. Folgen Sie dem Link "
+"zuSchließen Sie den Anmeldevorgang ab. Bitte kontaktieren Sie uns, wenn Sie "
+"ihn nicht erhalten.in ein paar Minuten."
+
+#: CramCom/templates/account/verified_email_required.html:34
+msgid ""
+"This part of the site requires us to verify that\n"
+"                you are who you claim to be. For this purpose, we require "
+"that you\n"
+"                verify ownership of your e-mail address. "
+msgstr ""
+"Dieser Teil der Site erfordert, dass wir dies überprüfen.\n"
+"Du bist, wer du zu sein vorgibt. Für diesen Zweck benötigen wirdass du\n"
+"Bestätigen Sie den Besitz Ihrer E-Mail-Adresse."
+
+#: CramCom/templates/account/verified_email_required.html:38
+msgid ""
+"We have sent an e-mail to you for\n"
+"                verification. Please click on the link inside this e-mail. "
+"Please\n"
+"                contact us if you do not receive it within a few minutes."
+msgstr ""
+"Wir haben eine E-Mail an Sie gesendet für\n"
+"Verifizierung. Bitte klicken Sie auf den Link in dieser E-Mail.Bitte\n"
+"kontaktieren Sie uns, wenn Sie es nicht innerhalb weniger Minuten erhalten."
+
+#: CramCom/templates/account/verified_email_required.html:42
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+"<strong>Hinweis:</strong> Sie können immer noch <a href=\"%(email_url)s"
+"\">Ihr e-ändernMailadresse</a>."
+
+#: CramCom/templates/chat.html:6
+msgid "Contacts"
+msgstr "Kontakte"
+
+#: CramCom/templates/contact.html:11
+msgid "email"
+msgstr "Email"
+
+#: CramCom/templates/contact.html:14
+msgid "phone"
+msgstr "Telefon"
+
+#: CramCom/templates/navbar.html:7
+msgid "Menu"
+msgstr "Speisekarte"
+
+#: CramCom/templates/navbar.html:34
+msgid "Admin"
+msgstr "Admin"
+
+#: CramCom/templates/navbar.html:37
+msgid "Logout"
+msgstr "Ausloggen"
+
+#: CramCom/templates/navbar.html:42
+msgid "Login"
+msgstr "Anmeldung"
+
+#: CramCom/templates/openid/login.html:9
+msgid "OpenID Sign In"
+msgstr "OpenID Anmelden"
+
+#: CramCom/templates/profile.html:3 CramCom/templates/profile.html:4
+msgid "Logged in"
+msgstr "Eingeloggt"
+
+#: CramCom/templates/socialaccount/authentication_error.html:5
+#: CramCom/templates/socialaccount/authentication_error.html:8
+msgid "Social Network Login Failure"
+msgstr "Anmeldefehler für das soziale Netzwerk"
+
+#: CramCom/templates/socialaccount/authentication_error.html:10
+msgid ""
+"An error occurred while attempting to login via your social network account."
+msgstr ""
+"Beim Versuch, sich über Ihr soziales Netzwerkkonto anzumelden, ist ein "
+"Fehler aufgetreten."
+
+#: CramCom/templates/socialaccount/connections.html:5
+#: CramCom/templates/socialaccount/connections.html:8
+msgid "Account Connections"
+msgstr "Kontoverbindungen"
+
+#: CramCom/templates/socialaccount/connections.html:11
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
+msgstr ""
+"Sie können sich mit einem der folgenden Drittanbieter bei Ihrem Konto "
+"anmeldenKonten:"
+
+#: CramCom/templates/socialaccount/connections.html:43
+msgid ""
+"You currently have no social network accounts connected to this account."
+msgstr ""
+"Derzeit sind keine Konten für soziale Netzwerke mit diesem Konto verbunden."
+
+#: CramCom/templates/socialaccount/connections.html:46
+msgid "Add a 3rd Party Account"
+msgstr "Fügen Sie ein Drittanbieterkonto hinzu"
+
+#: CramCom/templates/socialaccount/login_cancelled.html:5
+#: CramCom/templates/socialaccount/login_cancelled.html:9
+msgid "Login Cancelled"
+msgstr "Anmeldung abgebrochen"
+
+#: CramCom/templates/socialaccount/login_cancelled.html:13
+#, python-format
+msgid ""
+"You decided to cancel logging in to our site using one of your existing "
+"accounts. If this was a mistake, please proceed to <a href=\"%(login_url)s"
+"\">sign in</a>."
+msgstr ""
+"Sie haben sich entschieden, die Anmeldung auf unserer Website mit einem "
+"Ihrer bestehenden zu stornieren Konten. Wenn dies ein Fehler war, gehen Sie "
+"bitte zu <a href=\"%(login_url)s\">Anmelden</a>. "
+
+#: CramCom/templates/socialaccount/messages/account_connected.txt:2
+msgid "The social account has been connected."
+msgstr "Das soziale Konto wurde verbunden."
+
+#: CramCom/templates/socialaccount/messages/account_connected_other.txt:2
+msgid "The social account is already connected to a different account."
+msgstr "Das soziale Konto ist bereits mit einem anderen Konto verbunden."
+
+#: CramCom/templates/socialaccount/messages/account_disconnected.txt:2
+msgid "The social account has been disconnected."
+msgstr "Das soziale Konto wurde getrennt."
+
+#: CramCom/templates/socialaccount/signup.html:10
+#, python-format
+msgid ""
+"You are about to use your %(provider_name)s account to login to\n"
+"%(site_name)s. As a final step, please complete the following form:"
+msgstr ""
+"Sie sind dabei, Ihr %(provider_name)s Konto zu verwenden, um sich bei "
+"anzumelden.\n"
+"%(site_name)s. Als letzten Schritt füllen Sie bitte das folgende Formular "
+"aus:"

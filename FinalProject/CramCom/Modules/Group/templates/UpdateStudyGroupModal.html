@@ -1,0 +1,63 @@
+{% load i18n %}
+<!-- Modal -->
+<div class="modal fade" style="margin-top: 150px; overflow:visible;" id="update_study_group_model" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+          <form name="fr1" method="post" action="/Groups/update_study_group/">
+              <input type="hidden" name="token" value="{{ token }}">
+              {% csrf_token %}
+            <div class="modal-header">
+              <h4 class="modal-title">{% trans "Add Study Group" %}</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <label>{% trans "Group Name" %}</label>
+                </div>
+                <div class="col-md-8">
+                    {% if group_name %}
+                        <input type="text" name="group_name" value="{{ group_name }}" autofocus/>
+                    {% else %}
+                        <input type="text" name="group_name" placeholder="{% trans "Please Enter Group Name" %}" autofocus/>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                  <label>{% trans "Description" %}</label>
+                </div>
+                <div class="col-md-8">
+                    {% if description %}
+                        <textarea id="description" name="description"></textarea>
+                    {% else %}
+                        <textarea id="description" name="description" placeholder="{% trans "Group Description" %}"></textarea>
+                    {% endif %}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label>{% trans "Expire Date" %}</label>
+                </div>
+                <div class="col-md-8">
+                    {% if expiration_date %}
+                        <input id="expiration_date" type="date" name="expiration_date""></textarea>
+                    {% else %}
+                        <input id="expiration_date" type="date" name="expiration_date" placeholder="{% trans "Expire Date" %}"></textarea>
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="submit" name="sbt" value="{% trans "Submit" %}" class="btn btn-success"/>
+              <input type="button" name="cancel" value="{% trans "Cancel" %}" class="btn btn-default"  data-dismiss="modal" />
+            </div>
+          </form>
+    </div>
+  </div>
+  </div>
+
+<script>
+ document.getElementById("description").value = "{{ description }}";
+ document.getElementById("expiration_date").value = "{{ expiration_date }}";
+ </script>

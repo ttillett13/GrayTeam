@@ -1,0 +1,275 @@
+{% extends "appBase.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{% block title %}Study Groups{% endblock title %}
+{% block CSS %}
+    <script type="application/javascript" src="{% static 'js/Links.js' %}"></script>
+
+    {#    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">#}
+    {#    <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>#}
+    {#    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">#}
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
+    {##}
+    {##}
+    {#    <script type="application/javascript" src="{% static 'js/bootstrap.js' %}"></script>#}
+    {#    <script type="application/javascript" src="{% static 'js/bootstrap.bundle.js' %}"></script>#}
+    {#<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>#}
+
+
+    <style>
+        #primary {
+            margin-left: 5%;
+        }
+
+        .group {
+            background: #96c993
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 49px;
+            height: 22px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /
+        Rounded sliders
+
+        /
+        .slider.round {
+            border-radius: 30px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .tp5 {
+            margin-top: 10px
+        }
+
+        div.scrollmenu {
+            overflow: auto;
+            white-space: nowrap;
+        }
+
+        div.scrollmenu div.b {
+            display: inline-block;
+            color: #000000;
+            text-align: left;
+            padding: 10px;
+            text-decoration: none;
+            width: 245px;
+            height: 180px;
+            margin-bottom: 10px;
+            margin-right: 4px;
+        }
+
+        .b p {
+            white-space: normal;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('.chk').click(function () {
+                if ($(this).is(':checked')) {
+                    $('.arcbtn').removeAttr('disabled');
+                }
+            });
+        });
+    </script>
+
+
+{% endblock CSS %}
+
+{% block content %}
+
+
+    <div id="primary" style="margin:0; height:calc(100% - 62px); width:100%;">
+        <!-- Side Bar -->
+        <div class="col-md-3 col-lg-3 col-xl-3 col-sm-12 border border-left-0 border-dark"
+             style="padding: 0; margin: 0; height:100%; width:300px;">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="nav-item" style="background-color: lightgray">
+                    <a class="nav-link active" data-toggle="tab" href="#panel1">Contacts</a>
+                </li>
+                <li class="nav-item" style="background-color: lightgray">
+                    <a class="nav-link" data-toggle="tab" href="#panel2">Common Links</a>
+                </li>
+            </ul>
+            <div class="tab-content card" style="height:calc(100% - 40px)">
+                <div class="tab-pane fade in show active" id="panel1" role="tabpanel" style="height:calc(100% - 62px)">
+                    {% include 'chat.html' with contacts=users %}
+                </div>
+                <div class="tab-pane" id="panel2" role="tabpanel" style="height:calc(100% - 62px)">
+                    {% include 'LinksContainer.html' with token=token links=links %}
+                </div>
+            </div>
+        </div>
+        <!-- END Side Bar -->
+
+        <!-- Title -->
+        <div class="row" style="padding:10px 0px; min-height: 58px;">
+            <div class="col-md-12 text-center">
+                <h3>{{ group_name }}</h3>
+            </div>
+        </div>
+        <!-- END Title -->
+
+        <!-- Sessions Area -->
+        <div style="width:100%; height:calc(100% - 142px);">
+            <!-- Active Sessions -->
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <h5>{% trans "Active Sessions" %}</h5>
+                </div>
+            </div>
+            <div class="row" style="padding:10px; font-size:12px;">
+                <div id="active_sessions" class="scrollmenu">
+                    {% if active_sessions %}
+                        {% for session in active_sessions %}
+                            {% include 'SessionBox.html' with title=session.session_name token=session.session_token date_meeting=session.date_meeting answered_subjects=session.answered_subjects total_subjects=session.total_subjects %}
+                        {% endfor %}
+                    {% else %}
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Completed Sessions -->
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <h5>{% trans "Completed Sessions" %}</h5>
+                </div>
+            </div>
+            <div class="row" style="padding:10px; font-size:12px;">
+                <div class="scrollmenu">
+                    {% if completed_sessions %}
+                        {% for session in completed_sessions %}
+                            {% include 'SessionBox.html' with title=session.session_name token=session.session_token date_meeting=session.date_meeting answered_subjects=session.answered_subjects total_subjects=session.total_subjects %}
+                        {% endfor %}
+                    {% else %}
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    {% endif %}
+                </div>
+            </div>
+
+
+        </div>
+        <!-- End Sessions Area -->
+
+        <!-- Buttons -->
+        <div class="row">
+            <div class="col-md-12 " style="text-align:right; margin:10px 0px">
+                <button type="button" class="btn btn-default" data-toggle="modal"
+                        data-target="#inviteMembersModal">{% trans "Invite Members" %}</button>
+                <button type="button" class="btn btn-default" data-toggle="modal"
+                        data-target="#update_study_group_model">{% trans "Edit Study Group" %}</button>
+
+                <form method="POST" action="/Groups/archive_group" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="token" value="{{ token }}">
+                    <input type="submit" value="{% trans "Archive Study Group" %}" class="btn btn-default">
+                </form>
+
+                <button type="button" class="btn btn-success" data-toggle="modal"
+                        data-target="#create_study_session">{% trans "Add Session" %}</button>
+            </div>
+        </div>
+        <!-- End Buttons Area -->
+    </div>
+
+    <script type="text/javascript">
+        {#        var frm = $('#create_study_session');#}
+        {#    frm.submit(function () {#}
+        {#        $.ajax({#}
+        {#            type: frm.attr('method'),#}
+        {#            url: frm.attr('action'),#}
+        {#            data: frm.serialize(),#}
+        {#            success: function (data) {#}
+        {#                $("#active_sessions").html(data);#}
+        {#            },#}
+        {#            error: function(data) {#}
+        {#                $("#active_sessions").html("Something went wrong!");#}
+        {#            }#}
+        {#        });#}
+        {#        return false;#}
+        {#    });#}
+
+        {# Dynamic loading for links #}
+
+        function refresh_active_sessions() {
+            $.ajax({
+                type: "GET",
+                url: '{% url 'get_active_sessions' %}',
+                data: {'token': "{{ token }}"},
+                success: function (data) {
+                    //var dtr = $("#active_sessions", data);
+                    $('#active_sessions').html(data);
+                }
+            });
+            setTimeout("refresh_active_sessions()", 10000);
+
+        }
+
+        $(function () {
+            refresh_active_sessions();
+        });
+    </script>
+
+
+
+    {% include 'UpdateStudyGroupModal.html' with token=token group_name=group_name expiration_date=expiration_date description=description%}
+    {% include 'CreateStudySessionModal.html' with token=token %}
+    {% include 'InviteMembers.html'  with token=token %}
+
+        <script>
+            $(".nav a").on("click", function(){
+           $(".nav").find(".active").removeClass("active");
+           $(this).parent().addClass("active");
+        });
+        </script>
+{% endblock content %}

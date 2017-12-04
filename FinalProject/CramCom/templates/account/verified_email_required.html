@@ -1,0 +1,50 @@
+{% extends "appBase.html" %}
+
+{% load staticfiles %}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#{% block title %}Session{% endblock title %}#}
+
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+
+{% block content %}
+    <div class="container border border-dark" style=" margin-top: 3.53em; background-color: #96c993; border-radius: 5px 5px 5px 5px;">
+      <div class="row" style="padding:10px 0px;     min-height: 58px;">
+
+        <div class="col-md-12 text-center" >
+
+            <h1>{% trans "Verify Your E-mail Address" %}</h1>
+        </div>
+  </div>
+  <div class="row">
+
+
+    <!-- Question Section start -->
+    <div class="col-md-8 col-lg-8" style=" flex: 0 0 80.666667%; max-width: 81.334667%">
+    <!--First Question start -->
+    <div class="col-md-12 col-lg-12" style="padding: 4px;">
+
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+
+                {% url 'account_email' as email_url %}
+
+                <p>{% blocktrans %}This part of the site requires us to verify that
+                you are who you claim to be. For this purpose, we require that you
+                verify ownership of your e-mail address. {% endblocktrans %}</p>
+
+                <p>{% blocktrans %}We have sent an e-mail to you for
+                verification. Please click on the link inside this e-mail. Please
+                contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
+
+                <p>{% blocktrans %}<strong>Note:</strong> you can still <a href="{{ email_url }}">change your e-mail address</a>.{% endblocktrans %}</p>
+
+          </div>
+        </div>
+    </div>
+    </div>
+    </div>
+  </div>
+{% endblock %}

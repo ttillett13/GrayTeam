@@ -1,0 +1,204 @@
+{% extends "appBase.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{% block title %}Study Groups{% endblock title %}
+{% block CSS %}
+    <style>
+        #primary {
+            margin-left: 5%;
+        }
+
+        .group {
+            background: #96c993
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 49px;
+            height: 22px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /
+        Rounded sliders
+
+        /
+        .slider.round {
+            border-radius: 30px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .tp5 {
+            margin-top: 10px
+        }
+
+        div.scrollmenu {
+            overflow: auto;
+            white-space: nowrap;
+        }
+
+        div.scrollmenu div.b {
+            display: inline-block;
+            color: #000000;
+            text-align: left;
+            padding: 10px;
+            text-decoration: none;
+            width: 245px;
+            height: 180px;
+            margin-bottom: 10px;
+            margin-right: 4px;
+        }
+
+        .b p {
+            white-space: normal;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('.chk').click(function () {
+                if ($(this).is(':checked')) {
+                    $('.arcbtn').removeAttr('disabled');
+                }
+            });
+        });
+    </script>
+{% endblock CSS %}
+
+{% block content %}
+    <!--Side Bar -->
+    <div id="primary" style="margin:0; height:calc(100% - 62px); width:100%;">
+        <div class="col-md-3 col-lg-3 col-xl-3 col-sm-12 border border-left-0 border-dark"
+             style="padding: 0; margin: 0; height:100%; width:300px">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="nav-item active">
+                    <a class="nav-link" data-toggle="tab" href="#panel1">Contacts</a>
+                </li>
+            </ul>
+            <div class="tab-content card" style="height:calc(100% - 40px)">
+                <div class="tab-pane fade in show active" id="panel1" role="tabpanel" style="height:calc(100% - 62px)">
+                    {% include 'chat.html' with contacts=users %}
+                </div>
+            </div>
+        </div>
+        <!--END Side Bar -->
+
+        <!--Title -->
+        <div class="row" style="padding:10px 0px;">
+            <div class="col-md-12 text-center">
+                <h3>{% trans "Study Groups" %}</h3>
+            </div>
+        </div>
+        <!--END Title -->
+
+        <!-- Study Groups-->
+        <div style="width:100%; height:calc(100% - 142px);">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <h5>{% trans "Create" %}</h5>
+                </div>
+            </div>
+
+            <!-- Group Owner -->
+            <div class="row" style="padding:10px; font-size:12px;">
+                <div id="groups_owned" class="scrollmenu">
+                    {% if groups_owned %}
+                        {% for group in groups_owned %}
+                            {% include 'GroupBox.html' with title=group.group_name token=group.token description=group.description members=group.members %}
+                        {% endfor %}
+                    {% else %}
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- END Group Owner -->
+
+            <!-- Member of -->
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <h5>{% trans "Member of" %}</h5>
+                </div>
+            </div>
+            <div class="row" style="padding:10px; font-size:12px;">
+                <div id="groups_subscribed" class="scrollmenu">
+                    {% if groups_subscribed %}
+                        {% for group in groups_subscribed %}
+                            {% include 'GroupBox.html' with title=group.group_name token=group.token description=group.description members=group.members visibility="visible" %}
+                        {% endfor %}
+                    {% else %}
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- End Member of-->
+        </div>
+        <!-- Buttons -->
+        <div class="row">
+            <div class="col-md-12 " style="width: 100%; text-align:right; margin:10px 0px">
+                {% if mode == "active" %}
+                    <form method="GET" action="archived_groups" style="display: inline;"><input type="submit"
+                                                                                                value="{% trans "Archived Study Groups" %}"
+                                                                                                class="btn btn-default">
+                    </form>
+                    {% elif mode == "archived" %}
+                    <form method="GET" action="StudyGroups" style="display: inline;"><input type="submit"
+                                                                                            value="{% trans "Active Study Groups" %}"
+                                                                                            class="btn btn-default ">
+                    </form>
+                {% endif %}
+                <button type="button" class="btn btn-success" data-toggle="modal"
+                        data-target="#create_study_session">{% trans "Add Study Group" %}</button>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <!--END Study Groups -->
+
+        {% include 'CreateStudyGroupModal.html' %}
+{% endblock content %}

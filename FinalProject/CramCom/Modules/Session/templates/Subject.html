@@ -1,0 +1,231 @@
+<script>
+    $(document).ready(function () {
+        // Configure/customize these variables.
+        var showChar = 210;  // How many characters are shown by default
+        var ellipsestext = "...";
+        var moretext = "Show more";
+        var lesstext = "Show less";
+
+
+        $('.more').each(function () {
+            var content = $(this).html();
+
+            if (content.length > showChar) {
+
+                var c = content.substr(0, showChar);
+                var h = content.substr(showChar, content.length - showChar);
+
+                var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+                $(this).html(html);
+            }
+
+        });
+
+        $(".morelink").click(function () {
+            if ($(this).hasClass("less")) {
+                $(this).removeClass("less");
+                $(this).html(moretext);
+            } else {
+                $(this).addClass("less");
+                $(this).html(lesstext);
+            }
+            $(this).parent().prev().toggle();
+            $(this).prev().toggle();
+            return false;
+        });
+    });
+</script>
+
+{% for subject in subjects %}
+    <div class="col-md-12 col-lg-12 subject">
+
+        <div class="row">
+            <div class="col-md-7 col-lg-7 ">
+                <h5 style="font-size:16px;">{{ subject.title }}</h5>
+            </div>
+            <div style=" padding: 0px; margin:0px">
+                <div class="row">
+                    <div>
+                        <div class="row">
+                            <form name="fr2" action="moveUp" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="token" value="{{ token }}"/>
+                                <input type="hidden" name="subject" value="{{ subject.id }}"/>
+                                <input type="hidden" name="filter_tag" value="{{ filter_tag }}"/>
+                                <div style="margin:2px; padding:0px;">
+                                    <button type="submit" class="btn btn-default btn-sm"><span
+                                            style="font-size:10px; width:20px;">Move Up</span></button>
+                                </div>
+                            </form>
+                            <form name="fr3" action="moveDown" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="token" value="{{ token }}"/>
+                                <input type="hidden" name="subject" value="{{ subject.id }}"/>
+                                <input type="hidden" name="filter_tag" value="{{ filter_tag }}"/>
+                                <div style="margin:2px; padding:0px;">
+                                    <button type="submit" class="btn btn-default btn-sm"><span style="font-size:10px;">Move Down</span>
+                                    </button>
+                                </div>
+                            </form>
+
+                            <form name="fr4" action="iKnow" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="token" value="{{ token }}"/>
+                                <input type="hidden" name="subject" value="{{ subject.id }}"/>
+                                <input type="hidden" name="filter_tag" value="{{ filter_tag }}"/>
+                                <div style="padding:0px; margin-left: 10px; margin-right: 10px;">
+                                    <label class="form-check-label">
+                                        {% if user in subject.who_understands.all %}
+                                            <input name="know" type="checkbox" checked="checked"
+                                                   class="form-check-input"
+                                                   style="width:16px; height:16px;" onchange=this.form.submit()>
+                                        {% else %}
+                                            <input name="know" type="checkbox" class="form-check-input"
+                                                   style="text-align:left; width:16px; height:16px;"
+                                                   onchange=this.form.submit()>
+                                        {% endif %}
+                                        <span style="font-size:16px; text-align:right; margin-left:20px; margin-right:0">I Know!</span>
+
+                                    </label>
+
+                                </div>
+                            </form>
+
+                            <form name="fr5" action="complete" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="token" value="{{ token }}"/>
+                                <input type="hidden" name="subject" value="{{ subject.id }}"/>
+                                <input type="hidden" name="filter_tag" value="{{ filter_tag }}"/>
+                                <div style="text-align:right; padding:0px; margin-right: 0;">
+                                    <label class="switch">
+                                        {% if subject.resolved %}
+                                            <input name="complete" type="checkbox" checked onchange=this.form.submit()>
+                                        {% else %}
+                                            <input name="complete" type="checkbox" onchange=this.form.submit()>
+                                        {% endif %}
+                                        <span class="slider round"></span></label>
+                                <div class="progress" style="width: 90px; margin-right: 1%; margin-left: 1px;">
+                                <div class="progress-bar bg-success" style="width:{{ subject.progress_width }}"></div>
+                            </div>
+                                </div>
+                            </form>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" style="font-size:12px;">
+            <div class="col-md-2 col-lg-2"> {{ subject.owner.first_name }} {{ subject.owner.last_name }} </div>
+            <div class="col-md-4 col-lg-4"> {{ subject.date_created }} </div>
+        </div>
+        {% for tag in subject.tags %}
+            <p class="tag">{{ tag }}</p>
+        {% endfor %}
+        <span style="font-size:12px;"/><span class="more"> {{ subject.content }}</span>
+        {% for comment in subject.comment_set.all %}
+            {% include 'Comment.html' with comment=comment %}
+        {% endfor %}
+        <div class="row" style="padding:2px 10px; font-size:12px;">
+            <div class="col-md-12 col-lg-12 border border-dark" style="padding:7px;">
+                <form name="fr6" action="postComment" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="token" value="{{ token }}"/>
+                    <input type="hidden" name="subject" value="{{ subject.id }}"/>
+                    <input type="hidden" name="filter_tag" value="{{ filter_tag }}"/>
+                    <textarea name="comment" placeholder="Enter Comment"
+                              style="width:100%;border: none;"></textarea>
+                    <input type="submit" name="sbt" value="Submit" class="btn btn-default"/>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+{% endfor %}
+
+
+<script type="text/javascript">
+    {# Div reload for links #}
+    var frm2 = $('#fr2');
+    frm2.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#Subject").html(data);
+            },
+            error: function (data) {
+                $("#Subject").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+    var frm3 = $('#fr3');
+    frm3.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#Subject").html(data);
+            },
+            error: function (data) {
+                $("#Subject").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+    var frm4 = $('#fr4');
+    frm4.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#Subject").html(data);
+            },
+            error: function (data) {
+                $("#Subject").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+    var frm5 = $('#fr5');
+    frm5.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#Subject").html(data);
+            },
+            error: function (data) {
+                $("#Subject").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+    var frm6 = $('#fr6');
+    frm6.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#Subject").html(data);
+            },
+            error: function (data) {
+                $("#Subject").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+
+</script>

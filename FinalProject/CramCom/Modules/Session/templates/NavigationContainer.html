@@ -1,0 +1,38 @@
+
+<div class="Navigation"
+     style="">
+    <div class="" style="padding-left:0px; margin:5px 0px;">
+        <div class="page-header text-center font-weight-bold">Navigation</div>
+    </div>
+
+
+
+</div>
+
+<div id="Navigation" style="height:calc(100% - 5px - 45px);">
+
+  </div>
+
+
+<script type="text/javascript">
+
+    {# Dynamic loading for links #}
+    function nav_refresh() {
+    $.ajax({
+        type: "GET",
+        url: '{% url 'get_tags' %}',
+        data: {'token': "{{ token }}"
+        },
+      success: function(data) {
+      $('#Navigation').html(data);
+            }
+        });
+      setTimeout("nav_refresh()", 10000);
+
+    }
+
+    $(function(){
+        nav_refresh();
+    });
+</script>
+

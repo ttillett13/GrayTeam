@@ -1,0 +1,49 @@
+{% load i18n %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav" style="margin-bottom: 0;>
+   <div class=" container">
+<a class="navbar-brand js-scroll-trigger" href="/">CramCom</a>
+<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    {% trans "Menu" %} <i class="fa fa-bars"></i>
+</button>
+<div class="collapse navbar-collapse" id="navbarResponsive" style="font-size: 15px;">
+    <ul class="navbar-nav ml-auto navbar-left">
+        {% if user.is_authenticated %}
+            <li class="nav-item "><a class="nav-link js-scroll-trigger"
+                                     href="/Groups/StudyGroups">{% trans "Study Groups" %}</a></li>
+        {% endif %}
+    </ul>
+    <ul class="navbar-nav ml-auto navbar-right">
+
+
+
+
+    {% if request.get_full_path != '/' %}
+    <li>
+        <a href="#" data-toggle="dropdown" class="nav-link js-scroll-trigger dropdown-toggle">Language </a>
+    <ul class="dropdown-menu nav-link js-scroll-trigger">
+        <li><a href="/Groups/StudyGroups">{% trans "English" %}</a></li>
+        <li><a href="/de/Groups/StudyGroups">{% trans "German" %}</a></li>
+    </ul>
+       </li>
+    {% endif %}
+
+
+
+        {% if user.is_authenticated %}
+            {% if request.user.is_superuser %}
+                <li><a href="/admin/" class="nav-link js-scroll-trigger"><span
+                        class="glyphicon glyphicon-cog"></span> {% trans "Admin" %}</a></li>
+            {% endif %}
+            <li><a href="/accounts/logout/" class="nav-link js-scroll-trigger"><span
+                    class="glyphicon glyphicon-log-out"></span> {% trans "Logout" %}</a></li>
+        {% else %}
+            <li><a href="/accounts/signup/" class="nav-link js-scroll-trigger"><span
+                    class="glyphicon glyphicon-user"></span> {% trans "Sign Up" %}</a></li>
+            <li><a href="/accounts/login/" class="nav-link js-scroll-trigger"><span
+                    class="glyphicon glyphicon-log-in"></span> {% trans "Login" %}</a></li>
+        {% endif %}
+    </ul>
+</div>
+</div>
+</nav>

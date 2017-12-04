@@ -1,0 +1,66 @@
+{% load i18n %}
+{#<div class="col-md-2 border border-left-0 border-bottom-0 border-dark" style="flex: 0 0 19.666667%; max-width: 13.666667%; background-color: white; border-radius: 5px 5px 5px 5px;">#}
+<div id="wrapper" style="height: 350px;">
+<div class="col-12" style="padding-left:0px; margin:5px 0px">
+    <h5 class="page-header font-weight-bold">{% trans "Common Links" %}</h5>
+</div>
+  <div id="Links" style="height:calc(100% - 70px); overflow-y:scroll;">
+
+  </div>
+  <div id="wrapper" style="margin-top:20px; padding:10px 5px 5px 5px;">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <div class="sidebar-nav" style="margin-top:20px; ">
+          <form id="addLink" name="addLink" action="addLink/" method="POST">
+              {% csrf_token %}
+            <input type="hidden" name="token" value="{{ token }}">
+            <h5 class="page-header font-weight-bold">{% trans "Add New Link" %}</h5>
+            <input type="text" name="display_text" placeholder="{% trans "Display Text" %}" style="margin:8px 0px; width: 180px;" required/>  <br />
+            <input type="text" name="url" placeholder="{% trans "URL" %}" style="width: 180px;" required/>  <br />
+            <input type="submit" class="btn btn-default" value="{% trans "Add" %}" style="margin:8px 0px; float:right; "/>
+          </form>
+      </div>
+
+    </div>
+    <!-- /#sidebar-wrapper -->
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    {# Div reload for links #}
+    var frm = $('#addLink');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#Links").html(data);
+            },
+            error: function(data) {
+                $("#Links").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+
+    {# Dynamic loading for links #}
+    function refresh() {
+    $.ajax({
+        type: "GET",
+        url: '{% url 'get_links' %}',
+        data: {'token': "{{ token }}"},
+      success: function(data) {
+      $('#Links').html(data);
+            }
+        });
+      setTimeout("refresh()", 3000);
+
+    }
+
+    $(function(){
+        refresh();
+    });
+</script>
+

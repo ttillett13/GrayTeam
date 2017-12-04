@@ -1,0 +1,41 @@
+<div id="Subjects" style="height: 100%;">
+
+</div>
+
+
+<script type="text/javascript">
+
+    {# Dynamic loading for subjects #}
+
+    function sub_refresh() {
+        var x = document.getElementsByName("comment");
+        var i;
+        var refresh = true;
+        for (i = 0; i < x.length; i++) {
+            if (x[i].value.length > 0) {
+                refresh = false;
+                break;
+            }
+        }
+        if (refresh) {
+            $.ajax({
+                type: "GET",
+                url: '{% url 'get_subjects' %}',
+                data: {
+                    'token': "{{ token }}",
+                    'filter_tag': "{{  filter_tag }}"
+                },
+                success: function (data) {
+                    $('#Subjects').html(data);
+                }
+            });
+        }
+        setTimeout("sub_refresh()", 10000);
+
+    }
+
+    $(function () {
+        sub_refresh();
+    });
+</script>
+

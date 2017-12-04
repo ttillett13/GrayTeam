@@ -1,0 +1,22 @@
+#precompiled files
+**/__pycache__/
+
+#IDEA files
+.idea/
+
+FinalProject/settings/dev.py
+
+#Mac cache files
+**/._.DS_Store*
+
+#Scripts DO NOT TOUCH!
+FinalProjectScripts/
+
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+CramCom/settings/dev.py
+CramCom/migrations/
+

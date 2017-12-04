@@ -1,0 +1,13 @@
+
+{% load i18n %}
+
+<div id="wrapper" style="calc(100% - 62px);">
+    <div class="col-12">
+      <h5 class="page-header font-weight-bold">{% trans "Contacts" %}</h5>
+    </div>
+    {% if contacts %}
+        {% for contact in contacts %}
+            {% include 'contact.html' with firstname=contact.first_name lastname=contact.last_name email=contact.email phone=contact.userprofile.phone_number %}
+        {% endfor %}
+    {% endif %}
+</div>

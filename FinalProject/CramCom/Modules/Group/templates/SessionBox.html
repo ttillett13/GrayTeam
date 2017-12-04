@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="b group" style="border-radius: 15px 15px 15px 15px; height: 180px; width: 250px">
+
+        <form method="GET" action="/Session/" id="{{ token }}">
+            <input type="hidden" name="token" value="{{ token }}">
+            <a href="#" onclick="document.getElementById('{{ token }}').submit()" style="text-decoration:none; color:#000;">
+                <div style="height:160px;">
+                <h4 style="overflow: hidden;">{{ title }}</h4>
+            <p>{{ date_meeting }}</p>
+            <p>
+                {{ answered_subjects }}/{{ total_subjects }} {% trans "Completed Subjects" %}
+            </p>
+        </form>
+    </div></a>
+</div>

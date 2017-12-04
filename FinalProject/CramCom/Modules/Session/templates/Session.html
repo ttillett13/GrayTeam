@@ -1,0 +1,214 @@
+{% extends "appBase.html" %}
+{% load staticfiles %}
+{#
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>#}
+{% block title %}Session{% endblock title %}
+{% block CSS %}
+{#    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.css' %}"/>#}
+{#    <link rel="stylesheet" href="{% static 'css/bootstrap-reboot.css' %}"/>#}
+{#    <script type="application/javascript" src="{% static 'js/bootstrap.js' %}"></script>#}
+{#    <script type="application/javascript" src="{% static 'js/bootstrap.bundle.js' %}"></script>#}
+
+
+    <!-- Custom styles for this template -->
+    <!--    <link href="css/grayscale.min.css" rel="stylesheet">-->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+
+    <style>
+        .subject {
+            background-color: white;
+            border-radius: 5px 5px 5px 5px;
+            margin-bottom: 20px;
+        }
+
+        .Navigation {
+            background-color: white;
+            border-radius: 5px 5px 5px 5px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 49px;
+            height: 22px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /
+        Rounded sliders
+
+        /
+        .slider.round {
+            border-radius: 30px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .tp5 {
+            margin-top: 10px
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            // Configure/customize these variables.
+            var showChar = 210;  // How many characters are shown by default
+            var ellipsestext = "...";
+            var moretext = "Show more";
+            var lesstext = "Show less";
+
+
+            $('.more').each(function () {
+                var content = $(this).html();
+
+                if (content.length > showChar) {
+
+                    var c = content.substr(0, showChar);
+                    var h = content.substr(showChar, content.length - showChar);
+
+                    var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+                    $(this).html(html);
+                }
+
+            });
+
+            $(".morelink").click(function () {
+                if ($(this).hasClass("less")) {
+                    $(this).removeClass("less");
+                    $(this).html(moretext);
+                } else {
+                    $(this).addClass("less");
+                    $(this).html(lesstext);
+                }
+                $(this).parent().prev().toggle();
+                $(this).prev().toggle();
+                return false;
+            });
+        });
+    </script>
+
+{% endblock CSS %}
+{% block content %}
+
+    <div id="primary" style="margin:0; height:calc(100% - 62px); width:100%;">
+        <!--Side Bar -->
+        <div class="col-md-3 col-lg-3 col-xl-3 col-sm-12 border border-left-0 border-dark" style="padding: 0; margin: 0; height:100%; width:300px;">
+              <ul class="nav nav-tabs nav-justified">
+                <li class="nav-item active" style="background-color: lightgrey">
+                    <a class="nav-link" data-toggle="tab" href="#panel1">Contacts</a>
+                </li>
+                <li class="nav-item" style="background-color: lightgrey">
+                    <a class="nav-link" data-toggle="tab" href="#panel2">Session Info</a>
+                </li>
+              </ul>
+             <div class="tab-content card" style="height:calc(100% - 40px)">
+                 <div class="tab-pane fade in show active" id="panel1" role="tabpanel" style="height:calc(100% - 62px)">
+                     {% include 'chat.html' with contacts=users %}
+                 </div>
+                 <div class="tab-pane" id="panel2" role="tabpanel" style="height:calc(100% - 62px)">
+                {% include 'NavigationContainer.html' with token=token description=description tag=tag %}
+                </div>
+             </div>
+        </div>
+        <!--END Side Bar -->
+
+        <!-- Question Section start -->
+        <div class="container" style="height:calc(100% - 56px)">
+            {% if error == "True" %}
+                <div class="alert alert-warning alert-dismissible">
+                    <a href="/Session?token={{ token }};tag={{ filter_tag }}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>You do not have permission to perform that action!</strong>
+                    Only the group owner can perform that action.
+                </div>
+            {% endif %}
+
+            <div style="height:100%">
+                <div style="margin: 0 auto; text-align: center">
+                    <h4> {{ title }}</h4>
+                </div>
+
+                <div class="row container" style="float: left; position: relative; height:calc(100% - 62px); width: calc(100% - 270px);">
+                    <div class="" style="max-height:100%; width: 100%; overflow-x: hidden; overflow-y:auto; margin-left: 60px;">
+                            {% include 'SubjectContainer.html' with token=token filter_tag=filter_tag  %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Question Section -->
+
+        <!-- Command Row -->
+        <div class="row">
+            <div class="" style="width: 100%; text-align:right; margin-right: 15px">
+                <a href="/Groups/Sessions/?token={{ group_token }}">
+                    <button type="button" class="btn btn-default">Back to Study Group</button>
+                </a>
+
+                <button type="button" class="btn btn-default" data-toggle="modal"
+                        data-target="#update_session_model">Edit Session</button>
+
+                <button type="button" class="btn btn-success " data-toggle="modal" data-target="#AddSubject">Add Subject
+                </button>
+            </div>
+        </div>
+        <!-- END Command Row -->
+
+    </div>
+
+    {% include 'SubjectModal.html' with token=token %}
+    {% include 'UpdateStudySessionModal.html' with token=token session_name=name session_description=description duration=duration%}
+
+
+    <script>
+    $(".nav a").on("click", function(){
+   $(".nav").find(".active").removeClass("active");
+   $(this).parent().addClass("active");
+});
+    </script>
+
+
+{% endblock content %}

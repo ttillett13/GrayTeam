@@ -1,0 +1,8 @@
+{% load i18n %}
+<div id="sidebar-wrapper">
+  <ul class="sidebar-nav" style="margin:10px 0px; overflow:auto;">
+      {% for link in links %}
+          <li> <a id="test" href="http://{{ link.link }}">{{ link.display_text }}</a> </li>
+      {% endfor %}
+  </ul>
+</div>

@@ -1,0 +1,86 @@
+{#{% extends "account/base.html" %}#}
+{% extends "appBase.html" %}
+
+{% load staticfiles %}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#{% block title %}Session{% endblock title %}#}
+
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+    <div class="container border border-dark" style=" margin-top: 3.53em; background-color: #96c993; border-radius: 5px 5px 5px 5px;">
+  <div class="row" style="padding:10px 0px;     min-height: 58px;">
+
+    <div class="col-md-12 text-center" >
+      <h1>{% trans "Sign In" %} </h1>
+{#        {% get_providers as socialaccount_providers %}#}
+{##}
+{#                {% if socialaccount_providers %}#}
+{#                <p>{% blocktrans with site.name as site_name %}Please sign in with one#}
+{#                of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>#}
+{#                for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>#}
+    </div>
+  </div>
+  <div class="row">
+
+
+    <!-- Question Section start -->
+    <div class="col-md-8 col-lg-8" style=" flex: 0 0 80.666667%; max-width: 81.334667%">
+    <!--First Question start -->
+    <div class="col-md-12 col-lg-12" style="padding: 4px;">
+
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+              {% get_providers as socialaccount_providers %}
+
+                {% if socialaccount_providers %}
+                <p>{% blocktrans with site.name as site_name %}Please sign in with one
+                of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+                for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+{#{% get_providers as socialaccount_providers %}#}
+{##}
+{#{% if socialaccount_providers %}#}
+{#<p>{% blocktrans with site.name as site_name %}Please sign in with one#}
+{#of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>#}
+{#for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>#}
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+  <div class="login-or">{% trans 'or' %}</div>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+<p>{% blocktrans %}If you have not created an account yet, then please
+<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+{% endif %}
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+</form>
+</div>
+    </div>
+{% endblock  %}
+

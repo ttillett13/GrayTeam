@@ -1,0 +1,10 @@
+{% load i18n %}
+<div id="active_sessions" class="scrollmenu">
+{% if active_sessions %}
+    {% for session in active_sessions %}
+        {% include 'SessionBox.html' with title=session.session_name token=session.session_token date_meeting=session.date_meeting answered_subjects=session.answered_subjects total_subjects=session.total_subjects %}
+    {% endfor %}
+    {% else %}
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+{% endif %}
+</div>
