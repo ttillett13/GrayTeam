@@ -2,7 +2,7 @@ Automat==0.6.0
 Mako==0.9.1
 MarkupSafe==0.18
 PyDispatcher==2.0.5
-PyYAML==3.10
+PyYAML==5.1
 Scrapy==1.4.0
 Twisted==17.5.0
 argcomplete==0.8.1
