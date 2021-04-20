@@ -2,7 +2,7 @@ alembic==0.8.8
 asgi-redis==1.0.0
 asgiref==1.0.0
 attrs==16.3.0
-autobahn==17.10.1
+autobahn==20.12.3
 Automat==0.5.0
 awsebcli==3.12.1
 blessed==1.14.2
