@@ -41,7 +41,7 @@ hyperlink==17.3.1
 icalendar==4.0.0
 incremental==16.10.1
 jmespath==0.9.3
-Mako==1.0.4
+Mako==1.2.2
 MarkupSafe==0.23
 msgpack-python==0.4.8
 normality==0.2.4
